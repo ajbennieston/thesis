@@ -73,26 +73,7 @@ The pre- and post-processing stages are specific to the form of data used; prepr
 %% --------------------------------------------------
 \subsection{Preprocessing}\label{sec:cellularautomaton_preprocessing}
 \subsubsection{Charge Weighting}\label{sec:cellularautomaton_charge_weighting}
-Data from a \ac{LAr TPC} is assumed to be in the form of $(x, y, z)$ voxels with an associated charge deposit $Q$. The voxel shape is determined entirely by the readout mechanism; a 2D readout plane determines the $xy$ resolution while the readout frequency determines the $z$ resolution as expected for a \ac{TPC}. This structure is retained in the Geant4 simulation through the use of cubic voxels with a side length of $1\mm$. In order to transform this data into a representation more closely resembling the true passage of ionising radiation through the detector, a charge weighting procedure is applied. This procedure adjusts the spatial coordinates of each charge deposit (voxel) by taking the charge-weighted average of the spatial coordinates of all hits within a sphere of radius $2\mm$ centered on that voxel:
-
-\begin{equation}\label{eqn:charge_weighted_avg_position}
-	\vec{x}^\prime = \frac{\displaystyle \sum_i \vec{x}_i Q_i}{\displaystyle \sum_i Q_i}
-\end{equation}
-
-Charge weighting in this way moves the position of each charge deposit closer to the local charge cloud, bringing track-like charge deposits closer to a straight line (see figure \ref{fig:ca_charge_weighting}). In each case the unweighted positions of neighbours are used to compute the weighted position of a central charge deposit, resulting in a stable, deterministic output.
-
-\begin{figure}
-\centering
-\subfigure[Hits as central points of voxels]{
-	\includegraphics[width=0.35\textwidth]{chapters/cellularautomaton_images/ChargeWeighting1}
-	\label{fig:ca_charge_weighting_1}
-}
-\subfigure[Hits shifted from voxel centres]{
-	\includegraphics[width=0.35\textwidth]{chapters/cellularautomaton_images/ChargeWeighting2}
-	\label{fig:ca_charge_weighting_2}
-}
-\caption[Diagram of the effect of charge weighting on hit position]{\label{fig:ca_charge_weighting}Schematic diagram of the effect of the charge weighting procedure on hit positions. In \subref{fig:ca_charge_weighting_1} each hit is positioned at the centre of a voxel. In \subref{fig:ca_charge_weighting_2} the hit positions have been adjusted based on the charge-weighted positions of surrounding hits within a $2\mm$ radius; this shifts them from the voxel centres and out of a regular grid structure.}
-\end{figure}
+A charge weighting procedure is applied to the raw hits before further processing occurs. This procedure is described in section \ref{sec:cellularautomaton_charge_weighting}.
 
 \subsubsection{Scaling}\label{sec:cellularautomaton_scaling}
 The run time of the \ac{CA} depends strongly on the hit multiplicity (which in turn determines the cell multiplicity). In order to reduce the run time, a re-scaling from $1\mm$ to $3\mm$ voxels is implemented after the charge weighting procedure. This re-scaling groups together hits within the same $3\mm \times 3\mm \times 3\mm$ region and represents them as a single cluster at the charge-weighted centroid position of those hits (calculated as for the charge weighting, with equation \ref{eqn:charge_weighted_avg_position}), but now containing the accumulated charge of all the hits within it.
