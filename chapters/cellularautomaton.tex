@@ -1,0 +1,305 @@
+%% --------------------------------------------------
+%% CHAPTER: Cellular Automaton
+%% --------------------------------------------------
+\chapter{A Cellular Automaton for Track Reconstruction}
+
+\section{Cellular Automata}
+A \ac{CA} is a \ac{FSM} which usually consists of a regular grid of cells in a finite number of dimensions, each of which exists in one of a finite number of states. A neighbourhood is defined to be some region around any given cell, and the next generation is formed by updating the state of each cell according to a fixed rule which takes into account the current cell state as well as the state of its neighbours. Typically, this rule is identical for each cell and at each time step. The update rule is usually applied simultaneously to the whole grid.
+
+The concept was originally devised by John von Neumann\citep{vonNeumann1966} in the 1940s as a method of creating self-reproducing machines using a \ac{CA} with 29 states. Cellular automata became popular in the 1970s with the development of the \emph{Game of Life} by John Conway (see, for example, \citep{Gardner1970}). In \emph{Life}, cells exist in one of two states (live or dead) and the neighbourhood is defined to be the 8 cells surrounding a central cell on a square grid. The update rules are simple but result in varied and complex behaviour. Figure \ref{fig:ca_life_four_steps} illustrates these rules for the first four states of a simple initial pattern.
+
+\begin{enumerate}
+\item Any live cell with $< 2$ live neighbours dies (under-population).
+\item Any live cell with 2 or 3 live neighbours lives on.
+\item Any live cell with $> 3$ live neighbours dies (over-population).
+\item Any dead cell with exactly 2 live neighbours becomes live (reproduction).
+\end{enumerate}
+
+\begin{figure}
+\centering
+\subfigure[Step 1]{
+	\includegraphics[width=0.2\textwidth]{chapters/cellularautomaton_images/Life1}
+	\label{fig:ca_life_four_steps_step1}
+}
+\subfigure[Step 2]{
+	\includegraphics[width=0.2\textwidth]{chapters/cellularautomaton_images/Life2}
+	\label{fig:ca_life_four_steps_step2}
+}
+\subfigure[Step 3]{
+	\includegraphics[width=0.2\textwidth]{chapters/cellularautomaton_images/Life3}
+	\label{fig:ca_life_four_steps_step3}
+}
+\subfigure[Step 4]{
+	\includegraphics[width=0.2\textwidth]{chapters/cellularautomaton_images/Life4}
+	\label{fig:ca_life_four_steps_step4}
+}
+\caption[Example of state evolution in \emph{Conway's Game of Life}]{\label{fig:ca_life_four_steps}The first four states of a \ac{CA} following the rules of \emph{Conway's Game of Life}. Grey squares represent live cells, white squares represent dead cells. The initial pattern results in complex states as the system evolves.}
+\end{figure}
+
+%% --------------------------------------------------
+%% SECTION: Cellular Automata & Track Finding
+%% --------------------------------------------------
+\section{Cellular Automata and Track Finding}\label{sec:cellularautomaton_history}
+The use of a \ac{CA} for tracking in high-energy physics was proposed in \citep{Glazov1992} for filtering tracks in \ac{MWPC} detectors. They define a cluster of continuous hits to be a living cell and an empty region to be a dead cell. In order to support interrupted tracks due to detector inefficiencies, they also propose phantom cells, which may also be either living or dead, giving their \ac{CA} four states.
+
+Neighbours are determined by the range of admissible angles at which a track may run through the cluster of hits corresponding to any given cell. The update rules create phantoms if there are living neighbours on either side which are compatible with the track model, and destroy cells if there are too few ($< 2$) or too many ($> 4$) neighbours. The first part is designed to cope with gaps in a track due to detector inefficiencies, while the last part filters out noise hits. The \ac{CA} is iterated until a stable configuration is reached, at which point the remaining real live cells correspond to the hits of filtered tracks. A similar procedure is also proposed in \citep{Casolino1995}.
+
+An important development was made in \citep{Kisel1997} where it was proposed to make a \ac{CA} in which the cells were straight line segments linking hits or clusters in adjacent layers of a detector (or skipping at most one layer, to account for detector inefficiencies). The neighbours of a cell are considered to be those cells which share a hit or cluster at one end and have some angle $\phi < \phi_\mathrm{max}$ between the line segments.
+
+An integer number is assigned as the state of each cell, associated with the cell's position along the track. Initially, all cells get the state 1 and at each step of evolution the update rule looks at neighbours in preceding layers and increases the position value by 1 if there is a neighbouring cell with the same state. Evolution stops when no neighbouring cells have the same state. As usual, time evolves in discrete steps with cell updates occurring simultaneously.
+
+After this \ac{CA} is run the final state gives the positions of all segments of all track candidates. The track candidates are formed by starting with the highest valued segments and adding the neighbour with the previous position value, all the way back to position value 1. This approach not only filters out noise but also \emph{clusters} the track candidates into distinct clusters.
+
+A further example of the use of line segments for the cells of a \ac{CA} with similar update rules, considering neighbours to be leftward segments sharing a common space point and having some angle no greater than a maximum \emph{breaking angle} between adjacent segments is considered for the HERA-B vertex detector in \citep{Abt2002}. The approach is extended to 3D tracks in a layered scintillator bar detector with horizontal and vertical layers in \citep{Maesaka2005}, where the \ac{CA} is run in 2D over the $xz$-plane and the $yz$-plane independently, and tracks are combined into a three-dimensional reconstruction using $z$ positions and timing information.
+
+%% --------------------------------------------------
+%% SECTION: 3D Cellular Automaton for Track Finding
+%% --------------------------------------------------
+\section{A 3D Cellular Automaton for Track Finding}\label{sec:cellularautomaton_algorithm}
+The \ac{CARLA} algorithm is composed of several procedures, each of which is described in detail. The algorithm runs through each of the following stages in turn:
+
+\begin{enumerate}
+	\item Preprocessing
+	\item Cell generation
+	\item Forward run
+	\item Reverse run
+	\item Postprocessing
+\end{enumerate}
+
+The pre- and post-processing stages are specific to the form of data used; preprocessing typically includes a charge weighting process followed by a re-scaling to reduce the number of input hits, while postprocessing typically involves merging track segments and filtering out short fragments. In the following algorithm descriptions, the term \emph{leftward} means having lower coordinate value along the beam axis, which is defined to be the $x$-axis in the simulation. Similarly, \emph{rightward} means having higher coordinate value along the beam axis.
+
+%% --------------------------------------------------
+%% SUBSECTION: Preprocessing
+%% --------------------------------------------------
+\subsection{Preprocessing}\label{sec:cellularautomaton_preprocessing}
+\subsubsection{Charge Weighting}\label{sec:cellularautomaton_charge_weighting}
+Data from a \ac{LAr TPC} is assumed to be in the form of $(x, y, z)$ voxels with an associated charge deposit $Q$. The voxel shape is determined entirely by the readout mechanism; a 2D readout plane determines the $xy$ resolution while the readout frequency determines the $z$ resolution as expected for a \ac{TPC}. This structure is retained in the Geant4 simulation through the use of cubic voxels with a side length of $1\mm$. In order to transform this data into a representation more closely resembling the true passage of ionising radiation through the detector, a charge weighting procedure is applied. This procedure adjusts the spatial coordinates of each charge deposit (voxel) by taking the charge-weighted average of the spatial coordinates of all hits within a sphere of radius $2\mm$ centered on that voxel:
+
+\begin{equation}\label{eqn:charge_weighted_avg_position}
+	\vec{x}^\prime = \frac{\displaystyle \sum_i \vec{x}_i Q_i}{\displaystyle \sum_i Q_i}
+\end{equation}
+
+Charge weighting in this way moves the position of each charge deposit closer to the local charge cloud, bringing track-like charge deposits closer to a straight line (see figure \ref{fig:ca_charge_weighting}). In each case the unweighted positions of neighbours are used to compute the weighted position of a central charge deposit, resulting in a stable, deterministic output.
+
+\begin{figure}
+\centering
+\subfigure[Hits as central points of voxels]{
+	\includegraphics[width=0.35\textwidth]{chapters/cellularautomaton_images/ChargeWeighting1}
+	\label{fig:ca_charge_weighting_1}
+}
+\subfigure[Hits shifted from voxel centres]{
+	\includegraphics[width=0.35\textwidth]{chapters/cellularautomaton_images/ChargeWeighting2}
+	\label{fig:ca_charge_weighting_2}
+}
+\caption[Diagram of the effect of charge weighting on hit position]{\label{fig:ca_charge_weighting}Schematic diagram of the effect of the charge weighting procedure on hit positions. In \subref{fig:ca_charge_weighting_1} each hit is positioned at the centre of a voxel. In \subref{fig:ca_charge_weighting_2} the hit positions have been adjusted based on the charge-weighted positions of surrounding hits within a $2\mm$ radius; this shifts them from the voxel centres and out of a regular grid structure.}
+\end{figure}
+
+\subsubsection{Scaling}\label{sec:cellularautomaton_scaling}
+The run time of the \ac{CA} depends strongly on the hit multiplicity (which in turn determines the cell multiplicity). In order to reduce the run time, a re-scaling from $1\mm$ to $3\mm$ voxels is implemented after the charge weighting procedure. This re-scaling groups together hits within the same $3\mm \times 3\mm \times 3\mm$ region and represents them as a single cluster at the charge-weighted centroid position of those hits (calculated as for the charge weighting, with equation \ref{eqn:charge_weighted_avg_position}), but now containing the accumulated charge of all the hits within it.
+
+%% --------------------------------------------------
+%% SUBSECTION: Cell Generation
+%% --------------------------------------------------
+\subsection{Cell Generation}\label{sec:cellularautomaton_cell_generation}
+Cell generation is the process by which cells are made from pairs of hits. A cell consists of a leftward hit and rightward hit pair, and represents the line between the two hits, pointing from the leftward hit to the rightward hit.  In principle, each possible pairing of points within a fixed radius could produce a cell, but for speed and performance reasons it is better to build the cells more selectively. The algorithm below does this in a manner which produces the required cells with very little overhead.
+
+For each hit in the event:
+\begin{enumerate}
+	\item Build a list of neighbouring hits within a $2\mm$ radius; in this implementation a \ac{KDTree} is used for this near-neighbour search.
+	\item Filter the neighbour list to select only those neighbours which are \emph{upstream} with respect to the beam direction, i.e. select only leftward neighbours.
+	\item Generate a cell for each remaining leftward neighbour, pointing from that hit to the current central hit (from left to right); see figure \ref{fig:cellularautomaton_cellgen_normal}.
+	\item If no leftward hits were found, i.e. no cells were generated in the previous step, expand the search radius by $0.05\mm$ and repeat the procedure above until either a cell is generated or the maximum search radius of $5.0\mm$ is reached; see figure \ref{fig:cellularautomaton_cellgen_expand}.
+	\item If multiple cells were generated, filter out longer copies of cells with the same slope, using a comparison tolerance of $0.10$ on the slope components. This step avoids making long cells which ``jump'' over several shorter cells, which could lead to multiple interleaved tracks in the final reconstruction; see figure \ref{fig:cellularautomaton_cellgen_filter}.
+\end{enumerate}
+
+\begin{figure}
+\centering
+\subfigure[Normal operation]{\label{fig:cellularautomaton_cellgen_normal}
+	\includegraphics[width=0.3\textwidth]{chapters/cellularautomaton_images/CellGeneration1}
+}
+\subfigure[Expanding radius]{\label{fig:cellularautomaton_cellgen_expand}
+	\includegraphics[width=0.3\textwidth]{chapters/cellularautomaton_images/CellGeneration2}
+}
+\subfigure[Filtering]{\label{fig:cellularautomaton_cellgen_filter}
+	\includegraphics[width=0.3\textwidth]{chapters/cellularautomaton_images/CellGeneration3}
+}
+\caption[Illustration of the cell generation procedure in the CA algorithm]{\label{fig:cellularautomaton_cellgen}Illustration of the steps in the cell generation procedure for the \ac{CA}:\newline \subref{fig:cellularautomaton_cellgen_normal} creation of cells between a central point and any leftward neighbours within a $2\mm$ radius. \subref{fig:cellularautomaton_cellgen_expand} adaptive search radius expansion, which gradually expands the radius in $0.05\mm$ increments until either a leftward neighbour is found or a maximum radius of $5\mm$ is reached. \subref{fig:cellularautomaton_cellgen_filter} removal of cells if a shorter cell exists with similar slope; in this case, the red cell is retained while the longer orange cell is removed.}
+\end{figure}
+
+%% --------------------------------------------------
+%% SUBSECTION: Forward Run
+%% --------------------------------------------------
+\subsection{Forward Run}\label{sec:cellularautomaton_forward_run}
+The forward run algorithm is responsible for the evolution of the \ac{CA} from its initial state until a stable final state is reached. The forward step algorithm is run until the state remains unchanged, that is, until no cells needed to be updated in a step.
+
+Before the first forward step, a mapping from cell to list of leftward neigbours is built. Cell A is a leftward neighbour of cell B if they share a central point (cell A's right point is identical to cell B's left point) and if the angle $\theta$ made between the two cell vectors is less than some threshold value $\theta_\mathrm{max} = 25\degree$. This mapping is used in every forward step, providing a speed boost over searching for leftward neighbours every time, since the number of cells does not change, and the cell properties are fixed (with the exception of cell state).
+
+The forward step algorithm proceeds as follows (see also the illustration in figure \ref{fig:cellularautomaton_run}):
+\begin{enumerate}
+	\item For each cell with one or more leftward neighbours in the same state, mark the cell for update.
+	\item Update all marked cells by increasing the value of their state by 1.
+	\item Return the number of updated cells (if 0, this signals termination of the forward run).
+\end{enumerate}
+
+It is important not to update any cell state before all cells have been tested to see whether they must be updated. This prevents problems where a cell which would have been updated (because it had a neighbour with the same state) does not get updated because its neighbour was updated first. The forward step must appear to occur simultaneously across all cells; this opens up opportunities for parallelisation since each cell can be tested and marked for update independently. However, since this part of the algorithm is relatively quick for small numbers of cells, there is currently no parallelisation in the implementation.
+
+\begin{figure}
+\centering
+\subfigure[Initial state]{\label{fig:cellularautomaton_run_initial}
+	\includegraphics[width=0.3\textwidth]{chapters/cellularautomaton_images/ca-fig1}
+}
+\subfigure[Final state]{\label{fig:cellularautomaton_run_final}
+	\includegraphics[width=0.3\textwidth]{chapters/cellularautomaton_images/ca-fig2-nolegend}
+}
+\subfigure[Output clustering]{\label{fig:cellularautomaton_run_output}
+	\includegraphics[width=0.3\textwidth]{chapters/cellularautomaton_images/ca-fig3-nolegend}
+}
+
+\caption[Initial and final states of a CA for track finding]{\label{fig:cellularautomaton_run}Illustration of the effects of the forward run of a \ac{CA} on a set of cells:\newline \subref{fig:cellularautomaton_run_initial} initial state with all cell values set to 1. \subref{fig:cellularautomaton_run_final} final state where cell values have been updated as per the forward step algorithm. Cell values now reflect the position of a cell in a straight line track. Cells which have no leftward neighbours consistent with the breaking angle $\theta$ retain the value 1. \subref{fig:cellularautomaton_run_output} track clusters are formed by following chains from high-valued to low-valued cells, while cells which are not part of a track are filtered out.}
+\end{figure}
+
+%% --------------------------------------------------
+%% SUBSECTION: Reverse Run
+%% --------------------------------------------------
+\subsection{Reverse Run}\label{sec:cellularautomaton_reverse_run}
+The reverse run extracts track clustering information from the final state of the \ac{CA}. The mapping of cells to a list of their leftward neighbours is retained, again for efficiency. Initially, all cells are considered as input to the reverse run. The reverse step algorithm is performed until no cells remain in the input list.
+
+The reverse step algorithm proceeds as follows:
+\begin{enumerate}
+	\item Find the input cell with the highest valued state. Set as current cell.
+	\item Create a new track candidate and add the current cell to it.
+	\item While the current cell has value $> 1$:
+	\begin{enumerate}
+		\item Find a leftward neighbouring cell with state value 1 less than the current cell state.
+		\item If multiple candidate cells exist, pick the one which makes the smallest angle with the current cell.
+		\item Add this cell to the track candidate, and mark it as the new current cell.
+	\end{enumerate}
+	\item Remove allocated cells from the input list.
+\end{enumerate}
+
+Each reverse step follows a sequence of cells from a high-valued cell state to a cell with state 1, building a complete track candidate in the process. The reverse step algorithm runs until all track candidates have been extracted. Track candidates which contain only 1 cell are rejected as noise. The result of applying the reverse run algorithm is illustrated in figure \ref{fig:cellularautomaton_run_output}. Finally, the cells in each track candidate are unpacked to leave each track as a list of hits.
+
+%% --------------------------------------------------
+%% SUBSECTION: Postprocessing
+%% --------------------------------------------------
+\subsection{Postprocessing}\label{sec:cellularautomaton_postprocessing}
+The \ac{CA} algorithm is considered to be complete at this point. Postprocessing stages are used to improve the results from the \ac{CA} based on its known properties.
+
+The first stage involves uniquely assigning hits to tracks. The \ac{CA} makes unique assignments of cells to tracks, but since a hit can appear as an endpoint of multiple cells, it is possible that hits may appear multiple times across multiple tracks. The current strategy for unique hit assignment is to keep each hit with the longest track it is a member of, and remove it from any shorter tracks.
+
+The second stage of postprocessing merges track segments together if they are compatible with being part of the same straight line. This is necessary because the CA tends to break tracks up at any site of complexity, including the primary vertex, decay vertices and delta electron production sites. In particular for $\mu$ tracks, it is useful to stitch together these segments to produce a single longer track. The merging currently checks for comparable slopes of straight lines through the track segments as well as ensuring that the endpoints are close to each other. The merging algorithm is described in detail in section \ref{sec:cellularautomaton_merging}
+
+%% --------------------------------------------------
+%% SUBSECTION: Merging Algorithm
+%% --------------------------------------------------
+\subsection{Merging Algorithm}\label{sec:cellularautomaton_merging}
+Merging is performed using a cylindrical track road algorithm. Track candidates output from the CA with more than 100 hits are treated as key tracks for merging. A straight line in 3D is computed for each key track by the procedure below:
+
+\begin{itemize}
+	\item Determine a unit vector along the line of the track using principal components analysis and choosing the component with the largest eigenvalue. This becomes the vector $\vec{n}$ along the line of the track.
+	\item Determine a point on the line by computing the centroid coordinate of the hits corresponding to the track. This becomes the vector $\vec{p}$.
+\end{itemize}
+
+Each track is then represented by an infinite line in 3D, defined by equation \ref{eq:ca_track_3d_line} where the parameter $\lambda$ is a scalar representing distance along the line from the point $\vec{p}$ at which the point $\vec{l}$ is found.
+\begin{equation}\label{eq:ca_track_3d_line}
+\vec{l} = \vec{p} + \lambda \vec{n}
+\end{equation}
+
+The key tracks are iterated over, beginning with the longest, and hits from other (non-key) tracks are considered for merging into the key track if the distance $d$ from the hit to the line corresponding to the key track is less than some radius $r$. This defines a cylinder of radius $r$ around the key track, inside which any hits from other tracks are merged into the key track. The cylinder extends indefinitely either end of the key track; in practice this is not a problem due to the sparse nature of events resulting from neutrino interactions. Figure \ref{fig:ca_merging_cylinder} illustrates this merging process at a point where a track has been split into two pieces and a third cluster has been identified in the area.
+
+\begin{figure}
+\centering
+\subfigure[Unmerged tracks]{\label{fig:ca_merging_initial}
+	\includegraphics[width=0.35\textwidth]{chapters/cellularautomaton_images/Merging1}
+}
+\subfigure[Merged tracks]{\label{fig:ca_merging_final}
+	\includegraphics[width=0.35\textwidth]{chapters/cellularautomaton_images/Merging2}
+}
+\caption[Track road merging algorithm operating on CA output]{\label{fig:ca_merging_cylinder}The track road cylinder merging algorithm operating on the output of the \ac{CA}. \subref{fig:ca_merging_initial} shows the initial state with a key track and two smaller clusters. The cylinder drawn around the key track encloses all of cluster 2, but only two hits from cluster 1. \subref{fig:ca_merging_final} shows the resulting merged tracks; hits within the cylinder have been merged such that cluster 2 disappears altogether. Cluster 1 remains but has fewer hits than before.}
+\end{figure}
+
+The distance from a hit to the line is defined by taking two points $\vec{x}_1, \vec{x}_2$ on the line (by picking two values of $\lambda$) and, with $\vec{x}_0$ as the coordinates of a hit, the distance is given by equation \ref{eq:ca_dist_hit_line} (see also figure \ref{fig:ca_perp_dist}).
+\begin{equation}\label{eq:ca_dist_hit_line}
+d = \frac{|(\vec{x}_2 - \vec{x}_1) \times (\vec{x}_1 - \vec{x}_0)|}{|\vec{x}_2 - \vec{x}_1|}
+\end{equation}
+
+Hits which are merged into a key track are removed from their original track. Tracks which become empty as a result of this procedure are discarded. This procedure may leave some very small track fragments, which can be cleaned up by applying a range cut requiring any final state track to have some minimum number of hits. Currently, this range cut is set to 20 hits, corresponding to a straight-line track approximately $20\mm$ long, or a particle with $4.2\MeV$ kinetic energy.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.5\textwidth]{chapters/cellularautomaton_images/PerpDist}
+\caption[Perpendicular distance from a point to a line in 3D]{\label{fig:ca_perp_dist}Illustration of the perpendicular distance $d$ from the point $\vec{x}_0$ to the line between the points $\vec{x}_1$ and $\vec{x}_2$ according to equation \ref{eq:ca_dist_hit_line}.}
+\end{figure}
+
+%% --------------------------------------------------
+%% SECTION: Performance of the CA on Toy MC Events
+%% --------------------------------------------------
+\section{Performance of the \acl{CA} on Toy Monte Carlo Events}
+The \ac{CA} was initially tested on a set of straight line tracks from a toy \ac{MC} generator which deposits charge from straight line segments in voxels of $1\mm\times1\mm\times1\mm$. The tracks are generated such that they have lengths between $200\mm$ and $300\mm$, both tracks begin at point $(0, 0, 0)$, and the opening angle between the two tracks is fixed to some $\theta$. The events are then rotated so that the lines are distributed isotropically, but retain the fixed opening angle and start point. A thousand events were generated at each angle $\theta$ from $2\degree$ to $178\degree$ in $4\degree$ intervals.
+
+The events were first charge weighted with a radius of $6.0\mm$, then scaled with a scale size of $3.0\mm$. The resulting hits were run through the cell generation process with a default cell generation radius of $6.0\mm$, maximum radius $15.0\mm$ (in unscaled units). The \ac{CA} algorithm itself was applied with a breaking angle $\theta_\mathrm{max} = 10\degree$ and the resulting tracks were postprocessed with the track road merging algorithm with a cylinder radius of $5.0\mm$.
+
+%% --------------------------------------------------
+%% SUBSECTION: Raw CA output
+%% --------------------------------------------------
+\subsection{Raw \acl{CA} Output}
+The number of tracks found by the \ac{CA} as a function of angle is presented in figure \ref{fig:ca_toy_raw_trackcounts}. With 1000 events at each angle, and an input sample of events containing only two tracks, the number of interest is the efficiency for finding two tracks; that is, number of events in which two clusters were found divided by total number of events.% The two track efficiency is shown in figure \ref{fig:ca_toy_raw_twotrack_efficiency}.
+
+\begin{figure}
+\centering
+% "Run8": CA Theta 10 deg, CW Radius 6 mm, Merging radius 5 mm
+\resizebox{0.9\textwidth}{!}{\includegraphics[angle=-90]{chapters/cellularautomaton_images/toy_raw_counts}}
+\caption[Track count as a function of angle for raw CA operating on toy MC events]{\label{fig:ca_toy_raw_trackcounts}Number of tracks found as a function of opening angle for the raw \ac{CA} operating on two track events with a fixed opening angle. There are 1000 events per opening angle, and the events are rotated so as to be distributed isotropically. Large numbers of tracks are found in some cases due to geometric effects in the way the \ac{CA} operates. These can be merged back together with an appropriate merging algorithm.}
+\end{figure}
+
+%\begin{figure}
+%\centering
+%\resizebox{0.9\textwidth}{!}{\includegraphics[angle=-90]{chapters/cellularautomaton_images/toy_raw_eff}}
+%\caption[Efficiency for finding 2 tracks for raw CA operating on toy MC events]{\label{fig:ca_toy_raw_twotrack_efficiency}Efficiency for finding two tracks in the raw \ac{CA} operating on toy MC events with fixed opening angle, as a function of that angle. The efficiency is low due to the presence of several short track segments as a result of geometric effects in the operation of the \ac{CA}. For the most part these can be merged together. The efficiency drops further for angles above $140\degree$ since the \ac{CA} cannot distinguish such large opening angles from continuous straight line tracks.}
+%\end{figure}
+
+While the raw performance of the \ac{CA}, characterised by the efficiency for finding two tracks, is poor, the resultant clustering typically provides long track candidates which can be used as key tracks in the track road merging process. This provides a significant advantage over applying a combinatoric approach using only track road algorithms, which is impractical given the large numbers of hits typically associated with a neutrino event in a \ac{LAr TPC}.
+
+%% --------------------------------------------------
+%% SUBSECTION: Performance of the CA with Merging
+%% --------------------------------------------------
+\subsection{Performance of the \acl{CA} with Merging}
+When the merging process is applied, the track counts (figure \ref{fig:ca_toy_merged_trackcounts}) %and two track efficiency (figure \ref{fig:ca_toy_merged_twotrack_efficiency})
+are considerably improved. The merging process tidies the events up, gathering together any track fragments and recombining them with the track they should belong to. In some cases, small track fragments remain, and while the modal number of tracks after merging is $2$, there is a long tail caused by a handful of events with significantly more tracks after merging. A simple range cut can be imposed to remove these remaining fragments.
+
+\begin{figure}
+\centering
+% "Run8": CA Theta 10 deg, CW Radius 6 mm, Merging radius 5 mm
+\resizebox{0.9\textwidth}{!}{\includegraphics[angle=-90]{chapters/cellularautomaton_images/toy_merged_counts}}
+\caption[Track count as a function of angle for CA with merging operating on toy MC events]{\label{fig:ca_toy_merged_trackcounts}Number of tracks found as a function of opening angle for the \ac{CA} with track road merging operating on two track events with a fixed opening angle. There are 1000 events per opening angle, and the events are rotated so as to be distributed isotropically. A small track fragment is usually left over, which can be removed with a suitable range cut.}
+\end{figure}
+
+%\begin{figure}
+%\centering
+%\resizebox{0.9\textwidth}{!}{\includegraphics[angle=-90]{chapters/cellularautomaton_images/toy_merged_eff}}
+%\caption[Efficiency for finding 2 tracks for CA with merging operating on toy MC events]{\label{fig:ca_toy_merged_twotrack_efficiency}Efficiency for finding two tracks in the \ac{CA} with track road merging operating on toy MC events with fixed opening angle, as a function of that angle. The efficiency is low due to small remnant fragments, which can be removed with a suitable range cut.}
+%\end{figure}
+
+%% --------------------------------------------------
+%% SUBSECTION: Performance after a range cut
+%% --------------------------------------------------
+\subsection{Performance After a Range Cut}
+After imposing a range cut of 20 hits (corresponding roughly to $20\mm$ or $4.2\MeV$) the performance improves further. Now, the mean number of tracks (see figure \ref{fig:ca_toy_rcut_trackcounts}) is 2, giving a high two track reconstruction efficiency (figure \ref{fig:ca_toy_rcut_twotrack_efficiency}) for most opening angles. Above an opening angle of about $140\degree$ the \ac{CA} fails to cluster the two lines separately since the change in angle from one line to the next is now small and the \ac{CA} can smoothly travel across the join, resulting in a single output cluster. This is not symmetric with the case at an opening angle of $40\degree$, where the angle between the tracks is much sharper, and the \ac{CA} can easily distinguish the two. Efficiency curves are shown in fig. \ref{fig:ca_toy_rcut_twotrack_efficiency} at four different purity levels, defined on a hit level as the fraction of hits in a cluster which came from the same truth track. At $80\%$ and $85\%$ purity, the \ac{CA} performs with a high efficiency. This is reduced slightly for a requirement of $90\%$ purity, and substantially for a requirement of $95\%$ purity. The \ac{CA} can therefore be said to cluster simple topologies with very high efficiency and with reasonable purity, up to geometric opening angles of $140\degree$.
+
+\begin{figure}
+\centering
+\resizebox{0.9\textwidth}{!}{\includegraphics[angle=-90]{chapters/cellularautomaton_images/toy_rcut_counts}}
+\caption[Track count as a function of angle for CA with merging and range cut operating on toy MC events]{\label{fig:ca_toy_rcut_trackcounts}Number of tracks found as a function of opening angle for the \ac{CA} with track road merging operating and a range cut of $20\mm$ on two track events with a fixed opening angle. There are 1000 events per opening angle, and the events are rotated so as to be distributed isotropically. The mean number of tracks found is now 2, dropping to 1 above $140\degree$ due to an inability of the \ac{CA} to distinguish this topology from that of a single continuous line.}
+\end{figure}
+
+\begin{figure}
+\centering
+\resizebox{0.9\textwidth}{!}{\includegraphics[angle=-90]{chapters/cellularautomaton_images/toy_rcut_eff}}
+\caption[Efficiency for finding 2 tracks for CA with merging and range cut operating on toy MC events]{\label{fig:ca_toy_rcut_twotrack_efficiency}Efficiency for finding two tracks in the \ac{CA} with track road merging and a range cut of $20\mm$ operating on toy MC events with fixed opening angle, as a function of opening angle. Efficiency curves are plotted for four different purity cuts, requiring a minimum of $80\%$ (black), $85\%$ (blue), $90\%$ (red) and $95\%$ (green) purity in each track. The efficiency is high for almost all angles up to $140\degree$, beyond which the \ac{CA} is unable to distinguish the topology from that of a single continuous track.}
+\end{figure}
+
+
+%% --------------------------------------------------
+%% SUBSECTION: Performance of the CA on Genie MC Events
+%% --------------------------------------------------
+\section{Performance of the \acl{CA} on Genie Monte Carlo Events}

@@ -1,0 +1,17 @@
+\chapter{Clustering Algorithms}
+
+\section{Nearest Neighbour Search using \acs{KDTree}}
+The \ac{KDTree} is a data structure for partitioning a $k$-dimensional space by representing the points as nodes in a binary tree. Using a \ac{KDTree} it is possible to perform nearest-neighbour search in $O(\log N)$ time\citep{Bentley1975} (though the tree itself is built in $O(kN\log N)$ time), compared with the brute-force search complexity of $O(N^2)$. An introductory tutorial on \aclp{KDTree} appears in \citep{Moore1991}. The \ac{KDTree} is not a clustering algorithm, but its rapid near-neighbour search forms a central part of several clustering algorithms, as well as being used for the charge weighting (see chapter \ref{sec:cellularautomaton_charge_weighting}) and cell generation (\ref{sec:cellularautomaton_cell_generation}) stages of the \acl{CA} track reconstruction procedure.
+
+The implementation currently used is that of the \emph{SciPy} library of Python code for scientific computing.
+
+
+\section{Density-based Clustering with \acs{DBSCAN}}
+The \ac{DBSCAN} algorithm was proposed in 1996 as a means of clustering spatial data based on the varying densities of point clouds\citep{Ester1996}. The algorithm is characterised by its requirement that, for the neighbourhood $\epsilon$ around a given point in the cluster, the number of points $N$ in $\epsilon$ must exceed some threshold value $N_\mathrm{min}$. In this manner, the clustering is determined by identifying areas of high point density. Areas of low point density (i.e. any points not clustered) are identified as \emph{noise} and clustered together as such.
+
+The \ac{DBSCAN} algorithm has been applied to spatial data obtained from a \ac{LAr TPC} by the ArgoNeuT experiment\cite{Spitz2011} to identify clusters in two 2D views, which are subsequently recombined into 3D based on wire readout timing information.
+
+\ac{DBSCAN} has two configurable parameters, $\epsilon$, the radius around a given point within which neighbours must lie, and $N_\mathrm{min}$, the minimum number of those neighbours for a point to be considered part of a dense cluster. While these parameters can be optimised, they remain global, and \ac{DBSCAN} will not typically identify regions of changing density and cluster accordingly. This tends to result in a \ac{DBSCAN} clustering which wraps around the vertex of charged-current neutrino events.
+
+\section{Density-based Clustering with \acs{OPTICS}}
+The \ac{OPTICS} algorithm\citep{Ankerst1999} extends \ac{DBSCAN} by performing a \emph{hierarchical clustering}; an ordering operation which is equivalent to giving the density-based clusterings associated with a broad range of values of the parameter $\epsilon$. For example, given a fixed value of $N_\mathrm{min}$, clusters obtained with a small $\epsilon$ (that is, high density clusters) are completely contained within the clusters obtained for a larger $\epsilon$ (lower density). \ac{OPTICS} exploits this relationship to provide information about the clustering on all $\epsilon$ scales, allowing clusters to be extracted from spatial data with varying densities.

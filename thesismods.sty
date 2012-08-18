@@ -1,0 +1,128 @@
+% Modifications to the Warwick style file
+\typeout{*************************************************************}
+\typeout{           Warwick Thesis Style Modifications File           }
+\typeout{           Copyright (c) 2011 Andrew J. Bennieston           }
+\typeout{*************************************************************}
+
+% Add support for align env
+\usepackage{amsmath}
+
+% Add support for weird math fonts
+\usepackage{eufrak}
+
+% Define some useful colours
+\usepackage{color}
+%\definecolor{WarwickBlue}{RGB}{4, 52, 177}
+\definecolor{WarwickBlue}{RGB}{26, 93, 173}
+\definecolor{WarwickLightBlue}{RGB}{91, 146, 230}
+\definecolor{WarwickWhite}{RGB}{255, 255, 255}
+\definecolor{WarwickCyan}{RGB}{0, 171, 236}
+\definecolor{WarwickDarkBlue}{RGB}{50, 0, 164}
+
+% Font stuff
+\usepackage{fontspec}
+\newfontfamily\chaptertitlefont{Futura Std Medium}
+\newfontfamily\thesistitlefont{Futura Std Medium}
+\def\bfseries{\fontseries \bfdefault \selectfont \boldmath}
+
+% Support mathmode "matrix like" numbers
+\usepackage{bbold}
+
+% Use (modified) fncychap
+\usepackage[Warwick]{fncychapwarwick}
+
+% Use acronym package
+\usepackage[printonlyused]{acronym}
+
+% Sub-figures
+\usepackage{subfigure}
+
+% PDF Hypertext References
+% THIS SHOULD BE THE LAST INCLUDED PACKAGE
+\usepackage[xetex]{hyperref}
+\hypersetup{colorlinks=true,
+linkcolor=black,
+anchorcolor=black,
+citecolor=black,
+filecolor=black,
+urlcolor=black,
+pdfauthor=Andrew J. Bennieston,
+pdftitle=Ph.D. Thesis,
+bookmarksnumbered=true,
+}
+
+% Modification to make links jump to the right place
+\makeatletter
+\newcommand\org@hypertarget{}
+\let\org@hypertarget\hypertarget
+\renewcommand\hypertarget[2]{%
+\Hy@raisedlink{\org@hypertarget{#1}{}}#2%
+} \makeatother 
+
+% Redefine \vec in mathmode
+\renewcommand{\vec}[1]{\ensuremath{\mathbf{#1}}}
+
+% Define \diag in mathmode
+\newcommand{\diag}{\ensuremath{\mathrm{diag}}}
+
+% Redefine Real and Imaginary symbols in mathmode
+\renewcommand{\Re}{\ensuremath{\mathfrak{Re}}}
+\renewcommand{\Im}{\ensuremath{\mathfrak{Im}}}
+
+% Define some useful mathmode shortcuts
+\newcommand{\half}{\ensuremath{\frac{1}{2}}}
+
+% Mathmode units
+  % Electron volts
+\newcommand{\eV}{\ensuremath{\,\mathrm{eV}}}
+\newcommand{\keV}{\ensuremath{\,\mathrm{keV}}}
+\newcommand{\MeV}{\ensuremath{\,\mathrm{MeV}}}
+\newcommand{\GeV}{\ensuremath{\,\mathrm{GeV}}}
+\newcommand{\TeV}{\ensuremath{\,\mathrm{TeV}}}
+  % Lengths (metric)
+\newcommand{\micron}{\ensuremath{\,\mu\mathrm{m}}}
+\newcommand{\mm}{\ensuremath{\,\mathrm{mm}}}
+\newcommand{\cm}{\ensuremath{\,\mathrm{cm}}}
+\newcommand{\metre}{\ensuremath{\,\mathrm{m}}}
+  % Times
+\newcommand{\second}{\ensuremath{\,\mathrm{s}}}
+ % Frequencies
+\newcommand{\MHz}{\ensuremath{\,\mathrm{MHz}}}
+  % Masses
+\newcommand{\gram}{\ensuremath{\,\mathrm{g}}}
+\newcommand{\kg}{\ensuremath{\,\mathrm{kg}}}
+\newcommand{\ton}{\ensuremath{\,\mathrm{ton}}}
+\newcommand{\kton}{\ensuremath{\,\mathrm{kton}}}
+\newcommand{\Mton}{\ensuremath{\,\mathrm{Mton}}}
+  % Electromagnetic Stuff
+\newcommand{\volt}{\ensuremath{\,\mathrm{V}}}
+\newcommand{\kvolt}{\ensuremath{\,\mathrm{kV}}}
+\newcommand{\Mvolt}{\ensuremath{\,\mathrm{MV}}}
+\newcommand{\tesla}{\ensuremath{\,\mathrm{T}}}
+  % Temperatures
+\newcommand{\kelvin}{\ensuremath{\,\mathrm{K}}}
+\newcommand{\degC}{\ensuremath{\,^\circ\mathrm{C}}}
+  % Angles
+\newcommand{\rad}{\ensuremath{\,\mathrm{rad}}}
+\newcommand{\degree}{\ensuremath{^\circ}}
+
+% Mathmode elements
+\newcommand{\Hydrogen}{\ensuremath{\mathrm{H}}}
+\newcommand{\Deuterium}{\ensuremath{\mathrm{D}}}
+\newcommand{\Oxygen}{\ensuremath{\mathrm{O}}}
+\newcommand{\Cl}{\ensuremath{\mathrm{Cl}}}
+\newcommand{\Ar}{\ensuremath{\mathrm{Ar}}}
+\newcommand{\Ga}{\ensuremath{\mathrm{Ga}}}
+\newcommand{\Be}{\ensuremath{\mathrm{Be}}}
+
+% Mathmode quantum foo
+\newcommand{\bra}[1]{\ensuremath{\langle #1|}}
+\newcommand{\ket}[1]{\ensuremath{|#1\rangle}}
+\newcommand{\braket}[2]{\ensuremath{\langle #1|#2\rangle}}
+\newcommand{\rstate}[1]{\ket{\nu_{#1}}}
+\newcommand{\lstate}[1]{\bra{\nu_{#1}}}
+
+% Mathmode CP symbols
+\newcommand{\Charge}{\ensuremath{\mathcal{C}}}
+\newcommand{\Parity}{\ensuremath{\mathcal{P}}}
+

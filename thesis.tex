@@ -1,0 +1,155 @@
+\documentclass[11pt,a4paper]{scrreprt}
+\usepackage{warwickthesis,setspace,graphicx}     %!  setspace is used to control linepacing
+\usepackage[square,numbers,sort&compress]{natbib}                    %! needed for Harvard style of references.
+                                                %! for more notes see the bibliography section below
+\phdthesis                         %% use either, the default is \phdthesis.
+
+%\thesisdraft                       %% Uncomment this if you want a draft
+                                     %% version; this will print a timestamp
+                                     %% on each page of your thesis.
+
+\onehalfspacing                      %! This is the default and gives an acceptable "double spaced" thesis
+                                     %! It is the minimum spacing accepted by the graduate school, and there is no reason to increase the spacing.
+% \singlespacing                     %! Uncomment if you want single-spacing, 
+%\doublespacing                     %! uncomment if you want real double-spacing for some perverse reason. 
+
+%\setlength{\textheight}{9.0in}      %! Uncomment this for a slightly
+                                     %! longer page. The default is now 8.5in (from Feb 2010)
+                                     %! regulations require page numbers to be at least 1.5cm into the page.
+                                     %! You can even try a longer page to save paper.
+
+\renewcommand{\thesisdepartmentname}{Department of Physics}%! The name of
+                                                  %   the department
+
+%! \renewcommand{\thesissubmission}{Submitted to the University of Warwick\\
+%!              in partial fulfilment of the requirements\\
+%!                   for admission to the degree of\\}
+%!
+%!!!!!!!! default is:
+%!
+\renewcommand{\thesissubmission}{Submitted to the University of Warwick\\
+                        for the degree of}
+%!
+%! In the title page this wording will be preceeded by:  thesis\\
+%!                 and ended by:  Doctor of Philosophy   (or the
+%!                                               selected alternative names
+%! use \\ where you want a new line
+
+\renewcommand{\thesisauthor}{Andrew J. Bennieston}%% Your official name.
+
+\renewcommand{\thesismonth}{MonthHere}%% Your month of graduation.
+
+\renewcommand{\thesisyear}{2012}      %% Your year of graduation.
+
+\renewcommand{\thesistitle}{Put A Sensible Title Here}     %% The title of your thesis; use
+                                     %% mixed-case.
+
+%! \renewcommand{\thesistitletypesize}{\LARGE}   %! Put this in if you
+                                  %!   want a Large title the default is \large
+
+\renewcommand{\thesisauthorpreviousdegrees}{M.Phys. (Hons)}
+                                     %% Your previous degrees, abbreviated;
+                                     %% separate multiple degrees by commas.
+
+\renewcommand{\thesissupervisor}{Y. A. Ramachers}
+                                     %% Your thesis supervisor; use mixed-case
+                                     %% and don't use any titles or degrees.
+
+\renewcommand{\thesisauthoraddress}{Department of Physics\\
+University of Warwick\\
+Coventry CV4 7AL}
+
+%! For the library declaration page only
+%! \renewcommand{\thesiscopyrightagree}{agree}
+                        %! agreement to allow single photocopies
+%! \renewcommand{\thesiscopyrightagree}{do not agree}
+                        %! refusal  to allow single photocopies
+%! \renewcommand{\thesiscopyrightagree}{agree/do not agree}
+                        %! undecided !!
+                        %! default is agree
+
+\usepackage{thesismods} % Style modifications by A. J. Bennieston
+\begin{document}
+
+\def\thechapter{\Roman{chapter}}
+
+%%* Made default
+\thesiscopyrightpage                 %! Generate the copyright page.
+
+%%* Uncomment a ttitle page.
+%\thesistitlepage                     %% Generate the title page.
+\pdfbookmark[0]{Title page}{title} % Sets a PDF bookmark for the title page
+\thesistitlecolourpage           %! Generates a COLOUR title page.
+
+%%* Start roman page numbering here for contents, etc
+\pagenumbering{roman} %! Begins roman numerals start from page i.
+
+\pdfbookmark[0]{Contents}{contents}
+\tableofcontents                     %% Generate table of contents.
+\listoftables                      %% Uncomment this to generate list of tables.
+\listoffigures                     %% Uncomment this to generate list of figures.
+
+\begin{thesisacknowledgments}        %% Use this to write your
+%  \input ack.tex                    %% acknowledgments; it can be anything
+                                     %% allowed in LaTeX2e par-mode.
+
+\end{thesisacknowledgments}
+
+\begin{thesisdeclaration}        %! Use this to declare the extent of
+                 %! the original work,
+                 %! collaboration, other published
+                                 %! material etc.it can be anything
+                                 %% allowed in LaTeX2e par-mode.
+Replace this text with a declaration of the extent of the original work,
+collaboration, other published material etc. You can use any \LaTeX\
+constructs.
+
+\end{thesisdeclaration}
+
+
+\begin{thesisabstract}               %% Use this to write your thesis
+                                     %% abstract; it can be anything
+                                     %% allowed in LaTeX2e par-mode.
+%!  \begin{singlespace}       %! uncomment this if you need single spacing
+%   \input abstract.tex       %!           don't forget the end spacing!
+                                     %! It must fit on one page.
+                                     %! single spacing and smaller
+                                     %! font size
+                                     %!  is allowed here.
+%!   \end{singlespace}
+\end{thesisabstract}
+
+\input{acronyms}
+                                  
+%%* Start arabic numbering of main text here
+\pagenumbering{arabic} %! Begins arabic numerals start from page 1.
+\setcounter{chapter}{0}
+\def\thechapter{\arabic{chapter}}
+
+
+\input{chapters/introduction}
+
+\input{chapters/neutrinophysics}
+
+\input{chapters/detectorphysics}
+
+\input{chapters/latte}
+
+\input{chapters/cellularautomaton}
+
+\input{chapters/trackfitting}
+
+\input{chapters/particleid}
+
+\input{chapters/analysis}
+
+\input{chapters/conclusion}
+
+% Bibliography stuff follows
+\bibliographystyle{unsrtnat}
+\cleardoublepage % Required to make the contents line and PDF bookmark go to the right page!
+\phantomsection % Ensure PDF bookmark is set
+\addcontentsline{toc}{chapter}{Bibliography}
+\bibliography{thesis} 
+
+\end{document}                       %% Done.
