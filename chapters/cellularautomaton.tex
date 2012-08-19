@@ -72,7 +72,7 @@ The pre- and post-processing stages are specific to the form of data used; prepr
 %% SUBSECTION: Preprocessing
 %% --------------------------------------------------
 \subsection{Preprocessing}\label{sec:cellularautomaton_preprocessing}
-\subsubsection{Charge Weighting}\label{sec:cellularautomaton_charge_weighting}
+\subsubsection{Charge Weighting}\label{sec:cellularautomaton_preprocessing_charge_weighting}
 A charge weighting procedure is applied to the raw hits before further processing occurs. This procedure is described in section \ref{sec:cellularautomaton_charge_weighting}.
 
 \subsubsection{Scaling}\label{sec:cellularautomaton_scaling}
@@ -169,48 +169,6 @@ The \ac{CA} algorithm is considered to be complete at this point. Postprocessing
 The first stage involves uniquely assigning hits to tracks. The \ac{CA} makes unique assignments of cells to tracks, but since a hit can appear as an endpoint of multiple cells, it is possible that hits may appear multiple times across multiple tracks. The current strategy for unique hit assignment is to keep each hit with the longest track it is a member of, and remove it from any shorter tracks.
 
 The second stage of postprocessing merges track segments together if they are compatible with being part of the same straight line. This is necessary because the CA tends to break tracks up at any site of complexity, including the primary vertex, decay vertices and delta electron production sites. In particular for $\mu$ tracks, it is useful to stitch together these segments to produce a single longer track. The merging currently checks for comparable slopes of straight lines through the track segments as well as ensuring that the endpoints are close to each other. The merging algorithm is described in detail in section \ref{sec:cellularautomaton_merging}
-
-%% --------------------------------------------------
-%% SUBSECTION: Merging Algorithm
-%% --------------------------------------------------
-\subsection{Merging Algorithm}\label{sec:cellularautomaton_merging}
-Merging is performed using a cylindrical track road algorithm. Track candidates output from the CA with more than 100 hits are treated as key tracks for merging. A straight line in 3D is computed for each key track by the procedure below:
-
-\begin{itemize}
-	\item Determine a unit vector along the line of the track using principal components analysis and choosing the component with the largest eigenvalue. This becomes the vector $\vec{n}$ along the line of the track.
-	\item Determine a point on the line by computing the centroid coordinate of the hits corresponding to the track. This becomes the vector $\vec{p}$.
-\end{itemize}
-
-Each track is then represented by an infinite line in 3D, defined by equation \ref{eq:ca_track_3d_line} where the parameter $\lambda$ is a scalar representing distance along the line from the point $\vec{p}$ at which the point $\vec{l}$ is found.
-\begin{equation}\label{eq:ca_track_3d_line}
-\vec{l} = \vec{p} + \lambda \vec{n}
-\end{equation}
-
-The key tracks are iterated over, beginning with the longest, and hits from other (non-key) tracks are considered for merging into the key track if the distance $d$ from the hit to the line corresponding to the key track is less than some radius $r$. This defines a cylinder of radius $r$ around the key track, inside which any hits from other tracks are merged into the key track. The cylinder extends indefinitely either end of the key track; in practice this is not a problem due to the sparse nature of events resulting from neutrino interactions. Figure \ref{fig:ca_merging_cylinder} illustrates this merging process at a point where a track has been split into two pieces and a third cluster has been identified in the area.
-
-\begin{figure}
-\centering
-\subfigure[Unmerged tracks]{\label{fig:ca_merging_initial}
-	\includegraphics[width=0.35\textwidth]{chapters/cellularautomaton_images/Merging1}
-}
-\subfigure[Merged tracks]{\label{fig:ca_merging_final}
-	\includegraphics[width=0.35\textwidth]{chapters/cellularautomaton_images/Merging2}
-}
-\caption[Track road merging algorithm operating on CA output]{\label{fig:ca_merging_cylinder}The track road cylinder merging algorithm operating on the output of the \ac{CA}. \subref{fig:ca_merging_initial} shows the initial state with a key track and two smaller clusters. The cylinder drawn around the key track encloses all of cluster 2, but only two hits from cluster 1. \subref{fig:ca_merging_final} shows the resulting merged tracks; hits within the cylinder have been merged such that cluster 2 disappears altogether. Cluster 1 remains but has fewer hits than before.}
-\end{figure}
-
-The distance from a hit to the line is defined by taking two points $\vec{x}_1, \vec{x}_2$ on the line (by picking two values of $\lambda$) and, with $\vec{x}_0$ as the coordinates of a hit, the distance is given by equation \ref{eq:ca_dist_hit_line} (see also figure \ref{fig:ca_perp_dist}).
-\begin{equation}\label{eq:ca_dist_hit_line}
-d = \frac{|(\vec{x}_2 - \vec{x}_1) \times (\vec{x}_1 - \vec{x}_0)|}{|\vec{x}_2 - \vec{x}_1|}
-\end{equation}
-
-Hits which are merged into a key track are removed from their original track. Tracks which become empty as a result of this procedure are discarded. This procedure may leave some very small track fragments, which can be cleaned up by applying a range cut requiring any final state track to have some minimum number of hits. Currently, this range cut is set to 20 hits, corresponding to a straight-line track approximately $20\mm$ long, or a particle with $4.2\MeV$ kinetic energy.
-
-\begin{figure}
-\centering
-\includegraphics[width=0.5\textwidth]{chapters/cellularautomaton_images/PerpDist}
-\caption[Perpendicular distance from a point to a line in 3D]{\label{fig:ca_perp_dist}Illustration of the perpendicular distance $d$ from the point $\vec{x}_0$ to the line between the points $\vec{x}_1$ and $\vec{x}_2$ according to equation \ref{eq:ca_dist_hit_line}.}
-\end{figure}
 
 %% --------------------------------------------------
 %% SECTION: Performance of the CA on Toy MC Events
