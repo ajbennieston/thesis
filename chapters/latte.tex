@@ -33,7 +33,7 @@ Charge weighting in this way moves the position of each charge deposit closer to
 \end{figure}
 
 \section{Density-based Clustering}
-\subsection{\acs{DBSCAN}}
+\subsection{\acs{DBSCAN}}\label{sec:latte_dbscan}
 The \ac{DBSCAN} algorithm was proposed in 1996 as a means of clustering spatial data based on the varying densities of point clouds\citep{Ester1996}. The algorithm is characterised by its requirement that, for the neighbourhood $\epsilon$ around a given point in the cluster, the number of points $N$ in $\epsilon$ must exceed some threshold value $N_\mathrm{min}$. In this manner, the clustering is determined by identifying areas of high point density. Areas of low point density (i.e. any points not clustered) are identified as \emph{noise} and clustered together as such.
 
 The \ac{DBSCAN} algorithm has been applied to spatial data obtained from a \ac{LAr TPC} by the ArgoNeuT experiment\cite{Spitz2011} to identify clusters in two 2D views, which are subsequently recombined into 3D based on wire readout timing information.
@@ -43,11 +43,13 @@ The \ac{DBSCAN} algorithm has been applied to spatial data obtained from a \ac{L
 \subsection{\acs{OPTICS}}
 The \ac{OPTICS} algorithm\citep{Ankerst1999} extends \ac{DBSCAN} by performing a \emph{hierarchical clustering}; an ordering operation which is equivalent to giving the density-based clusterings associated with a broad range of values of the parameter $\epsilon$. For example, given a fixed value of $N_\mathrm{min}$, clusters obtained with a small $\epsilon$ (that is, high density clusters) are completely contained within the clusters obtained for a larger $\epsilon$ (lower density). \ac{OPTICS} exploits this relationship to provide information about the clustering on all $\epsilon$ scales, allowing clusters to be extracted from spatial data with varying densities.
 
-\section{Feature Detection}
+\section{Feature Detection}\label{sec:latte_feature_detection}
 Feature detection refers to the procedure of locating interest points within an image or event. Latte provides two-dimensional feature detection using the method described in \citep{Morgan2010}. 
 
 \section{Feature Masking}
-%TODO: Write this section!
+Latte provides a service to \emph{mask out} (remove) hits within a spherical region around a feature. The feature masking service presents a new view of the data, which does not include hits positioned less than some radius away from a central point. Each such point can be the location of a feature as determined by the feature detection algorithms of section \ref{sec:latte_feature_detection}, or in a special case the point $(0,0,0)$, referred to as \emph{origin masking}.
+
+This service is useful because it allows algorithms to run on modified views of the event data, which often produces better results. One example would be in a clustering algorithm such as DBSCAN (see \ref{sec:latte_dbscan}), where the local point density affects the clustering. Introducing a gap which corresponds to some feature such as a vertex results in a better clustering of tracks.
 
 \section{Track Merging}
 %TODO: Write this!
