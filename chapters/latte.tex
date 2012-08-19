@@ -92,7 +92,11 @@ Hits which are merged into a key track are removed from their original track. Tr
 
 
 \section{Truth Information}
-%TODO: Write this!
+When working with simulated events, it is often important to be able to access the \emph{truth information}, i.e. the information which was used to generate those events. The Latte framework provides two simulation packages. The first, \emph{PyTrackGen}, generates events consisting of one or more straight line tracks, and is designed to provide simplified representations of common event topologies. The second, \emph{Lamu}, provides a full Geant4 physics simulation, and can be seeded with events from the Genie event generator, or from manually constructed particle sources.
+
+Both kinds of simulation write the truth information corresponding to lines or particles into their output formats, and the Latte framework provides a mechanism to access this information, query it for particle properties, and even make decisions based on it.
+
+It is possible, for instance, to select only hits produced by electrons, or to obtain the true energy of the primary muon from a neutrino interaction. Such quantities are often compared against reconstructed quantities to provide a measure of the success of an algorithm.
 
 \section{Range Cuts}
 %TODO: Write this!
