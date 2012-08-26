@@ -99,7 +99,9 @@ Both kinds of simulation write the truth information corresponding to lines or p
 It is possible, for instance, to select only hits produced by electrons, or to obtain the true energy of the primary muon from a neutrino interaction. Such quantities are often compared against reconstructed quantities to provide a measure of the success of an algorithm.
 
 \section{Range Cuts}
-%TODO: Write this!
+Latte provides a mechanism to filter event objects based on the number of hits they contain. For track-like objects, this corresponds approximately to the range of the particle. Range cuts can be applied based on the truth information (e.g. to select events where a proton track travelled more than some minimum reconstructible distance), or on reconstructed track objects (e.g. to cut out short track stubs, or to identify long tracks which may correspond to muons).
+
+The range cuts are provided as either filters or wrappers. The filters allow for the selection of events based on truth information, while the wrappers present a reduced view of the event, in which the short tracks are not visible.
 
 \section{Latte Control}
 Latte Control is a mechanism for applying a sequence of algorithms to a set of events. In its simplest form, it allows the user to set up a \emph{pipeline} composed of service algorithms which are run in sequence on each event stored in a {\sc Root} file.
