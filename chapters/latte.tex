@@ -44,7 +44,32 @@ The \ac{DBSCAN} algorithm has been applied to spatial data obtained from a \ac{L
 The \ac{OPTICS} algorithm\citep{Ankerst1999} extends \ac{DBSCAN} by performing a \emph{hierarchical clustering}; an ordering operation which is equivalent to giving the density-based clusterings associated with a broad range of values of the parameter $\epsilon$. For example, given a fixed value of $N_\mathrm{min}$, clusters obtained with a small $\epsilon$ (that is, high density clusters) are completely contained within the clusters obtained for a larger $\epsilon$ (lower density). \ac{OPTICS} exploits this relationship to provide information about the clustering on all $\epsilon$ scales, allowing clusters to be extracted from spatial data with varying densities.
 
 \section{Feature Detection}\label{sec:latte_feature_detection}
-Feature detection refers to the procedure of locating interest points within an image or event. Latte provides two-dimensional feature detection using the method described in \citep{Morgan2010}. 
+Feature detection refers to the procedure of locating interest points within an image or event. Latte provides two-dimensional feature detection using the method described in \citep{Morgan2010}. Three-dimensional feature detection is currently based on running the two-dimensional feature finder in multiple projections and combining the results.
+
+\subsection{Two-dimensional Feature Detection}
+Two-dimensional feature detection uses the \emph{structure tensor} $S$, which is a second-moment matrix defined in terms of the intensity variation of a two-dimensional image:
+\begin{equation}\label{eqn:structure_tensor}
+    S(x,y) = g(\sigma_s) \ast \left[ \begin{array}{cc} I_x(x,y)^2 & I_x(x,y)I_y(x,y) \\ I_x(x,y)I_y(x,y) & I_y(x,y)^2 \end{array} \right]
+\end{equation}
+where $\ast$ represents convolution, and $I_x(x,y)$ is the partial derivative of the image with respect to $x$ (similarly for $I_y(x,y)$). A Gaussian window $g(\sigma_s)$ is defined as
+\begin{equation}\label{eqn:feature_det_gaussian_window}
+    g(\sigma) = exp\left( \frac{-(x^2 + y^2)}{2\sigma^2} \right)
+\end{equation}
+and is used for averaging, as well as noise-reduction.
+
+The eigenvectors and eigenvalues of $S(x,y)$ describe \emph{local} intensity variations within the image. Functions of $S(x,y)$ can therefore be constructed such that their local maxima correspond to features of a desired type. For example, the 'V'-like corner of a particle decay vertex will have large intensity changes in all directions. Since it is this type of feature that we are interested in, the F\"orstner-Noble response function $R_N(x,y)$ is used within Latte:
+\begin{equation}\label{eqn:forstner-noble}
+    R_N(x,y) = \left\{ \begin{array}{cl} \frac{\det S}{\tr S} & \mathrm{if~} \tr S > 0 \\ 0 & \mathrm{if~} \tr S = 0 \end{array} \right.
+\end{equation}
+
+This function has local maxima at corner-like features, so the coordinates of these structures correspond to interest points such as decay vertices, interaction points and track endpoints; an example is shown in figure \ref{fig:feature-response}. Note that the feature detection service is used to provide the rough spatial location of a feature that warrants further investigation, and should not be used for e.g. vertex fitting.
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{chapters/latte_images/feature-response}
+    \caption{\label{fig:feature-response}A typical neutrino event and the feature response as determined by the feature detection algorithm. The initial vertex and track endpoints are clearly visible, as well as several sites along the right (muon) track where delta electrons were produced.}
+\end{figure}
+
+\subsection{Three-dimensional Feature Detection}
 
 \section{Feature Masking}
 Latte provides a service to \emph{mask out} (remove) hits within a spherical region around a feature. The feature masking service presents a new view of the data, which does not include hits positioned less than some radius away from a central point. Each such point can be the location of a feature as determined by the feature detection algorithms of section \ref{sec:latte_feature_detection}, or in a special case the point $(0,0,0)$, referred to as \emph{origin masking}.
