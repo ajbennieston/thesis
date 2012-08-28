@@ -70,6 +70,26 @@ This function has local maxima at corner-like features, so the coordinates of th
 \end{figure}
 
 \subsection{Three-dimensional Feature Detection}
+Three-dimensional feature detection follows the algorithm outlined below, which uses multiple passes over two-dimensional projections.
+\begin{enumerate}
+    \item Run 2D feature detection in each of $xy$, $xz$ and $yz$ projections.
+    \item Match interest points from each 2D run by requiring a shared coordinate (within some tolerance), e.g. features at $(1,0)$ in $xy$ and $(1,3)$ in $xz$ would be matched.
+    \item For each such matching, make a new 3D feature using the information from both points, e.g. for the features above, create a feature at $(1,0,3)$ in $xyz$.
+    \item Merge together features in 3D which are within some radial tolerance of each other. This deals with the potential duplicates which may be produced when a feature is visible in all three projections.
+    \item Return a list of 3D features which survive the previous steps.
+\end{enumerate}
+
+Three-dimensional feature detection implemented in this way is imperfect, since we throw away information from one dimension in each projection, only to recombine the results later. A better approach would be to extend the mathematical definition of the structure tensor, $S$, to 3D (which is trivial) and define a new response function $R_N$ which yields a scalar having large values for corner-like features, and small values elsewhere (which is not trivial).
+
+Despite this limitation, the three-dimensional feature response performs remarkably well. Figure \ref{fig:feature_3d} shows three performance metrics for feature detection applied to 1000 CCQE neutrino interactions resulting in a $\mu^{-} + p$ final state. The total number of features found in an event is typically small, with between zero and two features found in most events. For the features found, the displacement from the true interaction vertex is typically small, though this has a long tail all the way to $1000\mm$, which is the radius of the detector used in this simulation. Finally, the normalised response at the true vertex is typically close to $1$, where normalised response is the response at a given feature, divided by the largest response value in the entire event. These characteristics apply even though delta electrons are a large source of noise, having typically high feature response values and appearing throughout the spatial extent of the event.
+
+\begin{figure}
+\centering
+\subfigure[ ]{\includegraphics[width=0.35\textwidth,angle=-90]{chapters/latte_images/feature-counts-qel}\label{fig:feature_3d_counts}}
+\subfigure[ ]{\includegraphics[width=0.35\textwidth,angle=-90]{chapters/latte_images/feature-displacement-qel}\label{fig:feature_3d_displacement}}
+\subfigure[ ]{\includegraphics[width=0.35\textwidth,angle=-90]{chapters/latte_images/vertex-feature-response-qel}\label{fig:feature_3d_vertex_response}}
+\caption[Performance of the feature detection service in 3D]{\label{fig:feature_3d}Performance of three-dimensional feature detection applied to CCQE events. \subref{fig:feature_3d_counts} A small number of features are found in most events. \subref{fig:feature_3d_displacement} The distance between a feature found and the true event vertex is typically small (i.e. features are reasonably well located) but may be anywhere up to the radius of the detector, due to the noise introduced by delta electrons. \subref{fig:feature_3d_vertex_response} The vertex itself typically provides the strongest response of all features in the event.}
+\end{figure}
 
 \section{Feature Masking}
 Latte provides a service to \emph{mask out} (remove) hits within a spherical region around a feature. The feature masking service presents a new view of the data, which does not include hits positioned less than some radius away from a central point. Each such point can be the location of a feature as determined by the feature detection algorithms of section \ref{sec:latte_feature_detection}, or in a special case the point $(0,0,0)$, referred to as \emph{origin masking}.
