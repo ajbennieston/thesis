@@ -1,10 +1,10 @@
 \chapter{The Latte Framework}
 
 \section{Introduction}
-The Latte framework forms the basis for almost all of the reconstruction algorithms described in this thesis. It acts as both a set of utilities and a unifying central control mechanism. This chapter discusses several of the algorithms provided, ending with an overview of the control structures of the Latte framework itself. Some components of Latte form a significant contribution to the work in this thesis, and are discussed separately in subsequent chapters.
+The Latte framework forms the software basis for almost all of the reconstruction algorithms described in this thesis. It acts as both a set of utilities and a unifying central control mechanism. This chapter discusses several of the algorithms provided, ending with an overview of the control structures of the Latte framework itself. Some components of Latte form a significant contribution to the work in this thesis, and are discussed separately in subsequent chapters.
 
 \section{Nearest Neighbour Search using \acs{KDTree}}\label{sec:latte_kdtree}
-The \ac{KDTree} is a data structure for partitioning a $k$-dimensional space by representing the points as nodes in a binary tree. Using a \ac{KDTree} it is possible to perform nearest-neighbour search in $O(\log N)$ time\citep{Bentley1975} (though the tree itself is built in $O(kN\log N)$ time), compared with the brute-force search complexity of $O(N^2)$. An introductory tutorial on \aclp{KDTree} appears in \citep{Moore1991}. The \ac{KDTree} is not a clustering algorithm, but its rapid near-neighbour search forms a central part of several clustering algorithms, as well as being used for the charge weighting (see chapter \ref{sec:cellularautomaton_charge_weighting}) and cell generation (\ref{sec:cellularautomaton_cell_generation}) stages of the \acl{CA} track reconstruction procedure.
+The \ac{KDTree} is a data structure for partitioning a $k$-dimensional space by representing the points as nodes in a binary tree. Using a \ac{KDTree} it is possible to perform nearest-neighbour search in $O(\log N)$ time\citep{Bentley1975},\footnote{The KDTree itself is built in $O(kN\log N)$ time.} compared with the brute-force search complexity of $O(N^2)$. An introductory tutorial on \aclp{KDTree} appears in \citep{Moore1991}. The \ac{KDTree} is not a clustering algorithm, but its rapid near-neighbour search forms a central part of several clustering algorithms, as well as being used for charge weighting (see chapter \ref{sec:cellularautomaton_charge_weighting}) and the cell generation (chapter \ref{sec:cellularautomaton_cell_generation}) stages of the \acl{CA} track reconstruction procedure.
 
 The implementation currently used is that of the \emph{SciPy}\citep{SciPy} library of Python code for scientific computing.
 
@@ -17,7 +17,7 @@ Data from a \ac{LAr TPC} is assumed to be in the form of $(x, y, z)$ voxels with
 
 The neighbouring hits are discovered using the \ac{KDTree} algorithm described in section \ref{sec:latte_kdtree}.
 
-Charge weighting in this way moves the position of each charge deposit closer to the local charge cloud, bringing track-like charge deposits closer to a straight line (see figure \ref{fig:ca_charge_weighting}). In each case the unweighted positions of neighbours are used to compute the weighted position of a central charge deposit, resulting in a stable, deterministic output.
+Charge weighting in this way moves the position of each charge deposit closer to the local charge cloud, bringing track-like charge deposits closer to a straight line (see figure \ref{fig:ca_charge_weighting}). For each point, the sum is taken over the unweighted positions of neighbours and a new dataset is generated, containing the weighted positions. This results in a stable, deterministic output.
 
 \begin{figure}
 \centering
@@ -34,11 +34,11 @@ Charge weighting in this way moves the position of each charge deposit closer to
 
 \section{Density-based Clustering}
 \subsection{\acs{DBSCAN}}\label{sec:latte_dbscan}
-The \ac{DBSCAN} algorithm was proposed in 1996 as a means of clustering spatial data based on the varying densities of point clouds\citep{Ester1996}. The algorithm is characterised by its requirement that, for the neighbourhood $\epsilon$ around a given point in the cluster, the number of points $N$ in $\epsilon$ must exceed some threshold value $N_\mathrm{min}$. In this manner, the clustering is determined by identifying areas of high point density. Areas of low point density (i.e. any points not clustered) are identified as \emph{noise} and clustered together as such.
+The \ac{DBSCAN} algorithm was proposed in 1996 as a means for clustering spatial data based on the varying densities of point clouds\citep{Ester1996}. The algorithm is characterised by its requirement that, for the neighbourhood $\epsilon$ around a given point in the cluster, the number of points $N$ in $\epsilon$ must exceed some threshold value $N_\mathrm{min}$. In this manner, the clustering is determined by identifying areas of high point density. Areas of low point density (i.e. any points not clustered) are identified as \emph{noise} and clustered together as such.
 
 The \ac{DBSCAN} algorithm has been applied to spatial data obtained from a \ac{LAr TPC} by the ArgoNeuT experiment\cite{Spitz2011} to identify clusters in two 2D views, which are subsequently recombined into 3D based on wire readout timing information.
 
-\ac{DBSCAN} has two configurable parameters, $\epsilon$, the radius around a given point within which neighbours must lie, and $N_\mathrm{min}$, the minimum number of those neighbours for a point to be considered part of a dense cluster. While these parameters can be optimised, they remain global, and \ac{DBSCAN} will not typically identify regions of changing density and cluster accordingly. This tends to result in a \ac{DBSCAN} clustering which wraps around the vertex of charged-current neutrino events.
+\ac{DBSCAN} has two configurable parameters, $\epsilon$, the radius around a given point within which neighbours must lie, and $N_\mathrm{min}$, the minimum number of those neighbours for a point to be considered part of a dense cluster. While these parameters can be optimised, they remain global, and \ac{DBSCAN} will not typically identify regions of changing density and cluster accordingly. This tends to result in a \ac{DBSCAN} clustering which wraps around the vertex of charged-current neutrino events (for example).
 
 \subsection{\acs{OPTICS}}
 The \ac{OPTICS} algorithm\citep{Ankerst1999} extends \ac{DBSCAN} by performing a \emph{hierarchical clustering}; an ordering operation which is equivalent to giving the density-based clusterings associated with a broad range of values of the parameter $\epsilon$. For example, given a fixed value of $N_\mathrm{min}$, clusters obtained with a small $\epsilon$ (that is, high density clusters) are completely contained within the clusters obtained for a larger $\epsilon$ (lower density). \ac{OPTICS} exploits this relationship to provide information about the clustering on all $\epsilon$ scales, allowing clusters to be extracted from spatial data with varying densities.
@@ -47,7 +47,7 @@ The \ac{OPTICS} algorithm\citep{Ankerst1999} extends \ac{DBSCAN} by performing a
 Feature detection refers to the procedure of locating interest points within an image or event. Latte provides two-dimensional feature detection using the method described in \citep{Morgan2010}. Three-dimensional feature detection is currently based on running the two-dimensional feature finder in multiple projections and combining the results.
 
 \subsection{Two-dimensional Feature Detection}
-Two-dimensional feature detection uses the \emph{structure tensor} $S$, which is a second-moment matrix defined in terms of the intensity variation of a two-dimensional image:
+Two-dimensional feature detection uses the \emph{structure tensor} $S$, which is a second-moment matrix defined in terms of the intensity variation of a two-dimensional image:\citep{Morgan2010}
 \begin{equation}\label{eqn:structure_tensor}
     S(x,y) = g(\sigma_s) \ast \left[ \begin{array}{cc} I_x(x,y)^2 & I_x(x,y)I_y(x,y) \\ I_x(x,y)I_y(x,y) & I_y(x,y)^2 \end{array} \right]
 \end{equation}
@@ -94,13 +94,13 @@ Despite this limitation, the three-dimensional feature response performs remarka
 \section{Feature Masking}
 Latte provides a service to \emph{mask out} (remove) hits within a spherical region around a feature. The feature masking service presents a new view of the data, which does not include hits positioned less than some radius away from a central point. Each such point can be the location of a feature as determined by the feature detection algorithms of section \ref{sec:latte_feature_detection}, or in a special case the point $(0,0,0)$, referred to as \emph{origin masking}.
 
-This service is useful because it allows algorithms to run on modified views of the event data, which often produces better results. One example would be in a clustering algorithm such as DBSCAN (see \ref{sec:latte_dbscan}), where the local point density affects the clustering. Introducing a gap which corresponds to some feature such as a vertex results in a better clustering of tracks.
+This service is useful because it allows algorithms to run on modified views of the event data, which often produces better results. One example would be in a clustering algorithm such as DBSCAN (see \ref{sec:latte_dbscan}), where the local point density affects the clustering. In this case, introducing a gap which corresponds to a feature such as a vertex results in a better clustering of tracks.
 
 \section{Track Merging}\label{sec:cellularautomaton_merging}
-Merging is performed using a cylindrical track road algorithm. Track candidates output from the CA with more than 100 hits are treated as key tracks for merging. A straight line in 3D is computed for each key track by the procedure below:
+Merging is performed using a cylindrical track road algorithm. Track candidates containing more than 100 hits are treated as key tracks for merging. A straight line in 3D is computed for each key track by the procedure below:
 
 \begin{itemize}
-	\item Determine a unit vector along the line of the track using principal components analysis and choosing the component with the largest eigenvalue. This becomes the vector $\vec{n}$ along the line of the track.
+	\item Determine a unit vector along the line of the track by using principal components analysis and choosing the component with the largest eigenvalue. This becomes the vector $\vec{n}$ along the line of the track.
 	\item Determine a point on the line by computing the centroid coordinate of the hits corresponding to the track. This becomes the vector $\vec{p}$.
 \end{itemize}
 
@@ -127,7 +127,7 @@ The distance from a hit to the line is defined by taking two points $\vec{x}_1, 
 d = \frac{|(\vec{x}_2 - \vec{x}_1) \times (\vec{x}_1 - \vec{x}_0)|}{|\vec{x}_2 - \vec{x}_1|}
 \end{equation}
 
-Hits which are merged into a key track are removed from their original track. Tracks which become empty as a result of this procedure are discarded. This procedure may leave some very small track fragments, which can be cleaned up by applying a range cut requiring any final state track to have some minimum number of hits. Currently, this range cut is set to 20 hits, corresponding to a straight-line track approximately $20\mm$ long, or a particle with $4.2\MeV$ kinetic energy.
+Hits which are merged into a key track are removed from their original track. Tracks which become empty as a result of this procedure are discarded. This procedure may leave some very small track fragments, which can be cleaned up by applying a range cut requiring any final state track to have some minimum number of hits. Currently, this range cut is set at 20 hits, corresponding to a straight-line track approximately $20\mm$ long, or a particle with $4.2\MeV$ kinetic energy.
 
 \begin{figure}
 \centering
@@ -146,15 +146,15 @@ It is possible, for instance, to select only hits produced by electrons, or to o
 \section{Range Cuts}
 Latte provides a mechanism to filter event objects based on the number of hits they contain. For track-like objects, this corresponds approximately to the range of the particle. Range cuts can be applied based on the truth information (e.g. to select events where a proton track travelled more than some minimum reconstructible distance), or on reconstructed track objects (e.g. to cut out short track stubs, or to identify long tracks which may correspond to muons).
 
-The range cuts are provided as either filters or wrappers. The filters allow for the selection of events based on truth information, while the wrappers present a reduced view of the event, in which the short tracks are not visible.
+The range cuts are provided as either filters or wrappers. The filters allow for the selection of events based on track ranges recorded in truth information, while the wrappers present a reduced view of the event, in which the short tracks are not visible.
 
 \section{Latte Control}
 Latte Control is a mechanism for applying a sequence of algorithms to a set of events. In its simplest form, it allows the user to set up a \emph{pipeline} composed of service algorithms which are run in sequence on each event stored in a {\sc Root} file.
 
 \subsection{Services \& Event Wrappers}
-Algorithms made available in the Latte framework can be used with Latte Control in one of two ways. For general purpose reconstruction algorithms, Latte Control provides a corresponding \emph{Service}, which accepts an event object and performs some task. For example, the \emph{Merging} service provides an interface to the track merging algorithms provided in Latte and, when called, runs them on the active track selection. Services usually provide algorithms which are processor-intensive and add new information to the event, for example the allocation of hits to clusters, or the merging of multiple clusters based on certain criteria. Services typically augment an event with the additional information they are able to provide.
+Algorithms made available in the Latte framework can be used with Latte Control in one of two ways. For general purpose reconstruction algorithms, Latte Control provides a corresponding \emph{Service}, which accepts an event object and performs some task. For example, the \emph{Merging} service provides an interface to the track merging algorithms provided in Latte and, when called, runs them on the active track selection. Services usually provide algorithms which are processor-intensive and add new information to the event, for example the allocation of hits to clusters, or the merging of multiple clusters based on certain criteria. Services typically augment an event object with the additional information they are able to provide.
 
-In contrast, there are many cases where the goal of an algorithm is to present a different \emph{view} of the same data. One such example is the charge weighting algorithm, which shifts the position of each hit. Such algorithms are typically brought into the Latte Control framework as \emph{event wrappers}, which intercept attempts to access certain data which are already associated with an event, and present some modified version of that data. In this way, the original data is preserved, and can be retrieved by simply \emph{unwrapping} the event. Each event wrapper provides a \emph{wrapping service} which is used to apply the wrapper at some arbitrary point.
+In contrast, there are many cases where the goal of an algorithm is to present a different \emph{view} of the same data. One such example is the charge weighting algorithm, which shifts the position of each hit. Such algorithms are typically brought into the Latte Control framework as \emph{event wrappers}, which intercept attempts to access certain data that are already associated with an event, and present a modified version of that data. In this way, the original data is preserved, and can be retrieved by simply \emph{unwrapping} the event. Each event wrapper provides a \emph{wrapping service} which is used to apply the wrapper at an arbitrary point in the pipeline.
 
 \subsection{Pipelines}
 Each event is processed by a \emph{pipeline}, which is simply a sequence of service objects that are called in turn. Some services perform complex tasks such as clustering, while others wrap or unwrap an event, thus changing the views of data available for subsequent services. As events propagate through the pipeline, reconstructed information is added to them by the appropriate services, and may be written to disk (for example) at various points.
