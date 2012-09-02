@@ -17,7 +17,7 @@ The track system is described by the linear equation:
 Here, $F_{k-1}$ is a matrix defining the propagation of the state vector from plane $k-1$ to plane $k$, $\vec{w}_{k-1}$ is the noise associated with this propagation (which is random, in liquid Argon) and acts to smear the state vector, $\vec{x}_{k-1}$ is the filtered state vector in plane $k-1$, and $\vec{x}_k^{-}$ is the predicted state vector in plane $k$.
 
 The state vector is not usually observed directly; instead, quantities such as the scattering angle are observed, and these are related to quantities in the state vector (such as the particle momentum) through a transformation matrix:
-\begin{equation}\label{eqn:kalman_measurement_vec}
+\begin{equation}\label{eqn:kalman_measurement_equation}
     \vec{m}_k = H_k \vec{x}_k + \epsilon_k
 \end{equation}
 where $H_k$ is a matrix transforming a measurement vector $\vec{m}_k$ into a state vector $\vec{x}_k$, and $\vec{\epsilon}_k$ represents measurement noise (errors on the measurements).
@@ -26,23 +26,40 @@ The process noise $\vec{w}_k$ and the measurement noise $\vec{\epsilon}_k$ are t
 
 The Kalman filter proceeds through the following three steps, repeated for each new plane $k$ and its corresponding measurement $\vec{m}_k$.
 
+\vspace{1em}\hrule\vspace{1em}
 \begin{description}
-    \item[Prediction:] Given the state vector $\vec{x}_{k-1}$ in plane $k-1$, the prediction step of the Kalman filter estimates the state vector in a future plane $k$, in the absence of noise. The state $\vec{x}_k^{-}$ is the predicted state at plane $k$, using the information contained in all of the state vectors up to $k-1$.
+    \item[1. Prediction:] Given the state vector $\vec{x}_{k-1}$ in plane $k-1$, the prediction step of the Kalman filter estimates the state vector in a future plane $k$, in the absence of noise. The state $\vec{x}_k^{-}$ is the predicted state at plane $k$, using the information contained in all of the state vectors up to $k-1$.
     \begin{equation}\label{eqn:kalman_prediction_step}
         \vec{x}_k^{-} = F_{k-1} \vec{x}_{k-1}
     \end{equation}
 
-    \item[Filtering:] Given a predicted state vector $\vec{x}_k^{-}$, determine the present state $\vec{x}_k$ by taking into account the measurements of all previous planes (via the predicted state) and the current plane (via the measurement $\vec{m}_k$). Since the previous measurements are included via their contribution to the state vector, the Kalman filter automatically includes correlations between measurements.
+    \item[2. Filtering:] Given a predicted state vector $\vec{x}_k^{-}$ (or a suitable initial state), determine the present state $\vec{x}_k$ by taking into account the measurements of all previous planes (via the predicted state) and the current plane (via the measurement $\vec{m}_k$). Since the previous measurements are included via their contribution to the state vector, the Kalman filter automatically includes correlations between measurements.
     \begin{equation}\label{eqn:kalman_filtering_step}
         \vec{x}_k = \vec{x}_k^{-} + K_k \left(\vec{m}_k - H_k\vec{x}_k^{-} \right)
     \end{equation}
     where $K_k$ is the Kalman gain matrix, and is related to the covariance of the state vector and the measurement noise.
 
-    \item[Smoothing:] When the filter is applied to plane $k+1$, a smoothing step can be used to improve the estimate of the state at plane $k$, taking into account all measurements up to and including $k+1$.
+    \item[3. Smoothing:] When the filter is applied to plane $k+1$, a smoothing step can be used to improve the estimate of the state at plane $k$, taking into account all measurements up to and including $k+1$.
     \begin{equation}
         \vec{x}_k^{n} = \vec{x}_k + A_k \left(\vec{x}_{k+1}^n - \vec{x}_{k+1}^{-}\right)
     \end{equation}
     where $A_k$ is a smoothing gain matrix and $\vec{x}_k^n$ is the filtered state vector after smoothing, for plane $k$.
 \end{description}
+\vspace{1em}\hrule\vspace{1em}
 
+For particles moving in a non-magnetised detector, the trajectory is split into small track segments, each fitted to a straight line. The state vector $\vec{x}_k$ contains the inverse momentum, coordinates, and track slopes:
+\begin{equation}\label{eqn:kalman_state_vector}
+    \vec{x}_k = \left( \begin{array}{c} \frac{1}{p} \\ x \\ y \\ \frac{dx}{dz} \\ \frac{dy}{dz} \end{array} \right)
+\end{equation}
 
+The transportation matrix $F_k$ provides a straight line extrapolation, with no changes to the track parameters. The energy deposited in a track segment (which can be determined from the charge collected) is subtracted from the momentum estimate in plane $k-1$ to update the momentum estimate in the state vector for plane $k$.
+
+\begin{equation}\label{eqn:kalman_transportation_matrix}
+    F_k = \left( \begin{array}{ccccc}
+    \frac{1}{1-E_{\mathrm{dep}}/p}  &   0   &   0   &   0       &   0       \\
+    0                               &   1   &   0   & \Delta z  &   0       \\
+    0                               &   0   &   1   &   0       & \Delta z  \\
+    0                               &   0   &   0   &   1       &   0       \\
+    0                               &   0   &   0   &   0       &   1
+    \end{array} \right)
+\end{equation}
