@@ -63,3 +63,20 @@ The transportation matrix $F_k$ provides a straight line extrapolation, with no 
     0                               &   0   &   0   &   0       &   1
     \end{array} \right)
 \end{equation}
+
+The measurement vector includes the coordinates and slopes, but not the inverse momentum. Instead, the angle $\theta_0$ between adjacent track segments at the plane $k$ is used. Equation \eqref{eqn:kalman_theta_p_relationship} relates this scattering angle to the momentum\citep{Eidelman2004}.
+\begin{equation}\label{eqn:kalman_theta_p_relationship}
+    \theta_0^{\mathrm{rms}} = \frac{13.6\MeV}{\beta c p} z \sqrt{\frac{l}{X_0}} \left(1 + 0.038\ln\left[\frac{l}{X_0}\right]\right)
+\end{equation}
+where $\beta$ is the velocity of the particle, $p$ is its momentum and $z$ is the charge, $X_0$ is the radiation length and $l$ the track segment length. The measurement vector $\vec{m}_k$ is then
+\begin{equation}\label{eqn:kalman_measurement_vector}
+    \vec{m}_k = \left( \begin{array}{c} \theta_0 \\ x \\ y \\ \frac{dx}{dz} \\ \frac{dy}{dz} \end{array} \right)
+\end{equation}
+
+The matrix $H_k$, which relates the measurement and state vectors, is given by:
+\begin{equation}\label{eqn:kalman_measurement_matrix}
+    H_k = \diag \left( C, 1, 1, 1, 1 \right)
+\end{equation}
+where $C$ is the constant multiplying $\displaystyle \frac{1}{p}$ in equation \eqref{eqn:kalman_theta_p_relationship}.
+
+Finally, the covariance matrices $Q_k$ (for the system covariance) and $V_k$ (for the measurement covariance) must be taken into account. The Icarus experiment use system covariance matrices from \citep{Wolin1993}, where the covariances for multiple scattering are carefully derived, while the measurements are assumed to be uncorrelated, and the matrix $V$ is diagonal, with each component representing the measurement error.
