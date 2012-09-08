@@ -353,4 +353,16 @@ In principle, the task of reconstruction is more challenging for these events du
     \caption[Number of reconstructed tracks in CC$\pi$ events]{\label{fig:ca-ccpi-trackcounts}Distribution of reconstructed track counts for charged current $\nu_\mu$ interactions resulting in $\mu + p + \pi^+$ final states, including hits from secondary particles. Events with both proton and pion tracks containing more than 20 hits each were processed, and any trajectory of more than 20 hits was included in the input data. The expectation is to reconstruct at least three tracks, typically more. 891 events passed the range cut, of which approximately $3\%$ were reconstructed with fewer than three tracks.}
 \end{figure}
 
+\begin{figure}
+    \centering
+    \includegraphics[angle=-90,width=0.8\textwidth]{chapters/cellularautomaton_images/ccpi-efficiency}
+    \caption[Hit efficiency for CC$\pi$ events reconstructed with a CA]{\label{fig:ca-ccpi-efficiency}The hit efficiency (number of hits from the input that remain in an output cluster) for the CA operating on $\nu_\mu$ charged current interactions with a $\mu + p + \pi^+$ final state. The efficiency is high for all track lengths, but exhibits the same decline with increasing track length as found in the CCQE reconstruction.}
+\end{figure}
 
+\begin{figure}
+    \centering
+    \includegraphics[angle=-90,width=0.8\textwidth]{chapters/cellularautomaton_images/ccpi-purity}
+    \caption[Track purity for CC$\pi$ events reconstructed with a CA]{\label{fig:ca-ccpi-purity}The track purity (fraction of hits within a cluster that originate from the same truth track) for the CA operating on $\nu_\mu$ charged current interactions with a $\mu + p + \pi^+$ final state. Short tracks exhibit low purity here, most likely because the addition of a final state $\pi^+$ means that the region around the neutrino interaction vertex is more densely populated than in the CCQE case. High purity is regained for longer tracks, i.e. away from the vertex along the $\mu$ track.}
+\end{figure}
+
+The hit efficiency (figure \ref{fig:ca-ccpi-efficiency}) for reconstruction of $\mu + p + \pi^+$ final states is high, but has the same characteristic tail-off with increasing track length. This reinforces the reasoning that the tail-off is due to large scattering events in the muon tracks as the particles deposit energy and slow down. The purity (figure \ref{fig:ca-ccpi-purity}) is lower than the CCQE case for short tracks, but this is expected because the region around the neutrino interaction vertex is more densely populated, making it harder for the CA to correctly cluster the hits. Further out, away from these sources of noise, the CA performs as well as in the CCQE case, and the purities of long tracks in CC$\pi$ events are comparable to those from the CCQE events.
