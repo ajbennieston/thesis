@@ -242,3 +242,78 @@ After imposing a range cut of 20 hits (corresponding roughly to $20\mm$ or $4.2\
 %% SUBSECTION: Performance of the CA on Genie MC Events
 %% --------------------------------------------------
 \section{Performance of the \acl{CA} on Genie Monte Carlo Events}
+The data for this section consists of neutrino events generated using Genie and tracked through a detector using Geant4, as described in chapters \ref{sec:genie} and \ref{sec:lamu} respectively.
+
+\subsection{CCQE $\nu_\mu$}
+The Genie event generator was used to model the interactions of $0.77\GeV$ muon neutrinos on Argon nuclei. A sample was obtained of 1000 charged current interactions resulting in $\mu + p$ (only) final states. The resulting events were tracked through a liquid Argon TPC using Geant4 and the voxel data stored for analysis. Interactions of this type are of particular interest because they account for approximately 66\% of the interaction cross section at low energy and the two-body final state allows an accurate estimate of the muon neutrino energy to be made from the muon kinematics alone.
+
+This data sample raises the possibility of attempting to optimise the \ac{CA} parameters for reconstructing neutrino events. Since it is a full simulation, the events will contain noise arising from delta electrons, hadronic reinteraction of the proton, muon decay and other physics processes. The truth information recorded for each event allows for the selection of a subset of this information, for example just the hits corresponding to energy deposited by the primary particles. In this way it is possible to optimise the algorithms based on more realistic data than in the toy study, but without including obviously difficult events.
+
+\subsubsection{Long Two-track Events}
+In the first instance, events were selected in which both the proton and muon contained over 200 hits (corresponding approximately to a $20\cm$ straight line) and the hits from other particles were stripped from the event prior to running the \ac{CA}. The resulting events therefore contain two long tracks and nothing else. In a small number of cases, the event topology may make it difficult for the \ac{CA} to reconstruct these events correctly, e.g. if the muon and proton were produced almost back-to-back, or if either particle undergoes a large scatter along its trajectory, but for the most part these events should be reconstructed with two clusters in the \ac{CA} output.
+
+A total of 483 events out of the sample of 1000 contain muon and proton tracks with over 200 hits each. Three parameters available in the reconstruction algorithms were varied and these 483 events processed with each permutation. The parameters are the \ac{CA} track angle $\theta$ ($10\degree$, $20\degree$ and $30\degree$), the charge weighting radius $R_{w}$ ($2.0\mm$, $5.0\mm$ and $10.0\mm$) and the track merging radius $R_m$ ($10\mm$, $20\mm$ and $30\mm$). The results of this optimisation are shown in table \ref{table:ccqe-2tr-opt-results}, which lists the number of events reconstructed with one, two or three tracks against the reconstruction parameters used. The results are sorted by the number of events reconstructed with two tracks. The largest number of two-track events are returned from the algorithm when used with parameters $\theta=10.0\degree$, $R_w=5.0\mm$ and $R_m=30.0\mm$. These parameters yield 345 two-track events, corresponding to $71.4\%$ of the input sample. In addition, these parameters give a low number of one- and three-track events.
+
+\begin{table}
+\centering
+\begin{tabular}{*{6}{r}}
+$\theta$ ($\degree$) & $R_w$ ($\mm$) & $R_m$ ($\mm$) & $\phantom{000} $$N_1$  & $\phantom{000}$ $N_2$  & $\phantom{000}$ $N_3$  \\
+\hline
+\hline
+10.0  & 5.0   & 30.0  & 59   & 345  & 72 \\
+10.0  & 5.0   & 20.0  & 43   & 341  & 84 \\
+10.0  & 10.0  & 30.0  & 91   & 335  & 53 \\
+10.0  & 5.0   & 10.0  & 35   & 331  & 70 \\
+10.0  & 10.0  & 20.0  & 76   & 331  & 66 \\
+10.0  & 10.0  & 10.0  & 67   & 327  & 62 \\
+20.0  & 5.0   & 30.0  & 109  & 305  & 62 \\
+20.0  & 5.0   & 20.0  & 94   & 305  & 70 \\
+20.0  & 2.0   & 30.0  & 64   & 302  & 109 \\
+20.0  & 5.0   & 10.0  & 85   & 301  & 55 \\
+20.0  & 2.0   & 20.0  & 49   & 301  & 114 \\
+20.0  & 2.0   & 10.0  & 38   & 293  & 98 \\
+30.0  & 2.0   & 30.0  & 101  & 288  & 87 \\
+30.0  & 2.0   & 20.0  & 88   & 288  & 89 \\
+30.0  & 2.0   & 10.0  & 79   & 279  & 77 \\
+20.0  & 10.0  & 30.0  & 196  & 237  & 46 \\
+20.0  & 10.0  & 20.0  & 189  & 231  & 53 \\
+20.0  & 10.0  & 10.0  & 188  & 217  & 56 \\
+30.0  & 5.0   & 30.0  & 206  & 210  & 59 \\
+30.0  & 5.0   & 20.0  & 198  & 204  & 67 \\
+30.0  & 5.0   & 10.0  & 195  & 195  & 55 \\
+10.0  & 2.0   & 30.0  & 28   & 170  & 246 \\
+30.0  & 10.0  & 30.0  & 276  & 163  & 40 \\
+30.0  & 10.0  & 20.0  & 271  & 157  & 45 \\
+30.0  & 10.0  & 10.0  & 271  & 143  & 50 \\
+10.0  & 2.0   & 20.0  & 16   & 97   & 285 \\
+10.0  & 2.0   & 10.0  & 4    & 56   & 189 \\
+\hline
+\end{tabular}
+\caption[Optimisation of Cellular Automaton reconstruction parameters]{\label{table:ccqe-2tr-opt-results}Optimisation of reconstruction parameters in the \ac{CA} for reduced CCQE events (see text for details). Data is shown for the number of events reconstructed as containing one, two or three tracks ($N_1$, $N_2$ and $N_3$) for different combinations of the track opening angle $\theta$, the charge weighting radius $R_w$ and the track merging radius $R_m$. Entries are sorted by the number of events reconstructed with two tracks ($N_2$), largest first. Each set of parameters was used to process the same 483 events. Events with more than three reconstructed tracks are not shown.}
+\end{table}
+
+While the number of tracks found in an event is one metric of the quality of the reconstruction, it is also important to consider \emph{hit efficiencies} and \emph{track purities}.
+\begin{description}
+    \item[Hit efficiency:] A measure of how much of the original event data is retained. Hits that are present in any output cluster, divided by the number of input hits. High hit efficiency means that the algorithm is not throwing away many hits, which makes subsequent energy calculations easier. Due to the nature of the \ac{CA}, the algorithm will necessarily throw away some hits but the track structures should remain and lost hits can be retrieved with track-road style merging applied to the original data, rather than to a cluster, if required.
+    \item[Track purity:] A measure of how selective the clustering is. An output cluster will contain hits from one or more truth tracks. The track purity is the largest number of contributing hits from a single track, divided by the total number of hits. High purity means that the \ac{CA} clustered mostly hits from a single trajectory together. This is extremely important, though the purity is often diluted by hits from e.g. delta electrons produced along the length of a muon track, but clustered with it.
+\end{description}
+
+Figure \ref{fig:ca-ccqe-reduced-eff-pur-efficiency} shows the hit efficiency and figure \ref{fig:ca-ccqe-reduced-eff-pur-purity} track purity results from the analysis performed with $\theta=30\degree$, $R_w=5.0\mm$ and $R_m=30.0\mm$. The efficiency drops slightly with track length, most likely due to increased scattering as the particle that produced the track loses energy and slows down. The \ac{CA} will struggle with situations where the scattering angles exceed the track breaking angle $\theta$, and will produce many short track segments, each of which will be filtered out in subsequent stages unless they can be merged together. The track purity remains over $90\%$ for all track lengths, indicating that the \ac{CA} with these parameters is capable of differentiating extremely well between unrelated trajectories.
+
+\begin{figure}
+    \centering
+    \includegraphics[angle=-90,width=0.8\textwidth]{chapters/cellularautomaton_images/ccqe-reduced-hit-efficiency}
+    \caption[Hit efficiency for CA operating on long tracks]{\label{fig:ca-ccqe-reduced-eff-pur-efficiency}Hit efficiency for the \ac{CA} operating on long muon and proton tracks from CCQE events. The hit efficiency is high, but drops as a function of track length, indicating that the \ac{CA} is not capable of retaining all hits for long tracks, most likely due to increased scattering.}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[angle=-90,width=0.8\textwidth]{chapters/cellularautomaton_images/ccqe-reduced-cluster-purity}
+    \caption{\label{fig:ca-ccqe-reduced-eff-pur-purity}Track purity for the \ac{CA} operating on long muon and proton tracks from CCQE events. The purity is over $90\%$ for all track lengths, indicating that the \ac{CA} is capable of separating hits resulting from different particles extremely well.}
+\end{figure}
+
+\subsubsection{Full Reconstruction}
+Having attempted to optimise the parameters on a reduced dataset where two reconstructed tracks are expected, the performance of the \ac{CA} can be assessed when run against the full simulated events. Here, a much smaller range cut of 20 hits is applied. Events containing proton tracks with fewer than 20 hits are not processed, and in the remaining events all objects with fewer than 20 hits are cut out of the data before reconstruction. A 20 hit track corresponds approximately to a $20\mm$ trajectory, or an energy deposit of $4.2\MeV$, based on a minimum-ionising particle depositing $2.1\MeV \cm^{-1}$. Such values can be considered as realistic energy thresholds in any liquid Argon TPC, and the presence of tracks in the simulated data with such short range adds noise that would simply not be seen in a real detector. Following the 20 hit range requirement on protons, 878 events of the 1000 event sample survive for reconstruction. 
+
+Because of this relaxation of the initial range cuts, and because the full event data is now included, the results are expected to be poorer than those for the case presented above. In particular, the noise introduced by delta electrons will serve to pull the \ac{CA} off course as it follows long tracks, and the decay products may themselves contribute additional tracks which can be reconstructed. We should not, therefore, expect the mean number of reconstructed tracks to be two.
+
