@@ -9,7 +9,7 @@ The \ac{KDTree} is a data structure for partitioning a $k$-dimensional space by 
 The implementation currently used is that of the \emph{SciPy}\citep{SciPy} library of Python code for scientific computing.
 
 \section{Charge Weighting}\label{sec:cellularautomaton_charge_weighting}
-Data from a \ac{LAr TPC} is assumed to be in the form of $(x, y, z)$ voxels with an associated charge deposit $Q$. The voxel shape is determined entirely by the readout mechanism; a 2D readout plane determines the $xy$ resolution while the readout frequency determines the $z$ resolution as expected for a \ac{TPC}. This structure is retained in the Geant4 simulation through the use of cubic voxels with a side length of $1\mm$. In order to transform this data into a representation more closely resembling the true passage of ionising radiation through the detector, a charge weighting procedure is applied. This procedure adjusts the spatial coordinates of each charge deposit (voxel) by taking the charge-weighted average of the spatial coordinates of all hits within a sphere of some radius (default: $2\mm$) centered on that voxel:
+Data from a \ac{LAr TPC} is assumed to be in the form of $(x, y, z)$ voxels with an associated charge deposit $Q$. The voxel shape is determined entirely by the readout mechanism; a 2D readout plane determines the $xy$ resolution while the readout sampling rate determines the $z$ resolution as expected for a \ac{TPC}. This structure is retained in the Geant4 simulation through the use of cubic voxels with a side length of $1\mm$. In order to transform this data into a representation more closely resembling the true passage of ionising radiation through the detector, a charge weighting procedure is applied. This procedure adjusts the spatial coordinates of each charge deposit (voxel) by taking the charge-weighted average of the spatial coordinates of all hits within a sphere of some radius (default: $2\mm$) centered on that voxel:
 
 \begin{equation}\label{eqn:charge_weighted_avg_position}
 	\vec{x}^\prime = \frac{\displaystyle \sum_i \vec{x}_i Q_i}{\displaystyle \sum_i Q_i}
@@ -17,7 +17,7 @@ Data from a \ac{LAr TPC} is assumed to be in the form of $(x, y, z)$ voxels with
 
 The neighbouring hits are discovered using the \ac{KDTree} algorithm described in section \ref{sec:latte_kdtree}.
 
-Charge weighting in this way moves the position of each charge deposit closer to the local charge cloud, bringing track-like charge deposits closer to a straight line (see figure \ref{fig:ca_charge_weighting}). For each point, the sum is taken over the unweighted positions of neighbours and a new dataset is generated, containing the weighted positions. This results in a stable, deterministic output.
+Charge weighting\footnote{This is not, strictly speaking, the usual definition of charge weighting, in which a set of hits is reduced to a smaller set of charge-weighted hits, but more of a smoothing process to reduce the geometric effects of the readout system. Hits are retained here primarily to facilitate accessing truth information.} in this way moves the position of each charge deposit closer to the local charge cloud, bringing track-like charge deposits closer to a straight line (see figure \ref{fig:ca_charge_weighting}). For each point, the sum is taken over the unweighted positions of neighbours and a new dataset is generated, containing the weighted positions. This results in a stable, deterministic output.
 
 \begin{figure}
 \centering
@@ -127,7 +127,7 @@ The distance from a hit to the line is defined by taking two points $\vec{x}_1, 
 d = \frac{|(\vec{x}_2 - \vec{x}_1) \times (\vec{x}_1 - \vec{x}_0)|}{|\vec{x}_2 - \vec{x}_1|}
 \end{equation}
 
-Hits which are merged into a key track are removed from their original track. Tracks which become empty as a result of this procedure are discarded. This procedure may leave some very small track fragments, which can be cleaned up by applying a range cut requiring any final state track to have some minimum number of hits. Currently, this range cut is set at 20 hits, corresponding to a straight-line track approximately $20\mm$ long, or a particle with $4.2\MeV$ kinetic energy.
+Hits which are merged into a key track are removed from their original track. Tracks which become empty as a result of this procedure are discarded. This procedure may leave some very small track fragments, which can be cleaned up by applying a range cut requiring any final state track to have some minimum number of hits. Currently, this range cut is set at 20 hits, corresponding to a straight-line track approximately $20\mm$ long, or a minimum ionising particle with $4.2\MeV$ kinetic energy.\footnote{A minimum ionising particle deposits $2.1\MeV \cm^{-1}$ in liquid Argon\citep{Aprile2006}.}
 
 \begin{figure}
 \centering
@@ -149,7 +149,32 @@ Latte provides a mechanism to filter event objects based on the number of hits t
 The range cuts are provided as either filters or wrappers. The filters allow for the selection of events based on track ranges recorded in truth information, while the wrappers present a reduced view of the event, in which the short tracks are not visible.
 
 \section{Latte Control}
-Latte Control is a mechanism for applying a sequence of algorithms to a set of events. In its simplest form, it allows the user to set up a \emph{pipeline} composed of service algorithms which are run in sequence on each event stored in a {\sc Root} file.
+Latte Control is a mechanism for applying a sequence of algorithms to a set of events. In its simplest form, it allows the user to set up a \emph{pipeline} composed of service algorithms which are run in sequence on each event stored in a {\sc Root}\citep{Root} file.
+
+\subsection{Event Objects}
+A Latte \emph{Event} is essentially a Python dictionary\footnote{A set of key--value pairs. Some languages call them associative arrays, or maps.} with string keys mapped to arbitrary values. The \emph{LamuRun} file reader produces a single key called `raw', which maps to another dictionary containing keys for accessing the raw, simulated data. An \emph{Event object} in Latte Control is a fairly simple wrapper around this plain dictionary.
+
+The wrapper exists primarily to abstract the idea of an event, so that the bulk of the Latte Control framework can deal with the abstract concept of an \emph{event-like object}. An event-like object is any Python object that provides all of the methods in the \texttt{latte.control.event.Event} class. This is useful because it allows us to wrap one event object inside another, thus modifying the behaviour of the event without having to change the original.
+
+The base class, \texttt{latte.control.event.Event}, has the following functionality:
+\begin{itemize}
+\item A constructor, used internally by event loops (see chapter \ref{sec:latte-event-loops}). This is not usually called by a user of the framework.
+\item \texttt{getFilename()}, which retrieves the file from which the event was read.
+\item \texttt{getEventID()}, which returns the integer ID of the event within a file.
+\item \texttt{getCurrentHitSelection()}, which returns a list of hits.
+\item \texttt{getCurrentTracks()}, which returns a list of clusters (tracks).
+\item \texttt{getKeys()}, which returns a list of keys defined in the event dictionary.
+\item \texttt{hasKey(key)}, which returns \texttt{True} if the key exists, \texttt{False} otherwise.
+\item \texttt{setKeyValue(key, value)}, which sets the key \texttt{key} to value \texttt{value}.
+\item \texttt{addToKeyValue(key, value)}, which adds \texttt{value} to key \texttt{key}, creating it if it does not already exist.
+\item \texttt{getKeyValue(key)}, which retrieves the value associated with the \texttt{key}.
+\item \texttt{getUnderlyingEvent()}, which returns the event-like object that this object wraps (or \texttt{self} if it is the innermost layer).
+\item \texttt{hasUnderlyingEvent()}, which returns \texttt{True} if this event object wraps another, \texttt{False} otherwise.
+\end{itemize}
+
+Most of the methods above allow for access to the keys and values of the dictionary itself. A wrapper class can modify these methods, and by doing so modify the details of how the dictionary is accessed. This allows for great flexibility in defining alternative views of events, for instance, where the set of hits presented differs from the set in the real event (e.g. by application of a range cut, or selection of hits from certain particle types).
+
+In practice, the two most frequently altered methods are \texttt{getCurrentHitSelection()} and \texttt{getCurrentTracks()}. Most algorithms in Latte use these two methods to access the hits or clusters they will work on. In order to provide a modified set of hits or clusters, one simply needs to write an event wrapper to perform the necessary tasks. Event wrappers are discussed in the next section; this is the mechanism by which the range cuts and other modifying services in Latte work, without losing the original event data.
 
 \subsection{Services \& Event Wrappers}
 Algorithms made available in the Latte framework can be used with Latte Control in one of two ways. For general purpose reconstruction algorithms, Latte Control provides a corresponding \emph{Service}, which accepts an event object and performs some task. For example, the \emph{Merging} service provides an interface to the track merging algorithms provided in Latte and, when called, runs them on the active track selection. Services usually provide algorithms which are processor-intensive and add new information to the event, for example the allocation of hits to clusters, or the merging of multiple clusters based on certain criteria. Services typically augment an event object with the additional information they are able to provide.
@@ -163,6 +188,6 @@ Since a Pipeline appears (to an outside observer) as just another callable objec
 
 This flexibility means that the pipeline structure of Latte Control is capable of performing complicated analyses without needing further core support. A user can simply stick together the components they need, in the correct order, then leverage the power of Latte Control to run their analysis job over the available data.
 
-\subsection{Event Loops}
+\subsection{Event Loops}\label{sec:latte-event-loops}
 At the highest level, Latte Control provides an event loop which is capable of reading a range of events from a {\sc Root} file and passing each event in turn through a pipeline of Latte Control services. In this manner, it is possible to easily write reconstruction scripts which configure a number of services, stick them together in an arbitrary order into a pipeline, and have that pipeline applied to each event in a file. This provides a powerful mechanism for writing physics analysis scripts which make use of the Latte-provided services as well as intermediate or final \emph{analysis} services, using the data available in an event to measure physically useful quantities. Since the objects representing pipeline segments persist between events, they can also be used to build up statistics over an entire set of events. When the event loop finishes, the analysis object can be queried for the set of statistical data it has collected.
 
