@@ -238,13 +238,14 @@ After imposing a range cut of 20 hits (corresponding roughly to $20\mm$ or $4.2\
 \end{figure}
 
 
+\clearpage
 %% --------------------------------------------------
 %% SUBSECTION: Performance of the CA on Genie MC Events
 %% --------------------------------------------------
 \section{Performance of the \acl{CA} on Genie Monte Carlo Events}
-The data for this section consists of neutrino events generated using Genie and tracked through a detector using Geant4, as described in chapters \ref{sec:genie} and \ref{sec:lamu} respectively.
+The data for this section consists of neutrino events generated using Genie and tracked through a detector using Geant4, as described in chapters \ref{sec:genie} and \ref{sec:lamu} respectively. The reconstruction algorithm is applied first to charged current $\nu_\mu$ interactions producing $\mu + p$ final states (often referred to as \acl{CCQE} events), and then to charged current $\nu_\mu$ interactions producing $\mu + p + \pi^+$ final states.
 
-\subsection{CCQE $\nu_\mu$}
+\subsection{Charged Current $\nu_\mu \rightarrow \mu + p$ (CCQE)}
 The Genie event generator was used to model the interactions of $0.77\GeV$ muon neutrinos on Argon nuclei. A sample was obtained of 1000 charged current interactions resulting in $\mu + p$ (only) final states. The resulting events were tracked through a liquid Argon TPC using Geant4 and the voxel data stored for analysis. Interactions of this type are of particular interest because they account for approximately 66\% of the interaction cross section at low energy and the two-body final state allows an accurate estimate of the muon neutrino energy to be made from the muon kinematics alone.
 
 This data sample raises the possibility of attempting to optimise the \ac{CA} parameters for reconstructing neutrino events. Since it is a full simulation, the events will contain noise arising from delta electrons, hadronic reinteraction of the proton, muon decay and other physics processes. The truth information recorded for each event allows for the selection of a subset of this information, for example just the hits corresponding to energy deposited by the primary particles. In this way it is possible to optimise the algorithms based on more realistic data than in the toy study, but without including obviously difficult events.
@@ -298,7 +299,7 @@ While the number of tracks found in an event is one metric of the quality of the
     \item[Track purity:] A measure of how selective the clustering is. An output cluster will contain hits from one or more truth tracks. The track purity is the largest number of contributing hits from a single track, divided by the total number of hits. High purity means that the \ac{CA} clustered mostly hits from a single trajectory together. This is extremely important, though the purity is often diluted by hits from e.g. delta electrons produced along the length of a muon track, but clustered with it.
 \end{description}
 
-Figure \ref{fig:ca-ccqe-reduced-eff-pur-efficiency} shows the hit efficiency and figure \ref{fig:ca-ccqe-reduced-eff-pur-purity} track purity results from the analysis performed with $\theta=30\degree$, $R_w=5.0\mm$ and $R_m=30.0\mm$. The efficiency drops slightly with track length, most likely due to increased scattering as the particle that produced the track loses energy and slows down. The \ac{CA} will struggle with situations where the scattering angles exceed the track breaking angle $\theta$, and will produce many short track segments, each of which will be filtered out in subsequent stages unless they can be merged together. The track purity remains over $90\%$ for all track lengths, indicating that the \ac{CA} with these parameters is capable of differentiating extremely well between unrelated trajectories.
+Figure \ref{fig:ca-ccqe-reduced-eff-pur-efficiency} shows the hit efficiency and figure \ref{fig:ca-ccqe-reduced-eff-pur-purity} track purity results from the analysis performed with $\theta=10\degree$, $R_w=5.0\mm$ and $R_m=30.0\mm$. The efficiency drops slightly with track length, most likely due to increased scattering as the particle that produced the track loses energy and slows down. The \ac{CA} will struggle with situations where the scattering angles exceed the track breaking angle $\theta$, and will produce many short track segments, each of which will be filtered out in subsequent stages unless they can be merged together. The track purity remains over $90\%$ for all track lengths, indicating that the \ac{CA} with these parameters is capable of differentiating extremely well between unrelated trajectories.
 
 \begin{figure}
     \centering
@@ -340,3 +341,16 @@ The relatively large number of events reconstructed with just one track can be p
 \end{figure}
 
 Figure \ref{fig:ca-ccqe-full-efficiency} shows the hit efficiency (as defined above) for the full CCQE reconstruction. Here, the drop in efficiency with increasing track length is still present, though the effect is reduced; probably because the additional hits from delta electrons help to smooth out the large scattering angles sometimes present, and allow the \ac{CA} to run through them. Figure \ref{fig:ca-ccqe-full-purity} demonstrates that the \ac{CA} produces extremely pure tracks (over $90\%$ pure) even in situations where hits from delta electrons, decay products and other sources of noise are present. Since one of the main goals of clustering is to obtain collections of related hits, a high purity is very important.
+
+\subsection{Charged Current $\nu_\mu \rightarrow \mu + p + \pi^+$}
+A small fraction of low energy neutrino charged current interactions will produce a charged pion in the final state, mostly through the production and subsequent decay of nucleon resonances. These events were generated with Genie, taking all charged current interactions at the required energy of $0.77\GeV$ and selecting those with a $\mu + p + \pi^+$ (only) final state. The reconstruction algorithm parameters were identical to those applied to the \ac{CCQE} events, above, i.e. $\theta=10\degree$, $R_w=5.0\mm$ and $R_m=30.0\mm$. Once again, 1000 events were generated, and a range cut of 20 hits imposed on both the proton and pion tracks, leaving 891 events for reconstruction.
+
+In principle, the task of reconstruction is more challenging for these events due to the additional final state particle when compared to the CCQE events. In practice, the \ac{CA} handles these events with little degradation of performance. Figure \ref{fig:ca-ccpi-trackcounts} shows the distribution of number of tracks reconstructed. More tracks are found, on average, than in the CCQE events, which is to be expected since we must now consider the additional primary particle, decay products from the $\mu$ or $\pi^+$, and delta electrons or hadronic reinteraction of the proton, as before. Only 26 tracks ($3\%$) were reconstructed with fewer than three tracks. The \ac{CA} therefore successfully clusters $97\%$ of these events.
+
+\begin{figure}
+    \centering
+    \includegraphics[angle=-90,width=0.8\textwidth]{chapters/cellularautomaton_images/ccpi-trackcounts}
+    \caption[Number of reconstructed tracks in CC$\pi$ events]{\label{fig:ca-ccpi-trackcounts}Distribution of reconstructed track counts for charged current $\nu_\mu$ interactions resulting in $\mu + p + \pi^+$ final states, including hits from secondary particles. Events with both proton and pion tracks containing more than 20 hits each were processed, and any trajectory of more than 20 hits was included in the input data. The expectation is to reconstruct at least three tracks, typically more. 891 events passed the range cut, of which approximately $3\%$ were reconstructed with fewer than three tracks.}
+\end{figure}
+
+
