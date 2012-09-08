@@ -119,7 +119,7 @@ The key tracks are iterated over, beginning with the longest, and hits from othe
 \subfigure[Merged tracks]{\label{fig:ca_merging_final}
 	\includegraphics[width=0.35\textwidth]{chapters/cellularautomaton_images/Merging2}
 }
-\caption[Track road merging algorithm operating on CA output]{\label{fig:ca_merging_cylinder}The track road cylinder merging algorithm operating on the output of the \ac{CA}. \subref{fig:ca_merging_initial} shows the initial state with a key track and two smaller clusters. The cylinder drawn around the key track encloses all of cluster 2, but only two hits from cluster 1. \subref{fig:ca_merging_final} shows the resulting merged tracks; hits within the cylinder have been merged such that cluster 2 disappears altogether. Cluster 1 remains but has fewer hits than before.}
+\caption[Track road merging algorithm operating on clustered hits]{\label{fig:ca_merging_cylinder}The track road cylinder merging algorithm operating on the output of the \ac{CA}. \subref{fig:ca_merging_initial} shows the initial state with a key track and two smaller clusters. The cylinder drawn around the key track encloses all of cluster 2, but only two hits from cluster 1. \subref{fig:ca_merging_final} shows the resulting merged tracks; hits within the cylinder have been merged such that cluster 2 disappears altogether. Cluster 1 remains but has fewer hits than before.}
 \end{figure}
 
 The distance from a hit to the line is defined by taking two points $\vec{x}_1, \vec{x}_2$ on the line (by picking two values of $\lambda$) and, with $\vec{x}_0$ as the coordinates of a hit, the distance is given by equation \ref{eq:ca_dist_hit_line} (see also figure \ref{fig:ca_perp_dist}).

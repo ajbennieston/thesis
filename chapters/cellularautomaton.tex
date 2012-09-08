@@ -173,7 +173,7 @@ The second stage of postprocessing merges track segments together if they are co
 %% --------------------------------------------------
 %% SECTION: Performance of the CA on Toy MC Events
 %% --------------------------------------------------
-\section{Performance of the \acl{CA} on Toy Monte Carlo Events}
+\section{Performance of the \acl{CA} on Toy Monte Carlo Events}\label{sec:ca-toy-tracks}
 The \ac{CA} was initially tested on a set of straight line tracks from a toy \ac{MC} generator which deposits charge from straight line segments in voxels of $1\mm\times1\mm\times1\mm$. The tracks are generated such that they have lengths between $200\mm$ and $300\mm$, both tracks begin at point $(0, 0, 0)$, and the opening angle between the two tracks is fixed to some $\theta$. The events are then rotated so that the lines are distributed isotropically, but retain the fixed opening angle and start point. A thousand events were generated at each angle $\theta$ from $2\degree$ to $178\degree$ in $4\degree$ intervals.
 
 The events were first charge weighted with a radius of $6.0\mm$, then scaled with a scale size of $3.0\mm$. The resulting hits were run through the cell generation process with a default cell generation radius of $6.0\mm$, maximum radius $15.0\mm$ (in unscaled units). The \ac{CA} algorithm itself was applied with a breaking angle $\theta_\mathrm{max} = 10\degree$ and the resulting tracks were postprocessed with the track road merging algorithm with a cylinder radius of $5.0\mm$.
@@ -303,13 +303,13 @@ Figure \ref{fig:ca-ccqe-reduced-eff-pur-efficiency} shows the hit efficiency and
 \begin{figure}
     \centering
     \includegraphics[angle=-90,width=0.8\textwidth]{chapters/cellularautomaton_images/ccqe-reduced-hit-efficiency}
-    \caption[Hit efficiency for CA operating on long tracks]{\label{fig:ca-ccqe-reduced-eff-pur-efficiency}Hit efficiency for the \ac{CA} operating on long muon and proton tracks from CCQE events. The hit efficiency is high, but drops as a function of track length, indicating that the \ac{CA} is not capable of retaining all hits for long tracks, most likely due to increased scattering.}
+    \caption[Hit efficiency for CA operating on long muon and proton tracks]{\label{fig:ca-ccqe-reduced-eff-pur-efficiency}Hit efficiency for the \ac{CA} operating on long muon and proton tracks from CCQE events. The hit efficiency is high, but drops as a function of track length, indicating that the \ac{CA} is not capable of retaining all hits for long tracks, most likely due to increased scattering.}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[angle=-90,width=0.8\textwidth]{chapters/cellularautomaton_images/ccqe-reduced-cluster-purity}
-    \caption{\label{fig:ca-ccqe-reduced-eff-pur-purity}Track purity for the \ac{CA} operating on long muon and proton tracks from CCQE events. The purity is over $90\%$ for all track lengths, indicating that the \ac{CA} is capable of separating hits resulting from different particles extremely well.}
+    \caption[Track purity for CA operating on long muon and proton tracks]{\label{fig:ca-ccqe-reduced-eff-pur-purity}Track purity for the \ac{CA} operating on long muon and proton tracks from CCQE events. The purity is over $90\%$ for all track lengths, indicating that the \ac{CA} is capable of separating hits resulting from different particles extremely well.}
 \end{figure}
 
 \subsubsection{Full Reconstruction}
@@ -317,3 +317,26 @@ Having attempted to optimise the parameters on a reduced dataset where two recon
 
 Because of this relaxation of the initial range cuts, and because the full event data is now included, the results are expected to be poorer than those for the case presented above. In particular, the noise introduced by delta electrons will serve to pull the \ac{CA} off course as it follows long tracks, and the decay products may themselves contribute additional tracks which can be reconstructed. We should not, therefore, expect the mean number of reconstructed tracks to be two.
 
+Figure \ref{fig:ca-ccqe-full-trackcounts} shows the distribution of reconstructed track counts. Of the 878 events, 420 ($47.8\%$) had two reconstructed tracks, while a further 270 ($30\%$) had three reconstructed tracks and a further 86 events ($9.7\%$) had four or more reconstructed tracks. The maximum number of reconstructed tracks was six, which occurred for only three events. Given the full set of data included, these numbers are within expectation, i.e. almost $80\%$ of the events have two or three tracks, corresponding most likely to the proton, muon and either a delta or Michel electron. Those events with four or more reconstructed tracks bring the total to almost $90\%$, leaving 102 events ($11.6\%$) reconstructed with just one track.
+
+The relatively large number of events reconstructed with just one track can be put down to a number of geometric effects in the interaction topologies, including short proton tracks running along almost the same trajectory as the muon, or proton tracks at large angles to the muon. It was already demonstrated in section \ref{sec:ca-toy-tracks} that the \ac{CA} cannot cope with extremely large opening angles (greater than about $140\degree$).
+
+\begin{figure}
+    \centering
+    \includegraphics[angle=-90,width=0.8\textwidth]{chapters/cellularautomaton_images/ccqe-trackcount}
+    \caption[Number of reconstructed tracks in CCQE events]{\label{fig:ca-ccqe-full-trackcounts}Distribution of reconstructed track counts for CCQE $\nu_\mu$ interactions resulting in $\mu + p$ final states, including hits from secondary particles. Events with a proton track of more than 20 hits were processed, and any trajectory of more than 20 hits was included in the input data. The expectation is to reconstruct two or more tracks (lower numbers are better). 878 events passed the range cut, of which approximately $11\%$ fall into the one-track bin here. The reconstruction can therefore be said to be $89\%$ efficient.}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[angle=-90,width=0.8\textwidth]{chapters/cellularautomaton_images/ccqe-efficiency}
+    \caption[Hit efficiency for CCQE events reconstructed with a CA]{\label{fig:ca-ccqe-full-efficiency}The hit efficiency (number of hits from the input that remain in an output cluster) for the CA operating on CCQE $\nu_\mu$ interactions with a $\mu + p$ final state. The efficiency is high for all truth track lengths, though the reduction in efficiency towards longer tracks remains.}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[angle=-90,width=0.8\textwidth]{chapters/cellularautomaton_images/ccqe-purity}
+    \caption[Track purity for CCQE events reconstructed with a CA]{\label{fig:ca-ccqe-full-purity}The track purity (fraction of hits within a cluster that originate from the same truth track) for the CA operating on CCQE $\nu_\mu$ interactions with a $\mu + p$ final state. The purity is high for all cluster lengths.}
+\end{figure}
+
+Figure \ref{fig:ca-ccqe-full-efficiency} shows the hit efficiency (as defined above) for the full CCQE reconstruction. Here, the drop in efficiency with increasing track length is still present, though the effect is reduced; probably because the additional hits from delta electrons help to smooth out the large scattering angles sometimes present, and allow the \ac{CA} to run through them. Figure \ref{fig:ca-ccqe-full-purity} demonstrates that the \ac{CA} produces extremely pure tracks (over $90\%$ pure) even in situations where hits from delta electrons, decay products and other sources of noise are present. Since one of the main goals of clustering is to obtain collections of related hits, a high purity is very important.
