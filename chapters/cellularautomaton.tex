@@ -320,7 +320,24 @@ Because of this relaxation of the initial range cuts, and because the full event
 
 Figure \ref{fig:ca-ccqe-full-trackcounts} shows the distribution of reconstructed track counts. Of the 878 events, 420 ($47.8\%$) had two reconstructed tracks, while a further 270 ($30\%$) had three reconstructed tracks and a further 86 events ($9.7\%$) had four or more reconstructed tracks. The maximum number of reconstructed tracks was six, which occurred for only three events. Given the full set of data included, these numbers are within expectation, i.e. almost $80\%$ of the events have two or three tracks, corresponding most likely to the proton, muon and either a delta or Michel electron. Those events with four or more reconstructed tracks bring the total to almost $90\%$, leaving 102 events ($11.6\%$) reconstructed with just one track.
 
-The relatively large number of events reconstructed with just one track can be put down to a number of geometric effects in the interaction topologies, including short proton tracks running along almost the same trajectory as the muon, or proton tracks at large angles to the muon. It was already demonstrated in section \ref{sec:ca-toy-tracks} that the \ac{CA} cannot cope with extremely large opening angles (greater than about $140\degree$).
+The relatively large number of events reconstructed with just one track can be put down to a number of geometric effects in the interaction topologies, including short proton tracks running along almost the same trajectory as the muon, or proton tracks at large angles to the muon. It was already demonstrated in section \ref{sec:ca-toy-tracks} that the \ac{CA} cannot cope with extremely large opening angles (greater than about $140\degree$). Figure \ref{fig:ca-clusters-ccqe} shows the output from the CA for three events from this sample, with clusters indicated by colour.
+
+\begin{figure}
+    \centering
+    \subfigure[]{
+        \includegraphics[angle=-90,width=0.6\textwidth]{chapters/cellularautomaton_images/event_8_2tr}
+        \label{fig:ca-clusters-ccqe-2tr}
+    }
+    \subfigure[]{
+        \includegraphics[angle=-90,width=0.6\textwidth]{chapters/cellularautomaton_images/event_366_mu_decay_p_hadronic}
+        \label{fig:ca-clusters-ccqe-decay}
+    }
+    \subfigure[]{
+        \includegraphics[angle=-90,width=0.6\textwidth]{chapters/cellularautomaton_images/event_986_1tr}
+        \label{fig:ca-clusters-ccqe-1tr}
+    }
+    \caption[Clusters found by the CA in $\mu + p$ events]{\label{fig:ca-clusters-ccqe}Clusters found by the CA in $\nu_\mu$ charged current interactions resulting in $\mu + p$ final states. \subref{fig:ca-clusters-ccqe-2tr} $\mu$ (red) and proton (black) tracks correctly clustered. \subref{fig:ca-clusters-ccqe-decay} $\mu$ track (purple) and Michel electron (black), proton (red) and products of hadronic reinteraction (blue, green). \subref{fig:ca-clusters-ccqe-1tr} an event in which the $\mu$ and proton were produced with nearly identical trajectories and the CA was only able to find one track. Axes are labelled in $\mm$.}
+\end{figure}
 
 \begin{figure}
     \centering
@@ -345,7 +362,13 @@ Figure \ref{fig:ca-ccqe-full-efficiency} shows the hit efficiency (as defined ab
 \subsection{Charged Current $\nu_\mu \rightarrow \mu + p + \pi^+$}
 A small fraction of low energy neutrino charged current interactions will produce a charged pion in the final state, mostly through the production and subsequent decay of nucleon resonances. These events were generated with Genie, taking all charged current interactions at the required energy of $0.77\GeV$ and selecting those with a $\mu + p + \pi^+$ (only) final state. The reconstruction algorithm parameters were identical to those applied to the \ac{CCQE} events, above, i.e. $\theta=10\degree$, $R_w=5.0\mm$ and $R_m=30.0\mm$. Once again, 1000 events were generated, and a range cut of 20 hits imposed on both the proton and pion tracks, leaving 891 events for reconstruction.
 
-In principle, the task of reconstruction is more challenging for these events due to the additional final state particle when compared to the CCQE events. In practice, the \ac{CA} handles these events with little degradation of performance. Figure \ref{fig:ca-ccpi-trackcounts} shows the distribution of number of tracks reconstructed. More tracks are found, on average, than in the CCQE events, which is to be expected since we must now consider the additional primary particle, decay products from the $\mu$ or $\pi^+$, and delta electrons or hadronic reinteraction of the proton, as before. Only 26 tracks ($3\%$) were reconstructed with fewer than three tracks. The \ac{CA} therefore successfully clusters $97\%$ of these events.
+In principle, the task of reconstruction is more challenging for these events due to the additional final state particle when compared to the CCQE events. In practice, the \ac{CA} handles these events with little degradation of performance. Figure \ref{fig:ca-ccpi-trackcounts} shows the distribution of number of tracks reconstructed. More tracks are found, on average, than in the CCQE events, which is to be expected since we must now consider the additional primary particle, decay products from the $\mu$ or $\pi^+$, and delta electrons or hadronic reinteraction of the proton, as before. Only 26 tracks ($3\%$) were reconstructed with fewer than three tracks. The \ac{CA} therefore successfully clusters $97\%$ of these events. Figure \ref{fig:ca-clusters-ccpi} shows an example of the CA output for a $\mu + p + \pi^+$ event in which both the $\mu$ and $\pi^+$ decay.
+
+\begin{figure}
+    \centering
+    \includegraphics[angle=-90,width=0.7\textwidth]{chapters/cellularautomaton_images/ccpi_bothdecay}
+    \caption[Clusters found by the CA in a $\mu + p + \pi^+$ event]{\label{fig:ca-clusters-ccpi}Clusters found by the CA for a charged current $\nu_\mu$ interaction resulting in a $\mu + p + \pi^+$ final state. The $\mu$ and $\pi^+$ both decay within the detector volume, and the CA produces one cluster for each major particle in the event; proton (red), $\pi^+$ (green) and its decay product (purple), the $\mu$ (black) and its Michel electron (blue). Axes are labelled in $\mm$.}
+\end{figure}
 
 \begin{figure}
     \centering
@@ -366,3 +389,12 @@ In principle, the task of reconstruction is more challenging for these events du
 \end{figure}
 
 The hit efficiency (figure \ref{fig:ca-ccpi-efficiency}) for reconstruction of $\mu + p + \pi^+$ final states is high, but has the same characteristic tail-off with increasing track length. This reinforces the reasoning that the tail-off is due to large scattering events in the muon tracks as the particles deposit energy and slow down. The purity (figure \ref{fig:ca-ccpi-purity}) is lower than the CCQE case for short tracks, but this is expected because the region around the neutrino interaction vertex is more densely populated, making it harder for the CA to correctly cluster the hits. Further out, away from these sources of noise, the CA performs as well as in the CCQE case, and the purities of long tracks in CC$\pi$ events are comparable to those from the CCQE events.
+
+\section{Conclusions}
+The \ac{CA} performs three-dimensional clustering with high efficiency, resulting in clusters of high purity (typically over $90\%$). There are a number of parameters that affect the operation of the algorithm, and these must, to an extent, be tuned to the particular application; for example the parameters providing optimal results for clean straight tracks differ from those used to reconstruct noisy physics tracks. The resulting clusters typically require further processing, such as merging and track fitting, but as a tool for hit association, the CA performs well when applied to the typical \ac{LAr TPC} data with high hit densities.
+
+Most of the inefficiencies have topological causes; typically large angular deviations from straight lines, or a high density of tracks close to a vertex, both of which reduce the ability of the CA to produce a small number of pure clusters. Much of this inefficiency could be recovered by applying other algorithms, such as the feature detection algorithm of chapter \ref{sec:latte_feature_detection} to locate interaction and decay vertices, then removing hits in a small sphere around those features. This would leave simpler line-like objects for the CA to work with. Another approach might be to explicitly include the charge deposits as an additional `coordinate', linking together only those cells that form a consistent ionisation energy loss profile.
+
+The CA could be used a larger reconstruction package not only to find and cluster tracks, but also to remove track-like objects prior to shower characterisation and analysis. The identification and analysis of electromagnetic and hadronic showers is an important goal for software reconstruction of events in LAr TPCs, where it is complicated by the homogeneous nature of the detector allowing tracks and showers to develop alongside each other.
+
+In conclusion, the use of a cellular automaton to perform three-dimensional reconstruction of tracks in liquid Argon data is a useful addition to the current knowledge base surrounding \ac{LAr TPC} reconstruction, and is particularly powerful when used as part of an integrated reconstruction package, where its inefficiencies can be compensated with other algorithms.
