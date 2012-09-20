@@ -82,4 +82,49 @@ where $C$ is the constant multiplying $\displaystyle \frac{1}{p}$ in equation \e
 Finally, the covariance matrices $Q_k$ (for the system covariance) and $V_k$ (for the measurement covariance) must be taken into account. The Icarus experiment use system covariance matrices from \citep{Wolin1993}, where the covariances for multiple scattering are carefully derived, while the measurements are assumed to be uncorrelated, and the matrix $V$ is diagonal, with each component representing the measurement error.
 
 \section{The Latte Kalman Filter}
+The Latte Kalman filter follows closely the formulation used in the Icarus filter. The implementation is based on that present in the SciPy\citep{SciPy} package for scientific programming in the Python language, with a linear system corresponding to the track fitting mechanism used by Icarus.
+
+The state vector $x_k$ is:
+\begin{equation}\label{eqn:kalman_latte_state_vector}
+    x_k = \left(\begin{array}{c}
+        \frac{1}{p} \\ y \\ z \\ \frac{\Delta y}{\Delta x} \\ \frac{\Delta z}{\Delta x}
+    \end{array}\right)
+\end{equation}
+
+The measurement vector is identical to the state vector, except for the scattering angle $\theta$ in place of the inverse momentum:
+\begin{equation}\label{eqn:kalman_latte_measurement_vector}
+    x_k = \left(\begin{array}{c}
+        \theta \\ y \\ z \\ \frac{\Delta y}{\Delta x} \\ \frac{\Delta z}{\Delta x}
+    \end{array}\right)
+\end{equation}
+
+
+The process covariance matrix $Q$ is a $5\times 5$ matrix defined as:\citep{Wolin1993}
+\begin{equation}\label{eqn:kalman_process_covariance_matrix}
+    Q = \left(
+    \begin{array}{ccccc}
+
+        \left(\frac{0.01}{p}\right)^2 &                 0 &                 0 &                0 &                0 \\
+                                    0 & \Delta x^2 P_{33} & \Delta x^2 P_{34} & -\Delta x P_{33} & -\Delta x P_{34} \\
+                                    0 & \Delta x^2 P_{34} & \Delta x^2 P_{44} & -\Delta x P_{34} & -\Delta x P_{44} \\
+                                    0 & -\Delta x P_{33}  & -\Delta x P_{34}  & P_{33}           & P_{34}           \\
+                                    0 & -\Delta x P_{34}  & -\Delta x P_{44}  & P_{34}           & P_{44}           
+
+    \end{array}
+    \right)
+\end{equation}
+where $p$ is the momentum at that step, $\Delta x$ is the segment length in the $x$ direction, and
+\begin{align*}
+    P_{33} &= \theta (1 + S_y^2)(1 + S_y^2 + S_z^2) \\
+    P_{34} &= \theta S_y S_z(1 + S_y^2 + S_z^2) \\
+    P_{44} &= \theta (1 + S_z^2)(1 + S_y^2 + S_z^2)
+\end{align*}
+where $\theta$ is the scattering angle, and $\displaystyle S_y=\frac{\Delta y}{\Delta x}$ and $\displaystyle S_z = \frac{\Delta z}{\Delta x}$ are the slopes in $y$ and $z$.
+
+The measurement covariance matrix is diagonal, with components representing the measurement uncertainties on the values of $\theta$, $y$, $z$, $\displaystyle\frac{\Delta y}{\Delta x}$ and $\displaystyle\frac{\Delta z}{\Delta x}$ respectively:
+\begin{equation}\label{eqn:kalman_measurement_covariance_matrix}
+    V = \diag \left( 1\times10^{-4}, ~ 0.1, ~ 0.1, ~ 1\times10^{-3}, ~ 1\times10^{-3} \right)
+\end{equation}
+
+Tracks are split into segments of $200\mm$, with the Kalman filter applied to the points between two segments, and using the slopes of those segments to determine the scattering angle $\theta$. The $200\mm$ segment lengths are chosen to be six times the $50\mm$ radius used for a smoothing process which reduces the total number of hits in the track, replacing groups of hits with a single charge-weighted hit. The track momentum is taken from the first component of the state vector after running along the entire track.
 
