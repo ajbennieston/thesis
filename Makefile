@@ -18,6 +18,7 @@ clean:
 	rm -f thesis-reduced.pdf
 	rm -f thesis-reduced-detectorphysics.pdf
 	rm -f thesis-reduced-neutrinophysics.pdf
+	rm -f thesis-reduced-ca.pdf
 
 reduced:
 	$(LATEX)  $(REDUCEDFILE)
