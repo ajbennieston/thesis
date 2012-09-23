@@ -6,7 +6,7 @@ Track fitting is the process by which track parameters are determined from a col
 Originally devised as a noise-reduction and signal filtering technique for communications, the Kalman filter determines optimal estimates of past, present and future states of a linear system based on a series of time-ordered measurements used in conjunction with a statistical model of the system and its measurement errors. It is used extensively for both track and vertex fitting in particle physics, most often in a magnetised detector, where it separates the curvature of a particle due to the magnetic field from the noise introduced by direction changes as a result of multiple scattering.
 
 \section{The Icarus Kalman Filter}
-The Icarus\citep{Amerio2004} experiment presented a Kalman filter which makes statistical use of the distribution of multiple scattering angle $\theta$ to measure the momentum of a particle in a non-magnetised detector\citep{Ankowski2006}. The Kalman filter is used to filter out the noise introduced by limited detector resolution. The details of the Icarus algorithm are presented here as an overview of the mechanism of action of the Kalman filter, but also as the basis for the Latte kalman filter, which aims to perform the same task.
+The Icarus\citep{Amerio2004} experiment presented a Kalman filter which makes statistical use of the distribution of the multiple scattering angle $\theta$ to measure the momentum of a particle in a non-magnetised detector\citep{Ankowski2006}. The Kalman filter is used to filter out the noise introduced by limited detector resolution. The details of the Icarus algorithm are presented here as an overview of the mechanism of action of the Kalman filter, but also as the basis for the Latte kalman filter, which aims to perform the same task.
 
 The Kalman filter operates on a discrete set of states, each represented by a state vector $\vec{x}_k$. These states correspond to points on the track, and can in principle be measured anywhere along it. In practice, the track is split into segments of fixed length, and the endpoints of these segments define the set of planes at which the state vector $\vec{x}_k$ is evaluated. 
 
@@ -126,5 +126,65 @@ The measurement covariance matrix is diagonal, with components representing the 
     V = \diag \left( 1\times10^{-4}, ~ 0.1, ~ 0.1, ~ 1\times10^{-3}, ~ 1\times10^{-3} \right)
 \end{equation}
 
-Tracks are split into segments of $200\mm$, with the Kalman filter applied to the points between two segments, and using the slopes of those segments to determine the scattering angle $\theta$. The $200\mm$ segment lengths are chosen to be six times the $50\mm$ radius used for a smoothing process which reduces the total number of hits in the track, replacing groups of hits with a single charge-weighted hit. The track momentum is taken from the first component of the state vector after running along the entire track.
+Tracks are split into segments of length $L$ (in $\mm$), with the Kalman filter applied to the points between two segments, and using the slopes of those segments to determine the scattering angle $\theta$. The segment lengths are chosen to be a multiple of the radius $R$ (in $\mm$) used for a charge smoothing process which reduces the total number of hits in the track, replacing groups of hits with a single charge-weighted hit. The track momentum is taken from the first component of the state vector after running along the entire track.
 
+\section{Tuning the Kalman Filter}\label{sec:kalman-tuning}
+The majority of parameters for the Kalman Filter are fixed by either the process itself (the description of multiple scattering that relates scattering angles to momenta) or by the measurement errors. The remaining free parameters are $R$ and $L$, the charge smoothing radius and segment length, respectively.
+
+A sample of single muon events was generated using the Lamu simulation, producing 100 muons at each energy in the range $100$ to $5000\MeV$ in $100\MeV$ increments. The muon hits from these events were processed using the Kalman filter, and the resulting momentum measurements recorded. The true momentum $p$ is related to the initial kinetic energy $T$ by:\footnote{$E^2 = p^2+m^2$ and $E = T + m$, so $p^2 + m^2 = T^2 + m^2 + 2 T m$ and the result above can be obtained by a cancellation of $m^2$ followed by the square root operator. This of course assumes natural units, i.e. $c=1$.}
+\begin{equation}\label{eqn:momentum-kinetic-energy-relationship}
+p = \sqrt{T^2 + 2 T m}
+\end{equation}
+where $m$ is the mass of the muon, $105.6583715\MeV$\citep{PDG2011}.
+
+The segment length was initially chosen to be six times the charge smoothing radius, and the radius varied between $20.1\mm$ and $50.1\mm$. Figure \ref{fig:kalman-mu-momentum-charge-radius-variations} shows the resulting measurements, represented by the mean reconstructed momentum as a function of the true momentum. Smaller smoothing radii ($20.1\mm$) give smaller standard deviation in the results, especially at high momentum, while the mean values are closer to the true momentum for larger smoothing radii of $30.1\mm$ to $40.1\mm$. The distributions of residuals (defined as $p_{\mathrm{true}} - p_{\mathrm{recon}}$) are presented in figure \ref{fig:kalman-residuals} for each of the radii considered here. At momenta over about $500\MeV$, the Kalman filter underestimates the momentum when used with short ($20.1\mm$ and $30.1\mm$) segment lengths, but overestimates it for larger segment lengths. As the segment length increases, the range of momentum estimates also increases (both in the positive and negative directions). The Kalman filter in this configuration does not, therefore, provide reliable estimates of momentum.
+
+\begin{figure}
+\centering
+\includegraphics[angle=-90,width=\textwidth]{chapters/trackfitting_images/kalman-mu-momentum-reconstruction}
+\caption[Reconstructed momenta for various Kalman filter parameters]{\label{fig:kalman-mu-momentum-charge-radius-variations}The mean and standard deviation of reconstructed momenta as a function of the true momenta of single muons after application of the Kalman filter, for four values of the charge smoothing radius $R$ (and consequently the segment length $L=6R$).}
+\end{figure}
+
+\begin{figure}
+\centering
+
+\subfigure[$R=20.1\mm$]{
+    \includegraphics[width=0.5\textwidth]{chapters/trackfitting_images/r20}
+    \label{fig:kalman-residuals-20}
+}
+\subfigure[$R=30.1\mm$]{
+    \includegraphics[width=0.5\textwidth]{chapters/trackfitting_images/r30}
+    \label{fig:kalman-residuals-30}
+}
+\subfigure[$R=40.1\mm$]{
+    \includegraphics[width=0.5\textwidth]{chapters/trackfitting_images/r40}
+    \label{fig:kalman-residuals-40}
+}
+\subfigure[$R=50.1\mm$]{
+    \includegraphics[width=0.5\textwidth]{chapters/trackfitting_images/r50}
+    \label{fig:kalman-residuals-50}
+}
+
+\caption[Momentum residuals for various Kalman filter parameters]{\label{fig:kalman-residuals}Residuals (reconstructed momentum minus true momentum) for the Kalman filter with different values of the charge smoothing radius $R$, and therefore of the segment length $L=6R$. The gaps around $1000\MeV$ are due to the $100\MeV$ bin width used. See text for discussion.}
+\end{figure}
+
+\section{Momentum Measurements of CCQE $\mu$ tracks}
+In the tuning study of chapter \ref{sec:kalman-tuning}, muons of a fixed kinetic energy (and, therefore, momentum) were used to attempt to validate the Kalman filter algorithm and the choice of parameters. The results indicate that for a $50.1\mm$ charge smoothing radius, and choosing segment lengths six times that radius, the mean momentum measurement is close to the true momentum, but the range of measurements is extremely large.
+
+In this section, the Kalman filter is applied to hits produced by the muon generated from charged current $\nu_\mu$ interactions on Argon nuclei, resulting in $\mu + p$ final states. Two neutrino energies are considered; $E_\nu = 770\MeV$ (1000 events) and $E_\nu = 4.5\GeV$ ($10^4$ events). For the high energy data, the detector simulation was expanded to a cylinder of radius $25\metre$ and height $50\metre$. Muons produced in these interactions have a range of energies and momenta, as well as a distribution of trajectories determined by Genie from the interaction physics models. The true momentum, stored in the Genie event data, was extracted for comparison against the measurements from the Kalman filter. Figure \ref{fig:kalman-ccqe-low} shows the two distributions for the $770\MeV$ neutrinos, and figure \ref{fig:kalman-ccqe-high} shows the distributions for the $4.5\GeV$ neutrinos.
+
+\begin{figure}
+\centering
+\includegraphics[angle=-90,width=\textwidth]{chapters/trackfitting_images/kalman-ccqe-low}
+\caption[True and reconstructed muon momentum distributions for $E_\nu=770\MeV$]{\label{fig:kalman-ccqe-low}Distribution of momenta for muons produced in a charged current low energy $\nu_\mu$ interaction at $770\MeV$ resulting in a $\mu + p$ (only) final state (in red). The distribution of reconstructed momenta (in blue) is from the output of the Kalman filter applied to 1000 such events. The distribution produced by the Kalman filter does not match the true distribution, being both flatter and shifted to higher momentum. The filter therefore overestimates (in general) the momentum of these muons (represented by the shift to higher momentum), but not in a consistent manner (represented by the flatness).}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[angle=-90,width=\textwidth]{chapters/trackfitting_images/kalman-ccqe-high}
+\caption[True and reconstructed muon momentum distributions for $E_\nu=4.5\GeV$]{\label{fig:kalman-ccqe-high}Distribution of momenta for muons produced in a charged current high energy $\nu_\mu$ interaction at $4.5\GeV$ resulting in a $\mu + p$ (only) final state (in red). The distribution of reconstructed momenta (in blue) is from the output of the Kalman filter applied to $10^4$ such events. As for the low energy distribution, the Kalman filter produces overestimates of the muon momentum, though the effect is much more pronounced here.}
+\end{figure}
+
+The Kalman filter overestimates the momentum in both the low energy and high energy neutrinos, though the effect is much more pronounced at high energy. Since the method of estimating momentum through the Kalman filter relies on measurements of the multiple scattering angle, these observations correspond to an underestimate of the angle. The angle is more likely to be underestimated at high energy since the effect of scattering is smaller there.
+
+The Kalman filter is traditionally a powerful tool for track parameter estimation, but in the environment of a \ac{LAr TPC} it does not perform well, at least for the estimation of track momentum. The Icarus experiment achieved better results, but with a smaller measurement error on their individual hits ($400\micron$)\citep{Ankowski2006}.
