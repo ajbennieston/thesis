@@ -1,0 +1,13 @@
+This thesis discusses the application of known algorithms to areas of particle physics for which they are not normally applied, or for detector data which does not readily lend itself to existing automated reconstruction techniques. For this reason, the original material of this thesis is distributed throughout, and interspersed with historical or technical overviews of the algorithms involved. These declarations aim to disambiguate the original work from the surrounding discussion.
+
+In chapter \ref{chapter:NeutrinoPhysics}, the bulk of the discussion summarises the current status of neutrino physics, and is appropriately referenced. The presentation of an averaged result for the value of $\sin^2 2\theta_{13}$, based on the results from the RENO and Daya Bay experiments, is original work by me, although the prediction made by Harrison and Scott is, of course, not.
+
+In chapter \ref{chapter:DetectorPhysics}, the simulation used by Rutter and Richards to obtain an algorithm for iterative reconstruction of point light sources was written by myself. The characterisation plots for the \emph{Lamu} simulation are also my own work, though the simulation itself was written by Ben Morgan. The \emph{TrackGen} toy simulation was written by me, with some of the event generator modules originating from Ben Morgan.
+
+In chapter \ref{chapter:Latte}, the bulk of the work described originated from me, with the exception of the two-dimensional feature detection, which is attributed to Ben Morgan. Some data structures such as the KDTree are used directly from the SciPy library. The remaining work is my own.
+
+The cellular automaton presented in chapter \ref{chapter:CellularAutomaton} is my own work, based on ideas from Ben Newell, who was in turn influenced by the reconstruction algorithms used for the SciBoone detector. Ben Newell created a two-dimensional prototype, which underwent a year-long metamorphosis into the current three-dimensional version. None of the original code remains.
+
+The Kalman filter of chapter \ref{chapter:KalmanFilter} is based heavily on that presented by the Icarus collaboration, and the Python implementation was written by Yorck Ramachers, based on the SciPy implementation of a generic Kalman filter. The analysis of its performance on muon tracks is entirely my own.
+
+The particle identification work of chapter \ref{chapter:PID} is entirely my own, though I acknowledge the use of the \emph{Lamu} simulation written by Ben Morgan (as used throughout this thesis).
