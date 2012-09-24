@@ -7,7 +7,7 @@ For \ac{CCQE} neutrino interactions it is of critical importance to be able to i
 
 In the case of a \ac{LAr TPC}, the aim is to fully contain muons (at least, if they are produced somewhere near the centre of the detector volume), and identification must be performed using information from the track reconstruction stage. For the simplest category of charged current interactions, the muon should be represented by the longest track visible in the event, and it is on this basis that the primary identification of muon tracks will be carried out.
 
-For other types of interaction, or for electron neutrinos, there is a much greater chance of an electromagnetic or hadronic shower developing in the event. One advantage often claimed of LAr TPCs is the ability to achieve electron--pion separation by looking at the rate of energy loss, $dE/dx$.
+For other types of interaction, or for electron neutrinos, there is a much greater chance of an electromagnetic or hadronic shower developing in the event. One advantage often claimed of LAr TPCs is the ability to achieve electron--pion separation by looking at the rate of energy loss, $dE/dx$. Attempts at particle identification based on the properties of electromagnetic or hadronic showers are not considered here, but see \citep{Ramachers2012} for details of one such analysis. Since the homogeneous nature of LAr TPCs allows for the coexistence of tracks and showers, a full analysis framework must be able to cope with showers, in addition to tracks. Furthermore, in order to be applicable to $\nu_e$ events, it must be possible to identify electromagnetic showers and obtain calorimetric information from them, in order to be able to estimate the energy of the incoming $\nu_e$. This is an area in which LAr TPCs should excel, but the focus of this thesis is on track reconstruction techniques; an already difficult area for fully automated reconstruction in such a fine-grained environment.
 
 \section{Muon Track Identification}
 In order to be able to select muons based on the track length (approximated as the number of hits contained), it is useful to know the distributions of track lengths for various particle types which may be present in the charged current interactions considered. 
@@ -19,13 +19,13 @@ Since the electron tracks are produced arbitrarily along the muon track, it is i
 
 \begin{figure}
 \centering
-\includegraphics[angle=-90,width=\textwidth]{chapters/particleid_images/particle-lengths-ccqe-770}
+\includegraphics[angle=-90,width=0.8\textwidth]{chapters/particleid_images/particle-lengths-ccqe-770}
 \caption[Track length distribution for $\mu$ and $p$ from $770\MeV$ neutrinos (CCQE)]{\label{fig:ccqe-track-lengths-770MeV}Distribution of track lengths, represented as number of hits contained in a track, for muon (blue) and proton (red) tracks produced in charged current interactions of $\nu_\mu$ at $770\MeV$. The distributions are naturally separated at around $1000$ hits.}
 \end{figure}
 
 \begin{figure}
 \centering
-\includegraphics[angle=-90,width=\textwidth]{chapters/particleid_images/electron-lengths-ccqe-770}
+\includegraphics[angle=-90,width=0.8\textwidth]{chapters/particleid_images/electron-lengths-ccqe-770}
 \caption[Track length distribution for $e^{-}$ from $770\MeV$ neutrinos (CCQE)]{\label{fig:ccqe-electron-lengths-770MeV}Distribution of track lengths, represented as number of hits contained in a track, for electron tracks produced as secondary particles following charged current interactions of $\nu_\mu$ at $770\MeV$. An extremely large number of very short electron tracks can be seen, corresponding to the production of delta electrons along the length of the trajectories of the primary muon and proton. Most electron tracks have fewer than 50 hits.}
 \end{figure}
 
@@ -34,13 +34,13 @@ This data set contains 1000 events where a $770\MeV$ $\nu_\mu$ underwent a charg
 
 \begin{figure}
 \centering
-\includegraphics[angle=-90,width=\textwidth]{chapters/particleid_images/ccpi-770-track-lengths}
-\caption[Track length distribution for $\mu$ and $p$ from $770\MeV$ neutrinos(CCPi)]{\label{fig:ccpi-track-lengths-770MeV}Distribution of track lengths, represented as number of hits contained in a track, for muon (blue) and proton (red) tracks produced in charged current interactions of $\nu_\mu$ at $770\MeV$ resulting in $\mu + p + \pi^+$ final states. More than $1000$ proton tracks are present, indicating that the $\pi^+$ sometimes produces one or more protons. The distributions are not clearly separated, and while muon tracks are still typically long, there is much more contamination from the other particle species.}
+\includegraphics[angle=-90,width=0.8\textwidth]{chapters/particleid_images/ccpi-770-track-lengths}
+\caption[Track length distribution for $\mu$, $p$ and $\pi^+$ from $770\MeV$ neutrinos (\acs{CCPi})]{\label{fig:ccpi-track-lengths-770MeV}Distribution of track lengths, represented as number of hits contained in a track, for muon (blue) and proton (red) tracks produced in charged current interactions of $\nu_\mu$ at $770\MeV$ resulting in $\mu + p + \pi^+$ final states. More than $1000$ proton tracks are present, indicating that the $\pi^+$ sometimes produces one or more protons. The distributions are not clearly separated, and while muon tracks are still typically long, there is much more contamination from the other particle species.}
 \end{figure}
 
 \begin{figure}
 \centering
-\includegraphics[angle=-90,width=\textwidth]{chapters/particleid_images/ccpi-770-electron-lengths}
+\includegraphics[angle=-90,width=0.8\textwidth]{chapters/particleid_images/ccpi-770-electron-lengths}
 \caption[Track length distribution for $e^{-}$ from $770\MeV$ neutrinos (CCPi)]{\label{fig:ccpi-electron-lengths-770MeV}Distribution of track lengths, represented as number of hits contained in a track, for electron tracks produced as secondary particles following charged current interactions of $\nu_\mu$ at $770\MeV$ resulting in $\mu + p + \pi^+$ final states. An extremely large number of very short electron tracks can be seen, corresponding to the production of delta electrons along the length of the trajectories of the primary muon and proton. Most electron tracks have fewer than 50 hits.}
 \end{figure}
 
@@ -49,11 +49,23 @@ This data set contains $10^4$ events in which a $4.5\GeV$ $\nu_\mu$ underwent a 
 
 \begin{figure}
 \centering
-\includegraphics[angle=-90,width=\textwidth]{chapters/particleid_images/ccqe-4500-track-lengths}
+\includegraphics[angle=-90,width=0.8\textwidth]{chapters/particleid_images/ccqe-4500-track-lengths}
 \caption[Track length distributions for $\mu$, $p$ and $\pi^+$ from $4.5\GeV$ neutrinos (CCQE)]{\label{fig:ccqe-track-lengths-4500MeV}Distribution of track lengths, represented as number of hits contained in a track, for muon (blue), proton (red) and charged pion (orange) tracks produced in charged current interactions of $\nu_\mu$ at $4.5\GeV$. The proton distribution peaks at over $1.55\times10^4$ tracks on the left.}
 \end{figure}
 
 For these high energy events, it is clear that any track with more than around 5000 hits must correspond to a muon, and the vast majority of muon tracks have between 14000 and 24000 hits. Using the track length to separate muons from other particles should provide an extremely pure selection of muons, in this case.
 
 \subsection{$4.5\GeV$ $\nu_\mu \rightarrow \mu + p + \pi^+$ (CCPi) Interactions}
+This data set contains $10^4$ events in which a $4.5\GeV$ $\nu_\mu$ underwent a charged current interaction with an Argon nucleus, producing a $\mu + p + \pi^+$ final state. The distribution of track lengths (represented in terms of the number of hits) for muons, protons and charged pions is shown in figure \ref{fig:ccpi-track-lengths-4500MeV}. The $\pi^+$ and $p$ peaks on the left extend up to $4.3\times10^4$ tracks. In this case, the muons are once again clearly separated, as for the CCQE events at $4.5\GeV$, and a cut at 5000 hits would select almost entirely muon tracks, rejecting those from protons and pions.
+
+\begin{figure}
+\centering
+\includegraphics[angle=-90,width=0.8\textwidth]{chapters/particleid_images/tracks-ccpi-4500MeV}
+\caption[Track length distribution for $\mu$, $p$ and $\pi^+$ from $4.5\GeV$ neutrinos (CCPi)]{\label{fig:ccpi-track-lengths-4500MeV}Distribution of track lengths, represented as number of hits contained in a track, for muon (blue), proton (red) and charged pion (orange) tracks produced in charged current interactions of $\nu_\mu$ at $4.5\GeV$, resulting in $\mu + p + \pi^+$ final states. The proton and pion peaks on the left extend up to $4.3\times10^4$, and the plot range has been reduced to better display the separation between hadron ($p$ and $\pi$) and lepton ($\mu$) tracks. A cut at 5000 hits would cleanly select muons with low contamination from other tracks.}
+\end{figure}
+
+\subsection{Conclusions}
+It is clear from the track distributions presented above that for the low energy $\mu + p$ events, and for the high energy $\mu + p$ and $\mu + p + \pi^+$ events, a simple cut on the minimum track length is sufficient to select muon tracks from an event. The low energy $\mu + p + \pi^+$ events are an exception to this, and present a more complicated case for analysis, which may require further variables to be considered in order to extract muons with high purity. More traditional particle identification mechanisms, which make use of many variables and attempt to categorise events based on likelihood fits or the results of a neural network are not considered here, but may prove useful in cases such as the low energy $\mu + p + \pi^+$, where the interactions of the particles differ considerably, but are not well represented in the track length alone.
+
+For the remaining three event classes (high and low energy CCQE, high energy CCPi) this range cut should provide high efficiency, though it is worth noting that the studies in this chapter consider truth information, and that the effects of a reconstruction algorithm such as the cellular automaton of chapter \ref{chapter:CellularAutomaton} will necessarily reduce the efficiency of such a technique.
 
