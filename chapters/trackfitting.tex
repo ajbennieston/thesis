@@ -64,13 +64,13 @@ The transportation matrix $F_k$ provides a straight line extrapolation, with no 
     \end{array} \right)
 \end{equation}
 
-The measurement vector includes the coordinates and slopes, but not the inverse momentum. Instead, the angle $\theta_0$ between adjacent track segments at the plane $k$ is used. Equation \eqref{eqn:kalman_theta_p_relationship} relates this scattering angle to the momentum\citep{Eidelman2004}.
+The measurement vector includes the coordinates and slopes, but not the inverse momentum. Instead, the angle $\theta_0$ between adjacent track segments at the plane $k$ is used; these angles build up a $\thetarms$ measurement, which is fed to the Kalman filter. Equation \eqref{eqn:kalman_theta_p_relationship} relates this scattering angle to the momentum\citep{Eidelman2004}.
 \begin{equation}\label{eqn:kalman_theta_p_relationship}
-    \theta_0^{\mathrm{rms}} = \frac{13.6\MeV}{\beta c p} z \sqrt{\frac{l}{X_0}} \left(1 + 0.038\ln\left[\frac{l}{X_0}\right]\right)
+    \thetarms = \frac{13.6\MeV}{\beta c p} z \sqrt{\frac{l}{X_0}} \left(1 + 0.038\ln\left[\frac{l}{X_0}\right]\right)
 \end{equation}
 where $\beta$ is the velocity of the particle, $p$ is its momentum and $z$ is the charge, $X_0$ is the radiation length and $l$ the track segment length. The measurement vector $\vec{m}_k$ is then
 \begin{equation}\label{eqn:kalman_measurement_vector}
-    \vec{m}_k = \left( \begin{array}{c} \theta_0 \\ x \\ y \\ \frac{dx}{dz} \\ \frac{dy}{dz} \end{array} \right)
+    \vec{m}_k = \left( \begin{array}{c} \thetarms \\ x \\ y \\ \frac{dx}{dz} \\ \frac{dy}{dz} \end{array} \right)
 \end{equation}
 
 The matrix $H_k$, which relates the measurement and state vectors, is given by:
@@ -91,10 +91,10 @@ The state vector $x_k$ is:
     \end{array}\right)
 \end{equation}
 
-The measurement vector is identical to the state vector, except for the scattering angle $\theta$ in place of the inverse momentum:
+The measurement vector is identical to the state vector, except for the scattering angle $\thetarms$ in place of the inverse momentum:
 \begin{equation}\label{eqn:kalman_latte_measurement_vector}
     x_k = \left(\begin{array}{c}
-        \theta \\ y \\ z \\ \frac{\Delta y}{\Delta x} \\ \frac{\Delta z}{\Delta x}
+        \thetarms \\ y \\ z \\ \frac{\Delta y}{\Delta x} \\ \frac{\Delta z}{\Delta x}
     \end{array}\right)
 \end{equation}
 
@@ -126,7 +126,7 @@ The measurement covariance matrix is diagonal, with components representing the 
     V = \diag \left( 1\times10^{-4}, ~ 0.1, ~ 0.1, ~ 1\times10^{-3}, ~ 1\times10^{-3} \right)
 \end{equation}
 
-Tracks are split into segments of length $L$ (in $\mm$), with the Kalman filter applied to the points between two segments, and using the slopes of those segments to determine the scattering angle $\theta$. The segment lengths are chosen to be a multiple of the radius $R$ (in $\mm$) used for a charge smoothing process which reduces the total number of hits in the track, replacing groups of hits with a single charge-weighted hit. The track momentum is taken from the first component of the state vector after running along the entire track.
+Tracks are split into segments of length $L$ (in $\mm$), with the Kalman filter applied to the points between two segments, and using the slopes of those segments to determine the scattering angle $\theta$ and the distribution of those angles to establish $\thetarms$. The segment lengths are chosen to be a multiple of the radius $R$ (in $\mm$) used for a charge smoothing process which reduces the total number of hits in the track, replacing groups of hits with a single charge-weighted hit. The track momentum is taken from the first component of the state vector after running along the entire track.
 
 \section{Tuning the Kalman Filter}\label{sec:kalman-tuning}
 The majority of parameters for the Kalman Filter are fixed by either the process itself (the description of multiple scattering that relates scattering angles to momenta) or by the measurement errors. The remaining free parameters are $R$ and $L$, the charge smoothing radius and segment length, respectively.
