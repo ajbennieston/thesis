@@ -6,11 +6,11 @@ Track fitting is the process by which track parameters are determined from a col
 Originally devised as a noise-reduction and signal filtering technique for communications, the Kalman filter determines optimal estimates of past, present and future states of a linear system based on a series of time-ordered measurements used in conjunction with a statistical model of the system and its measurement errors. It is used extensively for both track and vertex fitting in particle physics, most often in a magnetised detector, where it separates the curvature of a particle due to the magnetic field from the noise introduced by direction changes as a result of multiple scattering.
 
 \section{The Icarus Kalman Filter}
-The Icarus\citep{Amerio2004} experiment presented a Kalman filter which makes statistical use of the distribution of the multiple scattering angle $\theta$ to measure the momentum of a particle in a non-magnetised detector\citep{Ankowski2006}. The Kalman filter is used to filter out the noise introduced by limited detector resolution. The details of the Icarus algorithm are presented here as an overview of the mechanism of action of the Kalman filter, but also as the basis for the Latte kalman filter, which aims to perform the same task.
+The Icarus\citep{Amerio2004} experiment presented a Kalman filter\citep{Fruhwirth1987} which makes statistical use of the distribution of the multiple scattering angle $\theta$ to measure the momentum of a particle in a non-magnetised detector\citep{Ankowski2006}. The Kalman filter is used to filter out the noise introduced by limited detector resolution. The details of the Icarus algorithm are presented here as an overview of the mechanism of action of the Kalman filter, but also as the basis for the Latte kalman filter, which aims to perform the same task.
 
 The Kalman filter operates on a discrete set of states, each represented by a state vector $\vec{x}_k$. These states correspond to points on the track, and can in principle be measured anywhere along it. In practice, the track is split into segments of fixed length, and the endpoints of these segments define the set of planes at which the state vector $\vec{x}_k$ is evaluated. 
 
-The track system is described by the linear equation:
+The track system is described by the linear equation:\citep{Ankowski2006}
 \begin{equation}\label{eqn:kalman_track_system}
     \vec{x}_k^{-} = F_{k-1} \vec{x}_{k-1} + \vec{w}_{k-1}
 \end{equation}
