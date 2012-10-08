@@ -3,7 +3,14 @@
 The goal of this thesis is to demonstrate a fully automated reconstruction chain for event data from \ac{LAr TPC}s. Since the details of charge readout and position reconstruction will vary depending on the detector technology and geometry, as well as the equipment used, this study begins from the point at which three-dimensional hit data exists in a persistent on-disk format. This chapter uses the algorithms and techniques presented earlier to attempt to reconstruct physics information such as the muon energy from charged current $\nu_\mu$ interactions at beam energies of $770\MeV$ and $4.5\GeV$.
 
 \section{Charged Current $\nu_\mu \rightarrow \mu + p$ at $770\MeV$}
-A sample of $1000$ events produced from charged current interactions of $\nu_\mu$ at $770\MeV$, yielding $\mu + p$ (only) final states were considered. These are the same events used for validation of algorithms earlier in this thesis. Of these 1000 events, 
+\subsection{Event Selection Efficiency}
+A sample of $1000$ events produced from charged current interactions of $\nu_\mu$ at $770\MeV$, yielding $\mu + p$ (only) final states were considered. These are the same events used for validation of algorithms earlier in this thesis. Of these 1000 events, 878 survive the initial requirement that the true proton track has more than 20 hits and undergo reconstruction. After reconstruction, 420 events have only two tracks in the output (events with more tracks in the output can potentially be recovered with improved merging algorithms, or by discarding delta electron tracks). Of these, 407 events have at least one output track containing over 1000 hits (of which, 10 events have both tracks with over 1000 hits). In 341 events, there is one track with over 1000 hits, and one smaller track. The long track is identified from the truth information as corresponding to the muon, and the shorter track is identified from the truth information as corresponding to the proton.
+
+Based on the numbers above, an analysis that required precisely two tracks, one of which had over 1000 hits, and the other with fewer than 1000 hits will recover 397 events from the sample of 1000, of which 341 will be correctly identified as $\mu + p$ events, with the tracks tagged with the right particle type. This corresponds to an efficiency of $397/1000 = 39.7\%$ for selecting $\mu + p$ events, with a purity of $341/397 = 85.9\%$.
+
+While the efficiency of this selection is low (under $40\%$), the purity remains high, and as already mentioned it is possible to recover many more events with improvements to the reconstruction chain.
+
+\subsection{Muon Energy Reconstruction}
 
 \section{Charged Current $\nu_\mu \rightarrow \mu + p$ at $4.5\GeV$}
 
