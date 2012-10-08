@@ -1,0 +1,55 @@
+diff -u a/thesis.out b/thesis.out
+--- a/thesis.out	2012-10-09 00:32:17.000000000 +0100
++++ b/thesis.out	2012-10-09 00:34:13.000000000 +0100
+@@ -12,9 +12,9 @@
+ \BOOKMARK [1][-]{section.2.2}{2.2 CP Violation}{chapter.2}
+ \BOOKMARK [1][-]{section.2.3}{2.3 Neutrino Oscillations}{chapter.2}
+ \BOOKMARK [1][-]{section.2.4}{2.4 The PMNS Matrix}{chapter.2}
+-\BOOKMARK [2][-]{subsection.2.4.1}{2.4.1 Solar Neutrinos and 12}{section.2.4}
+-\BOOKMARK [2][-]{subsection.2.4.2}{2.4.2 Atmospheric Neutrinos and 23}{section.2.4}
+-\BOOKMARK [2][-]{subsection.2.4.3}{2.4.3 Reactor Neutrinos and 13}{section.2.4}
++\BOOKMARK [2][-]{subsection.2.4.1}{2.4.1 Solar Neutrinos and theta12}{section.2.4}
++\BOOKMARK [2][-]{subsection.2.4.2}{2.4.2 Atmospheric Neutrinos and theta23}{section.2.4}
++\BOOKMARK [2][-]{subsection.2.4.3}{2.4.3 Reactor Neutrinos and theta13}{section.2.4}
+ \BOOKMARK [1][-]{section.2.5}{2.5 Open Questions in Neutrino Physics}{chapter.2}
+ \BOOKMARK [0][-]{chapter.3}{Chapter 3 Detector Physics}{}
+ \BOOKMARK [1][-]{section.3.1}{3.1 Particle Detectors}{chapter.3}
+@@ -62,29 +62,29 @@
+ \BOOKMARK [2][-]{subsection.5.4.2}{5.4.2 Performance of the Cellular Automaton with Merging}{section.5.4}
+ \BOOKMARK [2][-]{subsection.5.4.3}{5.4.3 Performance After a Range Cut}{section.5.4}
+ \BOOKMARK [1][-]{section.5.5}{5.5 Performance of the Cellular Automaton on Genie Monte Carlo Events}{chapter.5}
+-\BOOKMARK [2][-]{subsection.5.5.1}{5.5.1 Charged Current + p \(CCQE\)}{section.5.5}
+-\BOOKMARK [2][-]{subsection.5.5.2}{5.5.2 Charged Current + p + +}{section.5.5}
++\BOOKMARK [2][-]{subsection.5.5.1}{5.5.1 Charged Current mu + p \(CCQE\)}{section.5.5}
++\BOOKMARK [2][-]{subsection.5.5.2}{5.5.2 Charged Current mu + p + pi+}{section.5.5}
+ \BOOKMARK [1][-]{section.5.6}{5.6 Conclusions}{chapter.5}
+ \BOOKMARK [0][-]{chapter.6}{Chapter 6 Track Fitting}{}
+ \BOOKMARK [1][-]{section.6.1}{6.1 Introduction}{chapter.6}
+ \BOOKMARK [1][-]{section.6.2}{6.2 The Icarus Kalman Filter}{chapter.6}
+ \BOOKMARK [1][-]{section.6.3}{6.3 The Latte Kalman Filter}{chapter.6}
+ \BOOKMARK [1][-]{section.6.4}{6.4 Tuning the Kalman Filter}{chapter.6}
+-\BOOKMARK [1][-]{section.6.5}{6.5 Momentum Measurements of CCQE \040tracks}{chapter.6}
++\BOOKMARK [1][-]{section.6.5}{6.5 Momentum Measurements of CCQE mu tracks}{chapter.6}
+ \BOOKMARK [0][-]{chapter.7}{Chapter 7 Particle Identification}{}
+ \BOOKMARK [1][-]{section.7.1}{7.1 Introduction}{chapter.7}
+ \BOOKMARK [1][-]{section.7.2}{7.2 Muon Track Identification}{chapter.7}
+-\BOOKMARK [2][-]{subsection.7.2.1}{7.2.1 770MeV + p \(CCQE\) Interactions}{section.7.2}
+-\BOOKMARK [2][-]{subsection.7.2.2}{7.2.2 770MeV + p + + \(CCPi\) Interactions}{section.7.2}
+-\BOOKMARK [2][-]{subsection.7.2.3}{7.2.3 4.5GeV + p \(CCQE\) Interactions}{section.7.2}
+-\BOOKMARK [2][-]{subsection.7.2.4}{7.2.4 4.5GeV + p + + \(CCPi\) Interactions}{section.7.2}
++\BOOKMARK [2][-]{subsection.7.2.1}{7.2.1 770MeV mu + p \(CCQE\) Interactions}{section.7.2}
++\BOOKMARK [2][-]{subsection.7.2.2}{7.2.2 770MeV mu + p + pi+ \(CCPi\) Interactions}{section.7.2}
++\BOOKMARK [2][-]{subsection.7.2.3}{7.2.3 4.5GeV mu + p \(CCQE\) Interactions}{section.7.2}
++\BOOKMARK [2][-]{subsection.7.2.4}{7.2.4 4.5GeV mu + p + pi+ \(CCPi\) Interactions}{section.7.2}
+ \BOOKMARK [2][-]{subsection.7.2.5}{7.2.5 Conclusions}{section.7.2}
+ \BOOKMARK [0][-]{chapter.8}{Chapter 8 Analysis of Neutrino Interactions in a Liquid Argon Time-Projection Chamber}{}
+ \BOOKMARK [1][-]{section.8.1}{8.1 Introduction}{chapter.8}
+-\BOOKMARK [1][-]{section.8.2}{8.2 Charged Current + p at 770MeV}{chapter.8}
++\BOOKMARK [1][-]{section.8.2}{8.2 Charged Current mu + p at 770MeV}{chapter.8}
+ \BOOKMARK [2][-]{subsection.8.2.1}{8.2.1 Event Selection Efficiency}{section.8.2}
+ \BOOKMARK [2][-]{subsection.8.2.2}{8.2.2 Muon Energy Reconstruction}{section.8.2}
+-\BOOKMARK [1][-]{section.8.3}{8.3 Charged Current + p at 4.5GeV}{chapter.8}
++\BOOKMARK [1][-]{section.8.3}{8.3 Charged Current mu + p at 4.5GeV}{chapter.8}
+ \BOOKMARK [2][-]{subsection.8.3.1}{8.3.1 Event Selection Efficiency}{section.8.3}
+ \BOOKMARK [2][-]{subsection.8.3.2}{8.3.2 Muon Energy Reconstruction}{section.8.3}
+ \BOOKMARK [1][-]{section.8.4}{8.4 Conclusions}{chapter.8}
