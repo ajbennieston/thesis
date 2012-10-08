@@ -29,19 +29,4 @@ correct-bookmarks:
 clean:
 	rm -f *.bbl *.blg *.out *.lof *.log *.aux *.lot *.toc
 	rm -f thesis.pdf
-	rm -f thesis-reduced.pdf
-	rm -f thesis-reduced-*.pdf
 
-reduced:
-	$(LATEX)  $(REDUCEDFILE)
-	$(LATEX)  $(REDUCEDFILE)
-	$(BIBTEX) $(REDUCEDFILE)
-	$(LATEX)  $(REDUCEDFILE)
-	$(LATEX)  $(REDUCEDFILE)
-
-reduced-%:
-	$(LATEX)  $(REDUCEDFILE)-$*
-	$(LATEX)  $(REDUCEDFILE)-$*
-	$(BIBTEX) $(REDUCEDFILE)-$*
-	$(LATEX)  $(REDUCEDFILE)-$*
-	$(LATEX)  $(REDUCEDFILE)-$*
