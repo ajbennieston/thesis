@@ -11,8 +11,25 @@ Based on the numbers above, an analysis that required precisely two tracks, one 
 While the efficiency of this selection is low (under $40\%$), the purity remains high, and as already mentioned it is possible to recover many more events with improvements to the reconstruction chain.
 
 \subsection{Muon Energy Reconstruction}
+\subsubsection{Using Number of Hits}
+In an ideal scenario, the number of hits in a cluster should correspond approximately to the length of the cluster in $\mm$. Since the range of a muon track varies with the initial energy of the muon, assuming minimum-ionising behaviour throughout, it should be possible to obtain a calibration for conversion between number of hits (or muon track length) and initial muon energy. In practice, the number of hits in an output cluster is a poor estimator for the initial muon energy, as demonstrated in figure \ref{fig:ccqe-770-e-nhits-calib}. One possible reason for this is the loss of hits in the cellular automaton state of the reconstruction; the proportion of lost hits rises with track length, resulting in increasingly poor estimates. However, since the hit loss should occur throughout the track, it may be possible to use the length itself to estimate the energy.
+
+\begin{figure}
+    \centering
+    \includegraphics[angle=-90,width=0.8\textwidth]{chapters/analysis_images/ccqe-770-e-nhits-calib}
+    \caption[Relationship between number of hits and energy]{\label{fig:ccqe-770-e-nhits-calib}The relationship between the number of hits $N$ in a muon cluster and the initial energy $E_\mu$ of the particle, in $\MeV$. The broad distribution indicates that the number of hits is not a good estimator for the energy of the particle, and that calibrations based on this quantity cannot provide reliable energy estimates.}
+\end{figure}
+
+\subsubsection{Using Track Length}
+Calculating the length of the track is not as simple as taking the ``smallest'' and ``largest'' hits and determining the distance between them, since it is possible that the muon track may undergo significant scattering along its length, and can develop an appreciable curve. In order to determine the track length, an algorithm must run along the track in small steps, adding up the segment lengths as it goes. Such a mechanism can be easily implemented using the \ac{KDTree} structure described in chapter \ref{sec:latte_kdtree}, but this introduces another parameter; the radius used for the neighbour search, which becomes the maximum segment length.
+
 
 \section{Charged Current $\nu_\mu \rightarrow \mu + p$ at $4.5\GeV$}
+\subsection{Event Selection Efficiency}
+\subsection{Muon Energy Reconstruction}
 
 \section{Charged Current $\nu_\mu \rightarrow \mu + p + \pi^+$ at $4.5\GeV$}
+\subsection{Event Selection Efficiency}
+\subsection{Muon Energy Reconstruction}
 
+\section{Conclusions}
