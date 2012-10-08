@@ -1,7 +1,12 @@
 diff -u a/thesis.out b/thesis.out
 --- a/thesis.out	2012-10-09 00:32:17.000000000 +0100
-+++ b/thesis.out	2012-10-09 00:34:13.000000000 +0100
-@@ -12,9 +12,9 @@
++++ b/thesis.out	2012-10-09 00:37:18.000000000 +0100
+@@ -1,3 +1,4 @@
++\let\WriteBookmarks\relax
+ \BOOKMARK [0][-]{title.0}{Title page}{}
+ \BOOKMARK [0][-]{contents.0}{Contents}{}
+ \BOOKMARK [0][-]{chapter*.2}{List of Tables}{}
+@@ -12,9 +13,9 @@
  \BOOKMARK [1][-]{section.2.2}{2.2 CP Violation}{chapter.2}
  \BOOKMARK [1][-]{section.2.3}{2.3 Neutrino Oscillations}{chapter.2}
  \BOOKMARK [1][-]{section.2.4}{2.4 The PMNS Matrix}{chapter.2}
@@ -14,7 +19,7 @@ diff -u a/thesis.out b/thesis.out
  \BOOKMARK [1][-]{section.2.5}{2.5 Open Questions in Neutrino Physics}{chapter.2}
  \BOOKMARK [0][-]{chapter.3}{Chapter 3 Detector Physics}{}
  \BOOKMARK [1][-]{section.3.1}{3.1 Particle Detectors}{chapter.3}
-@@ -62,29 +62,29 @@
+@@ -62,29 +63,29 @@
  \BOOKMARK [2][-]{subsection.5.4.2}{5.4.2 Performance of the Cellular Automaton with Merging}{section.5.4}
  \BOOKMARK [2][-]{subsection.5.4.3}{5.4.3 Performance After a Range Cut}{section.5.4}
  \BOOKMARK [1][-]{section.5.5}{5.5 Performance of the Cellular Automaton on Genie Monte Carlo Events}{chapter.5}
