@@ -33,7 +33,7 @@ The Kalman filter proceeds through the following three steps, repeated for each 
         \vec{x}_k^{-} = F_{k-1} \vec{x}_{k-1}
     \end{equation}
 
-    \item[2. Filtering:] Given a predicted state vector $\vec{x}_k^{-}$ (or a suitable initial state), determine the present state $\vec{x}_k$ by taking into account the measurements of all previous planes (via the predicted state) and the current plane (via the measurement $\vec{m}_k$). Since the previous measurements are included via their contribution to the state vector, the Kalman filter automatically includes correlations between measurements.
+    \item[2. Filtering:] Given a predicted state vector $\vec{x}_k^{-}$ (or a suitable initial state), the filtering step determines the present state $\vec{x}_k$ by taking into account the measurements of all previous planes (via the predicted state) and the current plane (via the measurement $\vec{m}_k$). Since the previous measurements are included via their contribution to the state vector, the Kalman filter automatically includes correlations between measurements.
     \begin{equation}\label{eqn:kalman_filtering_step}
         \vec{x}_k = \vec{x}_k^{-} + K_k \left(\vec{m}_k - H_k\vec{x}_k^{-} \right)
     \end{equation}
@@ -68,7 +68,7 @@ The measurement vector includes the coordinates and slopes, but not the inverse 
 \begin{equation}\label{eqn:kalman_theta_p_relationship}
     \thetarms = \frac{13.6\MeV}{\beta c p} z \sqrt{\frac{l}{X_0}} \left(1 + 0.038\ln\left[\frac{l}{X_0}\right]\right)
 \end{equation}
-where $\beta$ is the velocity of the particle, $p$ is its momentum and $z$ is the charge, $X_0$ is the radiation length and $l$ the track segment length. The measurement vector $\vec{m}_k$ is then
+where $\beta$ is the velocity of the particle, $p$ is its momentum and $z$ is the charge, $X_0$ is the radiation length and $l$ the track segment length. The measurement vector $\vec{m}_k$ is then:
 \begin{equation}\label{eqn:kalman_measurement_vector}
     \vec{m}_k = \left( \begin{array}{c} \thetarms \\ x \\ y \\ \frac{dx}{dz} \\ \frac{dy}{dz} \end{array} \right)
 \end{equation}
@@ -137,7 +137,7 @@ p = \sqrt{T^2 + 2 T m}
 \end{equation}
 where $m$ is the mass of the muon, $105.6583715\MeV$\citep{PDG2011}.
 
-The segment length was initially chosen to be six times the charge smoothing radius, and the radius varied between $20.1\mm$ and $50.1\mm$. Figure \ref{fig:kalman-mu-momentum-charge-radius-variations} shows the resulting measurements, represented by the mean reconstructed momentum as a function of the true momentum. Smaller smoothing radii ($20.1\mm$) give smaller standard deviation in the results, especially at high momentum, while the mean values are closer to the true momentum for larger smoothing radii of $30.1\mm$ to $40.1\mm$. The distributions of residuals (defined as $p_{\mathrm{true}} - p_{\mathrm{recon}}$) are presented in figure \ref{fig:kalman-residuals} for each of the radii considered here. At momenta over about $500\MeV$, the Kalman filter underestimates the momentum when used with short ($20.1\mm$ and $30.1\mm$) segment lengths, but overestimates it for larger segment lengths. As the segment length increases, the range of momentum estimates also increases (both in the positive and negative directions). The Kalman filter in this configuration does not, therefore, provide reliable estimates of momentum.
+The segment length was initially chosen to be six times the charge smoothing radius, and the radius varied between $20.1\mm$ and $50.1\mm$. Figure \ref{fig:kalman-mu-momentum-charge-radius-variations} shows the resulting measurements, represented by the mean reconstructed momentum as a function of the true momentum. Smaller smoothing radii ($20.1\mm$) give smaller standard deviation in the results, especially at high momentum, while the mean values are closer to the true momentum for larger smoothing radii of $30.1\mm$ to $40.1\mm$. The distributions of residuals (defined as $p_{\mathrm{true}} - p_{\mathrm{recon}}$) are presented in figure \ref{fig:kalman-residuals} for each of the radii considered here. At momenta over approximately $500\MeV$, the Kalman filter underestimates the momentum when used with short ($20.1\mm$ and $30.1\mm$) segment lengths, but overestimates it for larger segment lengths. As the segment length increases, the range of momentum estimates also increases (both in the positive and negative directions). The Kalman filter in this configuration does not, therefore, provide reliable estimates of momentum.
 
 \begin{figure}
 \centering
