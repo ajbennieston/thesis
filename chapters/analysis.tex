@@ -23,9 +23,34 @@ In an ideal scenario, the number of hits in a cluster should correspond approxim
 \subsubsection{Using Track Length}
 Calculating the length of the track is not as simple as taking the ``smallest'' and ``largest'' hits and determining the distance between them, since it is possible that the muon track may undergo significant scattering along its length, and can develop an appreciable curve. In order to determine the track length, an algorithm must run along the track in small steps, adding up the segment lengths as it goes. Such a mechanism can be easily implemented using the \ac{KDTree} structure described in chapter \ref{sec:latte_kdtree}, but this introduces another parameter; the radius used for the neighbour search, which becomes the maximum segment length.
 
+\begin{figure}
+    \centering
+    \subfigure[$20\mm$]{
+        \includegraphics[angle=-90,width=0.45\textwidth]{chapters/analysis_images/seg-20}
+    }
+    \subfigure[$50\mm$]{
+        \includegraphics[angle=-90,width=0.45\textwidth]{chapters/analysis_images/seg-50}
+    }
+    \subfigure[$100\mm$]{
+        \includegraphics[angle=-90,width=0.45\textwidth]{chapters/analysis_images/seg-100}
+    }
+    \subfigure[$150\mm$]{
+        \includegraphics[angle=-90,width=0.45\textwidth]{chapters/analysis_images/seg-150}
+    }
+    \subfigure[$200\mm$]{
+        \includegraphics[angle=-90,width=0.45\textwidth]{chapters/analysis_images/seg-200}
+    }
+    \subfigure[$300\mm$]{
+        \includegraphics[angle=-90,width=0.45\textwidth]{chapters/analysis_images/seg-300}
+    }
+    \subfigure[$400\mm$]{
+        \includegraphics[angle=-90,width=0.45\textwidth]{chapters/analysis_images/seg-400}
+    }
+    \caption[Relationship between track length and muon energy]{\label{fig:energy-recon-track-length}Relationship between the measured length of a reconstructed track and the true energy of the corresponding muon, shown for segment lengths of $20\mm$, 50\mm$, 100\mm$, 150\mm$, 200\mm$, $300\mm$ and $400\mm$. See text for discussion.}    
+\end{figure}
 
-\section{Charged Current $\nu_\mu \rightarrow \mu + p$ at $4.5\GeV$}
-\subsection{Event Selection Efficiency}
-\subsection{Muon Energy Reconstruction}
+The track length is calculated by taking the clustered set of hits, looking for an \emph{extreme} hit, i.e. one end of the track, then searching for neighbours within some radius $R$. The furthest neighbour becomes the next seed point, and the distance between the two is added to an accumulator variable. This process is repeated, using principal components analysis to ensure that the discovered point is always moving away from the previous steps, until the other end of the track is reached. The sum of step lengths approximates the length of the entire track. The maximum segment length is determined by the value of $R$, and the results of applying this procedure to the $397$ tracks being analysed here are shown in figure \ref{fig:energy-recon-track-length} for seven different maximum segment lengths.
+
+Smaller segment lengths allow for a more accurate estimate of the track length in the presence of curvature, but are more susceptible to gaps in the reconstructed track causing early termination of the algorithm. This can be seen in the results for a $20\mm$ segment length, where most measurements have very small lengths. Longer segment lengths are more tolerant of gaps, but provide poor estimates when traversing curved tracks, as well as reducing the sensitivity to features on a scale smaller than the segment length. This can be seen across the set of graphs, with the cluster of points shifting rightward (i.e. towards longer estimates) with increasing segment length. The results in figure \ref{fig:energy-recon-track-length} indicate that, once again, the correlation between reconstructed track length and true muon energy is poor, and cannot be used to calibrate for energy reconstruction.
 
 \section{Conclusions}
