@@ -4,7 +4,20 @@ The goal of this thesis is to demonstrate a fully automated reconstruction chain
 
 \section{Charged Current $\nu_\mu \rightarrow \mu + p$ at $770\MeV$}
 \subsection{Event Selection Efficiency}
-A sample of $1000$ events produced from charged current interactions of $\nu_\mu$ at $770\MeV$, yielding $\mu + p$ (only) final states were considered. These are the same events used for validation of algorithms earlier in this thesis. Of these 1000 events, 878 survive the initial requirement that the true proton track has more than 20 hits and undergo reconstruction. After reconstruction, 420 events have only two tracks in the output (events with more tracks in the output can potentially be recovered with improved merging algorithms, or by discarding delta electron tracks). Of these, 407 events have at least one output track containing over 1000 hits (of which, 10 events have both tracks with over 1000 hits). In 341 events, there is one track with over 1000 hits, and one smaller track. The long track is identified from the truth information as corresponding to the muon, and the shorter track is identified from the truth information as corresponding to the proton.
+A sample of $1000$ events produced from charged current interactions of $\nu_\mu$ at $770\MeV$, yielding $\mu + p$ (only) final states were considered. These are the same events used for validation of algorithms earlier in this thesis. Of these 1000 events, 878 survive the initial requirement that the true proton track has more than 20 hits and undergo reconstruction. 
+
+Events surviving the initial cut undergo the following reconstruction steps:
+\begin{enumerate}
+    \item Apply charge weighting using a weighting radius $R_w=5\mm$.
+    \item Apply the cellular automaton, using a maximum scattering angle of $30\degree$.
+    \item Apply the cylinder-based merging algorithm, using a merging radius $R_m=30\mm$ and allowing infinitely long cylinders.
+    \item Select events with two reconstructed clusters after merging.
+    \item Select events in which one cluster has $> 1000$ hits, and the other has $< 1000$ hits.
+    \item Associate the longer of the two clusters with the muon track.
+    \item Associate the shorter of the two clusters with the proton track.
+\end{enumerate}
+
+A total of 420 events have only two tracks in the output after merging (events with more tracks in the output can potentially be recovered with improved merging algorithms, or by discarding delta electron tracks). Of these, 407 events have at least one output track containing over 1000 hits (of which, 10 events have both tracks with over 1000 hits). In 341 events, there is one track with over 1000 hits, and one smaller track. The long track is identified from the truth information as corresponding to the muon, and the shorter track is identified from the truth information as corresponding to the proton.
 
 Based on the numbers above, an analysis that required precisely two tracks, one of which had over 1000 hits, and the other with fewer than 1000 hits will recover 397 events from the sample of 1000, of which 341 will be correctly identified as $\mu + p$ events, with the tracks tagged with the right particle type. This corresponds to an efficiency of $397/1000 = 39.7\%$ for selecting $\mu + p$ events, with a purity of $341/397 = 85.9\%$.
 
