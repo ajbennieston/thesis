@@ -131,9 +131,9 @@ Tracks are split into segments of length $L$ (in $\mm$), with the Kalman filter 
 \section{Tuning the Kalman Filter}\label{sec:kalman-tuning}
 The majority of parameters for the Kalman Filter are fixed by either the process itself (the description of multiple scattering that relates scattering angles to momenta) or by the measurement errors. The remaining free parameters are $R$ and $L$, the charge smoothing radius and segment length, respectively.
 
-A sample of single muon events was generated using the Lamu simulation, producing 100 muons at each energy in the range $100$ to $5000\MeV$ in $100\MeV$ increments. The muon hits from these events were processed using the Kalman filter, and the resulting momentum measurements recorded. The true momentum $p$ is related to the initial kinetic energy $T$ by:\footnote{$E^2 = p^2+m^2$ and $E = T + m$, so $p^2 + m^2 = T^2 + m^2 + 2 T m$ and the result above can be obtained by a cancellation of $m^2$ followed by the square root operator. This of course assumes natural units, i.e. $c=1$.}
+A sample of single muon events was generated using the Lamu simulation, producing 100 muons at each energy in the range $100$ to $5000\MeV$ in $100\MeV$ increments. The muon hits from these events were processed using the Kalman filter, and the resulting momentum measurements recorded. The true momentum $p$ is related to the initial kinetic energy $T$ by:\footnote{$E^2 = p^2+m^2$ and $E = T + m$, so $p^2 + m^2 = T^2 + m^2 + 2\,T m$ and the result above can be obtained by a cancellation of $m^2$ followed by the square root operator. This of course assumes natural units, i.e. $c=1$.}
 \begin{equation}\label{eqn:momentum-kinetic-energy-relationship}
-p = \sqrt{T^2 + 2 T m}
+p = \sqrt{T^2 + 2\,T m}
 \end{equation}
 where $m$ is the mass of the muon, $105.6583715\MeV$\citep{PDG2011}.
 
