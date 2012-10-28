@@ -15,7 +15,20 @@ In order to be able to select muons based on the track length (approximated as t
 \subsection{$770\MeV$ $\nu_\mu \rightarrow \mu + p$ (CCQE) Interactions}
 This study begins by looking at those distributions for the products of charged current interactions of $770\MeV$ $\nu_\mu$ which produced $\mu + p$ or $\mu + p + \pi^+$ final states, making use of the truth information saved by the simulation. Figure \ref{fig:ccqe-track-lengths-770MeV} shows the distribution of lengths (in terms of number of hits) for muon and proton tracks, and figure \ref{fig:ccqe-electron-lengths-770MeV} shows the distribution of lengths for electron tracks, which are plotted on a different graph because the total number of electron tracks is extremely large, though nearly all such tracks have fewer than 50 hits. These correspond to the delta electrons produced along the length of the other tracks. At neutrino energies around $770\MeV$, there is a strong case to be made for treating all tracks longer than $1000$ hits as muons, resulting in a trade-off between selection efficiency for muons and contamination by protons.
 
-Since the electron tracks are produced arbitrarily along the muon track, it is impossible to eliminate electron hits from the muon track, even with clustering techniques such as those provided by the cellular automaton (see chapter \ref{chapter:CellularAutomaton}). The purity of any such tracks will therefore be reduced by the presence of hits from these short delta electron tracks.
+Table \ref{table:cut-results-ccqe-0.77} shows the number of tracks included and excluded by a $1000$ hit cut, where the track type is determined from truth information. Since the electron tracks are produced arbitrarily along the muon track, it is impossible to eliminate electron hits from the muon track, even with clustering techniques such as those provided by the cellular automaton (see chapter \ref{chapter:CellularAutomaton}). The purity of any such tracks will therefore be reduced by the presence of hits from these short delta electron tracks, i.e. reconstructed muon tracks will not be $100\%$ pure at the hit level.
+
+\begin{table}
+\centering
+\begin{tabular}{*{5}{r}}
+ & $\mu$ & $p$ & $e^-$ & $\pi^\pm$ \\
+\hline
+\hline
+Included & 960 & 57 & 0 & 0 \\
+Excluded & 40 & 1143 & 67228 & 3 \\
+\hline
+\end{tabular}
+\caption[Composition of tracks after $1000$ hit cut on $770\MeV$ CCQE events]{\label{table:cut-results-ccqe-0.77}Composition of tracks after applying a $1000$ hit cut on the truth tracks from simulation of $770\MeV$ $\nu_\mu$ interactions producing $\mu\, +\,p$ final states. The cut selects muon tracks with $96.0\pm0.6\%$ efficiency and $94.4\pm0.8\%$ purity.}
+\end{table}
 
 \begin{figure}
 \centering
@@ -53,10 +66,24 @@ This data set contains $10^4$ events in which a $4.5\GeV$ $\nu_\mu$ underwent a 
 \caption[Track length distributions for $\mu$, $p$ and $\pi^+$ from $4.5\GeV$ neutrinos (CCQE)]{\label{fig:ccqe-track-lengths-4500MeV}Distribution of track lengths, represented as number of hits contained in a track, for muon (blue), proton (red) and charged pion (orange) tracks produced in charged current interactions of $\nu_\mu$ at $4.5\GeV$. The proton distribution peaks at over $1.55\times10^4$ tracks on the left.}
 \end{figure}
 
-For these high energy events, it is clear that any track with more than around 5000 hits must correspond to a muon, and the vast majority of muon tracks have between 14000 and 24000 hits. Using the track length to separate muons from other particles should provide an extremely pure selection of muons, in this case.
+For these high energy events, it is clear that any track with more than around 5000 hits must correspond to a muon, and the vast majority of muon tracks have between 14000 and 24000 hits. Using the track length to separate muons from other particles should provide an extremely pure selection of muons, in this case. Table \ref{table:cut-results-ccqe-4.5} shows the number of tracks included and excluded by a 5000 hit cut, where the track type is determined from truth information.
+
+\begin{table}
+\centering
+\begin{tabular}{*{5}{r}}
+ & $\mu$ & $p$ & $e^-$ & $\pi^\pm$ \\
+\hline
+\hline
+Included & 9982 & 14 & 0 & 0 \\
+Excluded & 32 & 29640 & 11961433 & 1646 \\
+\hline
+\end{tabular}
+\caption[Composition of tracks after $5000$ hit cut on $4.5\GeV$ CCQE events]{\label{table:cut-results-ccqe-4.5}Composition of tracks after applying a $5000$ hit cut on the truth tracks from simulation of $4.5\GeV$ $\nu_\mu$ interactions producing $\mu\, +\,p$ final states. The cut selects muon tracks with $99.7\pm0.1\%$ efficiency and $99.9\pm0.1\%$ purity.}
+\end{table}
+
 
 \subsection{$4.5\GeV$ $\nu_\mu \rightarrow \mu + p + \pi^+$ (CCPi) Interactions}
-This data set contains $10^4$ events in which a $4.5\GeV$ $\nu_\mu$ underwent a charged current interaction with an Argon nucleus, producing a $\mu + p + \pi^+$ final state. The distribution of track lengths (represented in terms of the number of hits) for muons, protons and charged pions is shown in figure \ref{fig:ccpi-track-lengths-4500MeV}. The $\pi^+$ and $p$ peaks on the left extend up to $4.3\times10^4$ tracks. In this case, the muons are once again clearly separated, as for the CCQE events at $4.5\GeV$, and a cut at 5000 hits would select almost entirely muon tracks, rejecting those from protons and pions.
+This data set contains $10^4$ events in which a $4.5\GeV$ $\nu_\mu$ underwent a charged current interaction with an Argon nucleus, producing a $\mu + p + \pi^+$ final state. The distribution of track lengths (represented in terms of the number of hits) for muons, protons and charged pions is shown in figure \ref{fig:ccpi-track-lengths-4500MeV}. The $\pi^+$ and $p$ peaks on the left extend up to $4.3\times10^4$ tracks. In this case, the muons are once again clearly separated, as for the CCQE events at $4.5\GeV$, and a cut at 5000 hits would select almost entirely muon tracks, rejecting those from protons and pions. Table \ref{table:cut-results-ccpi-4.5} shows the number of included and excluded tracks following a 5000 hit cut.
 
 \begin{figure}
 \centering
@@ -64,8 +91,34 @@ This data set contains $10^4$ events in which a $4.5\GeV$ $\nu_\mu$ underwent a 
 \caption[Track length distribution for $\mu$, $p$ and $\pi^+$ from $4.5\GeV$ neutrinos (CCPi)]{\label{fig:ccpi-track-lengths-4500MeV}Distribution of track lengths, represented as number of hits contained in a track, for muon (blue), proton (red) and charged pion (orange) tracks produced in charged current interactions of $\nu_\mu$ at $4.5\GeV$, resulting in $\mu + p + \pi^+$ final states. The proton and pion peaks on the left extend up to $4.3\times10^4$, and the plot range has been reduced to better display the separation between hadron ($p$ and $\pi$) and lepton ($\mu$) tracks. A cut at 5000 hits would cleanly select muons with low contamination from other tracks.}
 \end{figure}
 
+\begin{table}
+\centering
+\begin{tabular}{*{6}{r}}
+ & $\mu$ & $p$ & $e^-$ & $\pi^\pm$ & Other \\
+\hline
+\hline
+Included & 9717 & 24 & 0 & 12 & 12 \\
+Excluded & 337 & 67286 & 12854577 & 18691 & 188995 \\
+\hline
+\end{tabular}
+\caption[Composition of tracks after $5000$ hit cut on $4.5\GeV$ CCPi events]{\label{table:cut-results-ccpi-4.5}Composition of tracks after applying a $5000$ hit cut on the truth tracks from simulation of $4.5\GeV$ $\nu_\mu$ interactions producing $\mu\, +\,p +\,\pi^{+}$ final states. The cut selects muon tracks with $96.6\pm0.2\%$ efficiency and $99.5\pm0.1\%$ purity.}
+\end{table}
+
 \subsection{Conclusions}
 It is clear from the track distributions presented above that for the low energy $\mu + p$ events, and for the high energy $\mu + p$ and $\mu + p + \pi^+$ events, a simple cut on the minimum track length is sufficient to select muon tracks from an event. The low energy $\mu\, +\, p\, +\,\pi^+$ events are an exception to this, and present a more complicated case for analysis, which may require further variables to be considered in order to extract muons with high purity. More traditional particle identification mechanisms, which make use of many variables and attempt to categorise events based on likelihood fits or the results of a neural network are not considered here, but may prove useful in cases such as the low energy $\mu + p + \pi^+$, where the interactions of the particles differ considerably, but are not well represented in the track length alone.
 
-For the remaining three event classes (high and low energy CCQE, high energy CCPi) this range cut should retain high efficiency, though it is worth noting that the studies in this chapter consider truth information, and that the effects of a reconstruction algorithm such as the cellular automaton of chapter \ref{chapter:CellularAutomaton} will necessarily reduce the efficiency of such a technique.
+For the remaining three event classes (high and low energy CCQE, high energy CCPi) this range cut should retain high efficiency, though it is worth noting that the studies in this chapter consider truth information, and that the effects of a reconstruction algorithm such as the cellular automaton of chapter \ref{chapter:CellularAutomaton} will necessarily reduce the efficiency of such a technique. The cut values are summarised in table \ref{table:summary_cuts}.
 
+\begin{table}
+\centering
+\begin{tabular}{cccc}
+Class & Cut Value (Hits) & Efficiency & Purity \\
+\hline
+\hline
+CCQE $770\MeV$ & 1000 & $96.0\pm0.6$ & $94.4\pm0.8$ \\
+CCQE $4.5\GeV$ & 5000 & $99.7\pm0.1$ & $99.9\pm0.1$ \\
+CCPi $4.5\GeV$ & 5000 & $96.6\pm0.2$ & $99.5\pm0.1$ \\
+\hline
+\end{tabular}
+\caption[Summary of cuts with efficiencies and purities]{\label{table:summary_cuts}Summary of the cuts for muon selection in different event classes, including the efficiency for selecting muons, and the resulting purity.}
+\end{table}
