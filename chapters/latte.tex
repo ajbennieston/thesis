@@ -92,7 +92,9 @@ Despite this limitation, the three-dimensional feature response performs remarka
 \end{figure}
 
 \section{Feature Masking}
-Latte provides a service to \emph{mask out} (remove) hits within a spherical region around a feature. The feature masking service presents a new view of the data, which does not include hits positioned less than some radius away from a central point. Each such point can be the location of a feature as determined by the feature detection algorithms of section \ref{sec:latte_feature_detection}, or in a special case the point $(0,0,0)$, referred to as \emph{origin masking}.
+Latte provides a service to \emph{mask out} (remove) hits within a spherical region around a feature. The feature masking service presents a new view of the data, which does not include hits positioned less than some radius away from a central point. Each such point can be the location of a feature as determined by the feature detection algorithms of section \ref{sec:latte_feature_detection}, or in a special case the point $(0,0,0)$, referred to as \emph{origin masking}. 
+
+It is intended that the feature masking service is used after applying feature detection as described in section \ref{sec:latte_feature_detection}. Any feature above a threshold value could be used as a masking site to block out a small radius (typically less than $5\mm$) around that feature. This would effectively punch holes in the event around each vertex and make the task of clustering hits into tracks more straightforward.
 
 This service is useful because it allows algorithms to run on modified views of the event data, which often produces better results. One example would be in a clustering algorithm such as DBSCAN (see \ref{sec:latte_dbscan}), where the local point density affects the clustering. In this case, introducing a gap which corresponds to a feature such as a vertex results in a better clustering of tracks.
 
