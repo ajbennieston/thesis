@@ -6,11 +6,11 @@ Track fitting is the process by which track parameters are determined from a col
 Originally devised as a noise-reduction and signal filtering technique for communications, the Kalman filter determines optimal estimates of past, present and future states of a linear system based on a series of time-ordered measurements used in conjunction with a statistical model of the system and its measurement errors. It is used extensively for both track and vertex fitting in particle physics, most often in a magnetised detector, where it separates the curvature of a particle due to the magnetic field from the noise introduced by direction changes as a result of multiple scattering.
 
 \section{The {\sc Icarus} Kalman Filter}
-The {\sc Icarus}\citep{Amerio2004} experiment presented a Kalman filter\citep{Fruhwirth1987} which makes statistical use of the distribution of the multiple scattering angle $\theta$ to measure the momentum of a particle in a non-magnetised detector\citep{Ankowski2006}. The Kalman filter is used to filter out the noise introduced by limited detector resolution. The details of the {\sc Icarus} algorithm are presented here as an overview of the mechanism of action of the Kalman filter, but also as the basis for the Latte Kalman filter, which aims to perform the same task.
+The {\sc Icarus}~\citep{Amerio2004} experiment presented a Kalman filter~\citep{Fruhwirth1987} which makes statistical use of the distribution of the multiple scattering angle $\theta$ to measure the momentum of a particle in a non-magnetised detector~\citep{Ankowski2006}. The Kalman filter is used to filter out the noise introduced by limited detector resolution. The details of the {\sc Icarus} algorithm are presented here as an overview of the mechanism of action of the Kalman filter, but also as the basis for the Latte Kalman filter, which aims to perform the same task.
 
 The Kalman filter operates on a discrete set of states, each represented by a state vector $\vec{x}_k$. These states correspond to points on the track, and can in principle be measured anywhere along it. In practice, the track is split into segments of fixed length, and the endpoints of these segments define the set of planes at which the state vector $\vec{x}_k$ is evaluated. 
 
-The track system is described by the linear equation:\citep{Ankowski2006}
+The track system is described by the linear equation:~\citep{Ankowski2006}
 \begin{equation}\label{eqn:kalman_track_system}
     \vec{x}_k^{-} = F_{k-1} \vec{x}_{k-1} + \vec{w}_{k-1}
 \end{equation}
@@ -64,7 +64,7 @@ The transportation matrix $F_k$ provides a straight line extrapolation, with no 
     \end{array} \right)
 \end{equation}
 
-The measurement vector includes the coordinates and slopes, but not the inverse momentum. Instead, the angle $\theta_0$ between adjacent track segments at the plane $k$ is used; these angles build up a $\thetarms$ measurement, which is fed to the Kalman filter. Equation \eqref{eqn:kalman_theta_p_relationship} relates this scattering angle to the momentum\citep{Eidelman2004}.
+The measurement vector includes the coordinates and slopes, but not the inverse momentum. Instead, the angle $\theta_0$ between adjacent track segments at the plane $k$ is used; these angles build up a $\thetarms$ measurement, which is fed to the Kalman filter. Equation \eqref{eqn:kalman_theta_p_relationship} relates this scattering angle to the momentum~\citep{Eidelman2004}.
 \begin{equation}\label{eqn:kalman_theta_p_relationship}
     \thetarms = \frac{13.6\MeV}{\beta c p} z \sqrt{\frac{l}{X_0}} \left(1 + 0.038\ln\left[\frac{l}{X_0}\right]\right)
 \end{equation}
@@ -82,7 +82,7 @@ where $C$ is the constant multiplying $\displaystyle \frac{1}{p}$ in equation \e
 Finally, the covariance matrices $Q_k$ (for the system covariance) and $V_k$ (for the measurement covariance) must be taken into account. The {\sc Icarus} experiment use system covariance matrices from \citep{Wolin1993}, where the covariances for multiple scattering are carefully derived, while the measurements are assumed to be uncorrelated, and the matrix $V$ is diagonal, with each component representing the measurement error.
 
 \section{The Latte Kalman Filter}
-The Latte Kalman filter follows closely the formulation used in the {\sc Icarus} filter. The implementation is based on that present in the SciPy\citep{SciPy} package for scientific programming in the Python language, with a linear system corresponding to the track fitting mechanism used by {\sc Icarus}.
+The Latte Kalman filter follows closely the formulation used in the {\sc Icarus} filter. The implementation is based on that present in the SciPy~\citep{SciPy} package for scientific programming in the Python language, with a linear system corresponding to the track fitting mechanism used by {\sc Icarus}.
 
 The state vector $x_k$ is:
 \begin{equation}\label{eqn:kalman_latte_state_vector}
@@ -99,7 +99,7 @@ The measurement vector is identical to the state vector, except for the scatteri
 \end{equation}
 
 
-The process covariance matrix $Q$ is a $5\times 5$ matrix defined as:\citep{Wolin1993}
+The process covariance matrix $Q$ is a $5\times 5$ matrix defined as:~\citep{Wolin1993}
 \begin{equation}\label{eqn:kalman_process_covariance_matrix}
     Q = \left(
     \begin{array}{ccccc}
@@ -135,7 +135,7 @@ A sample of single muon events was generated using the Lamu simulation, producin
 \begin{equation}\label{eqn:momentum-kinetic-energy-relationship}
 p = \sqrt{T^2 + 2\,T m}
 \end{equation}
-where $m$ is the mass of the muon, $105.6583715\MeV$\citep{PDG2011}.
+where $m$ is the mass of the muon, $105.6583715\MeV$~\citep{PDG2011}.
 
 The segment length was initially chosen to be six times the charge smoothing radius, and the radius varied between $20.1\mm$ and $50.1\mm$. Figure \ref{fig:kalman-mu-momentum-charge-radius-variations} shows the resulting measurements, represented by the mean reconstructed momentum as a function of the true momentum. Smaller smoothing radii ($20.1\mm$) give smaller standard deviation in the results, especially at high momentum, while the mean values are closer to the true momentum for larger smoothing radii of $30.1\mm$ to $40.1\mm$. The distributions of residuals (defined as $p_{\mathrm{true}} - p_{\mathrm{recon}}$) are presented in figure \ref{fig:kalman-residuals} for each of the radii considered here. At momenta over approximately $500\MeV$, the Kalman filter underestimates the momentum when used with short ($20.1\mm$ and $30.1\mm$) segment lengths, but overestimates it for larger segment lengths. As the segment length increases, the range of momentum estimates also increases (both in the positive and negative directions). The Kalman filter in this configuration does not, therefore, provide reliable estimates of momentum.
 
@@ -187,6 +187,6 @@ In this section, the Kalman filter is applied to hits produced by the muon gener
 
 The Kalman filter overestimates the momentum in both the low energy and high energy neutrinos, though the effect is much more pronounced at high energy. Since the method of estimating momentum through the Kalman filter relies on measurements of the multiple scattering angle, these observations correspond to an underestimate of the angle. The angle is more likely to be underestimated at high energy since the effect of scattering is smaller there.
 
-The Kalman filter is traditionally a powerful tool for track parameter estimation, but in the environment of a \ac{LAr TPC} it does not perform well, at least for the estimation of track momentum. The {\sc Icarus} experiment achieved better results, but with a smaller measurement error on their individual hits ($400\micron$)\citep{Ankowski2006}.
+The Kalman filter is traditionally a powerful tool for track parameter estimation, but in the environment of a \ac{LAr TPC} it does not perform well, at least for the estimation of track momentum. The {\sc Icarus} experiment achieved better results, but with a smaller measurement error on their individual hits ($400\micron$)~\citep{Ankowski2006}.
 
 The spatial track parameters were not considered here because muons in liquid Argon undergo frequent large scatters, resulting in tracks that can have substantial curvature or kinks. These track features make it extremely difficult to compare the state of the Kalman filter to the spatial parameters of the whole track, and would have to be considered on a smaller scale, with instantaneous state vectors.
