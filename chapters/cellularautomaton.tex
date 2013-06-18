@@ -71,6 +71,26 @@ The pre- and post-processing stages are specific to the form of data used; prepr
 %% --------------------------------------------------
 %% SUBSECTION: Preprocessing
 %% --------------------------------------------------
+\subsection{Terminology}
+The following description of the cellular automaton reconstruction algorithm makes extensive use of the terms \emph{forward}, \emph{backward}, \emph{left} and \emph{right}. For the most part, these terms originated in the papers describing earlier implementations of cellular automata for tracking, described earlier in this chapter. Precise definitions in the context of the algorithm used here are given below. Note that the algorithm presented is, to the maximum extent possible, fully three-dimensionally aware and that, in particular, the concept of left or right is relative, even though it is required in order to avoid ambiguity about how to proceed in any given step. The algorithm cannot be described without defining the terms, but the terms cannot be properly defined without describing the algorithm; the definitions here should be taken together with the complete description that follows.
+
+\vspace{1em}\hrule\vspace{1em}
+\begin{description}
+    \item[Forward]
+        The \emph{forward} run is the process by which the cellular automaton gives each cell a weight value, updating it until a stable state is reached (i.e. no weights change from one pass to the next). This process occurs across the entire 3D space, and may even be performed in parallel.
+    
+    \item[Reverse, or Backward]
+        The \emph{reverse} run is the process by which the cellular automaton follows a chain of cells whose weights decrease from an arbitrary integer to $1$, descending by $1$ weight unit at a time. This process can occur in any direction in 3D space; the \emph{reverse} part relates to traversing a chain of cells from a high number to a low number.
+
+    \item[Left and Right]
+        The term \emph{left}, or \emph{leftward}, describes the relative position of one hit or cell when compared with another hit or cell. The positions are taken relative to a single direction vector in 3D, which is usually chosen to be along one of the axes of the detector. A typical choice is for this vector to be along the beam, with \emph{left} upstream and \emph{right} downstream, but the algorithm does not require this to be the case. All that is required is a relative sense of direction, consistent across the entire detector, but applied locally when comparing nearby points or cells.
+\end{description}
+\vspace{1em}\hrule\vspace{1em}
+
+
+%% --------------------------------------------------
+%% SUBSECTION: Preprocessing
+%% --------------------------------------------------
 \subsection{Preprocessing}\label{sec:cellularautomaton_preprocessing}
 \subsubsection{Charge Weighting}\label{sec:cellularautomaton_preprocessing_charge_weighting}
 A charge weighted smoothing procedure is applied to the raw hits before further processing occurs. This procedure is described in section \ref{sec:cellularautomaton_charge_weighting}.
