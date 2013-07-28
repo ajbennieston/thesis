@@ -142,7 +142,13 @@ Coventry CV4 7AL}
 
 \input{chapters/conclusion}
 
+% Force the appendix to retain sequential page numbering
+\renewcommand\pagenumbering[1]{}
+\appendix
+\input{chapters/otheralg}
+
 % Bibliography stuff follows
+
 \bibliographystyle{unsrtnat}
 \cleardoublepage % Required to make the contents line and PDF bookmark go to the right page!
 \phantomsection % Ensure PDF bookmark is set
