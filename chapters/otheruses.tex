@@ -64,3 +64,10 @@ The BDT was trained with a signal consisting of electron showers with energies b
 
 These results demonstrate that the cellular automaton algorithm fit for its original purpose, but can also be applied to scenarios for which it was never designed. Therefore, as a track finder and as a general purpose clustering tool, the CA is a valuable addition to the toolkit provided by the Latte framework.
 
+\section{Local Principal Curves}
+Local Principal Curves (LPC) are an extension of Principal Components Analysis (PCA) in which a curve is found and followed by evaluating the principal components of hits in a local sphere, moving along the main principal component axis, then repeating the procedure~\citep{Einbeck2005}.
+
+The Warwick group are currently investigating the possibility of using Local Principal Curves for track finding, shower finding and other reconstruction tasks in liquid Argon. The LPC code has been interfaced to the Latte framework through a control module allowing it to be operated in a reconstruction pipeline, and opening up the entire toolbox of algorithms, input and output formats, simulations and facilities provided in Latte. This has allowed for more rapid development of the techniques being explored with the LPC, and provided sample data in the form of simulated events from TrackGen and Lamu, both of which can be read via the Latte framework. A paper describing the results of these investigations is currently in preparation.
+
+\section{Pandora Particle Flow Analysis}
+The Pandora PFA (Particle Flow Analysis) algorithm~\citep{Thomson2009} has been successfully applied to neutrino events in liquid Argon detectors by members of the Warwick group. Although the investigation so far has used Pandora as a standalone tool, there are plans to integrate Pandora with the Latte framework. Pandora is written in C++, while the Latte framework is written in Python. Using a library like \texttt{Boost.Python}\footnote{\url{http://www.boost.org/doc/libs/1_54_0/libs/python/doc/index.html}}, it is possible to integrate the two, demonstrating the utility of Latte as a general purpose control framework for almost any algorithm of interest.
