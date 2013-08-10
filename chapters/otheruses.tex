@@ -1,0 +1,66 @@
+\chapter{Continued Use of the Latte Framework}
+
+Following on from the work in this thesis, the Latte framework has seen continued use by others at the University of Warwick. This chapter describes some of these developments and puts them in the context of the work presented in this thesis.
+
+\section{Cellular Automaton}
+The characterisation and assessment of the \ac{CA} algorithm for track finding in liquid Argon has continued, resulting in a draft paper to be submitted to Eur. Phys. J. C~\citep{Back2013}.
+
+In the paper, further optimisation of the CA algorithm for muon and proton tracks in liquid Argon yields the set of parameter values shown in table \ref{table:opt-params-further-work}. The CA algorithm itself remains identical to the implementation described in this thesis, but the merging strategy was changed to use information local to the endpoints of each cluster, giving rise to the \emph{stitching} parameters listed.
+
+\begin{table}
+\centering
+\begin{tabular}{*{6}{c}}
+Smoothing & CA    & CA search radius & Stitching & Stitching       & Min. cluster \\
+radius    & angle & / max. radius    & angle     & num. end-points & hit count \\
+\hline
+\hline
+$6\mm$ & $20\degree$ & $3\mm$ / $12\mm$ & $30\degree$ & $5$ & $5$ \\
+\hline
+\end{tabular}
+\caption[CA reconstruction parameters for CCQE events]{\label{table:opt-params-further-work}Summary of the optimal reconstruction parameters for the CA algorithm applied to CCQE events. Data from \cite{Back2013}.}
+\end{table}
+
+The CA was applied to two datasets from $0.77\GeV$ $\mu_\nu$ interactions, each containing $1000$ simulated events. The first set had $\mu + p$ (CCQE) final states, while the second set had $\mu + p + \pi^+$ ($\CCPI$) final states. The reconstruction efficiency and purity for each particle species of interest are shown in table \ref{table:ccqe-recon-efficiency-further-work} for the CCQE events, and table \ref{table:ccpi-recon-efficiency-further-work} for the $\CCPI$ events. In both cases a proton range cut was applied based on the truth data, requiring protons to have more than $25$ hits, equivalent to a $2.5\mm$ track, or a $10\MeV$ minimum ionising particle travelling through liquid Argon.
+
+\begin{table}
+\centering
+\begin{tabular}{*{5}{c}}
+Num. recon. & Muon             & Muon        & Proton          & Proton      \\
+clusters    & efficiency (\%)  & purity (\%) & efficiency (\%) & Purity (\%) \\
+\hline
+\hline
+$N = 2$ & $98.3$ & $92.4$ & $99.0$ & $95.9$ \\
+$N > 1$ & $92.7$ & $92.3$ & $98.8$ & $95.5$ \\
+$N > 0$ & $93.1$ & $91.7$ & $98.8$ & $95.1$ \\
+\hline
+\end{tabular}
+\caption[CCQE reconstruction efficiency]{\label{table:ccqe-recon-efficiency-further-work}Mean efficiency and purity measured at the hit level for muons and protons from $0.77\GeV$ $\nu_\mu$ interactions. A proton range cut at 25 hits was applied based on the Monte Carlo truth data. Data from \cite{Back2013}.}
+\end{table}
+
+\begin{table}
+\centering
+\begin{tabular}{*{7}{c}}
+Num. recon. & Muon        & Muon     & Proton          & Proton      & Pion            & Pion \\
+clusters    & efficiency  & purity   & efficiency      & Purity      & efficiency      & purity      \\
+            & (\%)        &     (\%) &            (\%) &        (\%) &            (\%) &        (\%) \\
+\hline
+\hline
+$N > 2$ & $96.9$ & $86.9$ & $98.3$ & $90.1$ & $92.6$ & $85.5$ \\
+$N > 0$ & $97.3$ & $85.6$ & $98.5$ & $89.0$ & $93.1$ & $84.1$ \\
+\hline
+\end{tabular}
+\caption[$\CCPI$ reconstruction efficiency]{\label{table:ccpi-recon-efficiency-further-work}Mean efficiency and purity measured at the hit level for muons, protons and pions from $0.77\GeV$ $\nu_\mu$ interactions. A proton range cut at 25 hits was applied based on the Monte Carlo truth data. Data from \citep{Back2013}.}
+\end{table}
+
+The paper also evaluates the application of the CA algorithm to track-shower discrimination, using data from the clusters found by the CA as input to a Boosted Decision Tree (BDT) based on the TMVA~\citep{TMVA} package. The three input variables are derived from the CA output as follows:
+
+\begin{enumerate}
+    \item Ratio of transverse to logitudinal extent of the cluster
+    \item Ratio of Coulomb energy\footnote{The Coulomb energy of a cluster is defined here as the sum over all hits of the charge in each hit divided by the distance from the hit to the main principal component axis of the cluster.} to the longitudinal extent of the cluster
+    \item Number of clusters produced by the CA; important for low energy, where the geometric variables do not provide good discrimination between muon tracks and electron showers.
+\end{enumerate}
+
+The BDT was trained with a signal consisting of electron showers with energies between $10\MeV$ and $3\GeV$ and a background consisting of muons in the same energy range. The optimal cut was defined to be the one that maximises the ratio of signal to total event rate. This yields a 97.3\% signal efficiency (i.e. a 3.7\% contamination) for discriminating electron showers from muon tracks, across all of the energies sampled.
+
+These results demonstrate that the cellular automaton algorithm fit for its original purpose, but can also be applied to scenarios for which it was never designed. Therefore, as a track finder and as a general purpose clustering tool, the CA is a valuable addition to the toolkit provided by the Latte framework.
+
