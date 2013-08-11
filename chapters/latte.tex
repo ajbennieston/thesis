@@ -43,6 +43,16 @@ The \ac{DBSCAN} algorithm has been applied to spatial data obtained from a \ac{L
 \subsection{\acs{OPTICS}}
 The \ac{OPTICS} algorithm~\citep{Ankerst1999} extends \ac{DBSCAN} by performing a \emph{hierarchical clustering}; an ordering operation which is equivalent to returning the density-based clusterings associated with a broad range of values of the parameter $\epsilon$. For example, given a fixed value of $N_\mathrm{min}$, clusters obtained with a small $\epsilon$ (that is, high density clusters) are completely contained within the clusters obtained for a larger $\epsilon$ (lower density). \ac{OPTICS} exploits this relationship to provide information about the clustering on all $\epsilon$ scales, allowing clusters to be extracted from spatial data with varying densities.
 
+During the execution of the \ac{OPTICS} algorithm, an array is built up in which the points from the input data set are sorted according to proximity and density. Points which are close to each other in the input data set will be close together in the array, which is one-dimensional. \ac{OPTICS} produces a reachability plot with the indices into this array on the $x$ axis and a reachability distance on the $y$ axis. An example of a reachability plot is shown in figure \ref{fig:optics-reachability-plot}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{chapters/latte_images/optics-reachability}
+    \caption[Reachability plot from the OPTICS clustering algorithm]{\label{fig:optics-reachability-plot}An example of a reachability plot and the clusters found on one scale. The reachability plot allows clusters on any scale to be found by choosing an appropriate reachability distance threshold ($y$ axis value). Figure adapted from \citep{Ankerst1999}.}
+\end{figure}
+
+It is this reachability plot that gives \ac{OPTICS} the ability to simultaneously cluster on all density scales. Each index has an associated reachability distance, and clusters are represented by valleys in the plot, separated by peaks of high reachability distance. Depending on the clustering scale desired, the plot can be scanned for peaks above a certain threshold. Between each threshold index, the points contained are associated to a single cluster.
+
 \section{Feature Detection}\label{sec:latte_feature_detection}
 Feature detection refers to the procedure of locating interest points within an image or event. Latte provides two-dimensional feature detection using the method described in \citep{Morgan2010}. Three-dimensional feature detection is currently based on running the two-dimensional feature finder in multiple projections and combining the results.
 
