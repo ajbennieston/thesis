@@ -174,13 +174,25 @@ Genie allows for the selection of interaction type, e.g. \ac{CCQE} scattering, b
 A number of existing and planned experiments use a \acs{LAr TPC}. This section summarises the main experiments, including notable prototypes or future planned experiments, describing the technology used in the detector, the status of any software framework, and the issues faced by those experiments.
 
 \subsection{The Fermilab Liquid Argon Experiments}
-A number of proposed and running experiments at Fermilab use \acs{LAr TPCs}. Many of those experiments are collaborating on a single software framework, called \emph{LArSoft}, which will be shared by those experiments.
+A number of proposed and running experiments at Fermilab use \acs{LAr TPC}s. There is a software framework called \emph{LArSoft}, which will be shared by the ArgoNeuT~\citep{ArgoNeuT}, MicroBooNE and LBNE experiments.
 
 \subsubsection{The LArSoft Framework}
+LArSoft aims to be a complete set of reconstruction, simulation and analysis tools, shared by the liquid Argon neutrino experiments based at Fermilab. It accepts data from GENIE and Geant simulations, as well as real data from the ArgoNeuT experiment. The development goals are to provide wire calibration, hit finding and clustering, endpoint finding, 3D tracking, 3D shower finding, vertex finding and calorimetry~\citep{LArSoft2011}.
+
+\subsubsection{ArgoNeuT}
+ArgoNeuT~\citep{ArgoNeuT} is a small \acs{LAr TPC} exposed to the Fermilab NuMI (Neutrinos at the Main Injector) beam. ArgoNeuT is the first phase of Fermilab's path towards using a massive \acs{LAr TPC} in the LBNE experiment.
+
+The detector itself consists of a vacuum-insulated cryostat holding $550$ litres of liquid Argon, with a \acs{TPC} active area of $40\times47\times90\cm^3$, or approximately $170$ litres. The maximum drift length is $47\cm$ and there is a uniform electric field of $500\volt\cm^{-1}$ between the cathode and the anode, which consists of three wire planes with $4\mm$ wire pitch in each plane and a $4\mm$ spacing between planes. Liquid Argon is circulated through a closed-loop cooling and filtration system which removes electronegative impurities.
+
+The first (\emph{shield}) wire plane is not instrumented, and acts to shield the outer two planes from induced signals created by drifting electrons in the main \acs{TPC} volume. The second (\emph{induction}) plane consists of $240$ wires at $+60\degree$ to the beam axis. Drifting electrons induce a signal in these wires after passing the shield plane. The third (\emph{collection}) plane consists of $240$ wires at $-60\degree$ to the beam axis, and collects the electrons at the end of their drift.
+
+At each beam spill, $2\times240$ signals are collected from the wires, pre-amplified, filtered and digitized. A wire-plane \emph{hit} is characterised by the peak signal amplitude and the coordinates in the (\emph{wire--time}) plane. Hits from both planes are reconstructed into space coordinates associated with the tracks of ionising particles through the drift volume and associated with the energy deposited at those coordinates.
+
+The DBSCAN algorithm is used to cluster hits into tracks, using an elliptical neighbourhood based on the geometry of the wire planes. Lines are found in each 2D plane of clustered hits using the Hough transform, and those lines with similar slopes and connecting endpoints are merged together on a plane by plane basis. At this stage, candidate interaction points are found by looking at the longest 2D clusters in each plane. Some confusion is caused by $\delta$ rays, which must be filtered out.
+
+Tracks found in each plane are combined into 3D by matching the drift coordinates of each hit and requiring that the hits coincide within a time window allowing for the drift time between planes. Geometric data is provided in the form of direction cosines and the effective length of the track portion that was exposed to a single wire. This allows for the computation of $dE/dx$ information, which is corrected using Birk's model for electron recombination.
 
 \subsubsection{MicroBooNE}
-
-\subsubsection{ArgoNeut}
 
 \subsubsection{LBNE}
 
