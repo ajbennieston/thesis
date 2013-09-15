@@ -211,9 +211,9 @@ The TPC itself will consist of alternating rows of anode and cathode planes with
 LBNE will use the LArSoft framework and take advantage of the reconstruction procedures demonstrated by both ArgoNeuT and MicroBooNE.
 
 \subsection{Laguna LBNO}
+Laguna-LBNO~\citep{Laguna} is a planned $2300\km$ long baseline neutrino oscillation experiment in Europe, utilising a beam from CERN, with a far detector consisting of a $20\kton$ \acs{LAr TPC} and a magnetised Iron calorimeter. Its physics goals include measuring $\delta_{CP}$ by directly observing CP violation, and attempting to measure the neutrino mass hierarchy. The far detector is to be built deep underground (approximately $1440\metre$, or $4000\metre$ water equivalent), which also allows for the study of a number of low event rate phenomena. The \acs{LAr TPC} will use Large Electron Multiplier technology for its readout planes, with Silicon Photomultipliers providing optical readout. The drift field will be between $500\volt\cm^{-1}$ and $1000\volt\cm^{-1}$. One challenge faced by the experiment will be achieving sufficiently high liquid Argon purity to allow for very long drift lengths in a single, non-evacuated tank.
 
-\subsubsection{Detector Design}
-\subsubsection{Software Framework}
+Reconstruction will be provided by the QSCAN framework, which was originally developed for the Icarus 50L 15T and T600 experiments. It provides noise reduction and hit finding, as well as clustering and track reconstruction in two-dimensional planes, using the Hough transform. Three-dimensional reconstruction is once again achieved by combining information from multiple two-dimensional planes.
 
 \subsection{Icarus T600}
 The Icarus T600 detector~\citep{Icarus2013} is a $600\ton$ \acs{LAr TPC} operating at the Gran Sasso National Laboratory in the CNGS (CERN to Gran Sasso) neutrino beam. It has three readout wire planes, at $0\degree, +60\degree$ and $-60\degree$ to the vertical, all with a $3\mm$ wire pitch.
