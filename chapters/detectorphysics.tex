@@ -177,7 +177,7 @@ A number of existing and planned experiments use a \acs{LAr TPC}. This section s
 A number of proposed and running experiments at Fermilab use \acs{LAr TPC}s. There is a software framework called \emph{LArSoft}, which will be shared by the ArgoNeuT~\citep{ArgoNeuT}, MicroBooNE and LBNE experiments.
 
 \subsubsection{The LArSoft Framework}
-LArSoft aims to be a complete set of reconstruction, simulation and analysis tools, shared by the liquid Argon neutrino experiments based at Fermilab. It accepts data from GENIE and Geant simulations, as well as real data from the ArgoNeuT experiment. The development goals are to provide wire calibration, hit finding and clustering, endpoint finding, 3D tracking, 3D shower finding, vertex finding and calorimetry~\citep{LArSoft2011}.
+LArSoft aims to be a complete set of reconstruction, simulation and analysis tools, shared by the liquid Argon neutrino experiments based at Fermilab. It accepts data from GENIE and Geant simulations, as well as real data from the ArgoNeuT experiment. The development goals are to provide wire calibration, hit finding and clustering, endpoint finding, 3D tracking, 3D shower finding, vertex finding and calorimetry~\citep{LArSoft2011}. The sections below on each Fermilab experiment contain further details of the use of the LArSoft framework for their reconstruction tasks.
 
 \subsubsection{ArgoNeuT}
 ArgoNeuT~\citep{ArgoNeuT} is a small \acs{LAr TPC} exposed to the Fermilab NuMI (Neutrinos at the Main Injector) beam. ArgoNeuT is the first phase of Fermilab's path towards using a massive \acs{LAr TPC} in the LBNE experiment.
@@ -193,6 +193,7 @@ The DBSCAN algorithm is used to cluster hits into tracks, using an elliptical ne
 Tracks found in each plane are combined into 3D by matching the drift coordinates of each hit and requiring that the hits coincide within a time window allowing for the drift time between planes. Geometric data is provided in the form of direction cosines and the effective length of the track portion that was exposed to a single wire. This allows for the computation of $dE/dx$ information, which is corrected using Birk's model for electron recombination.
 
 \subsubsection{MicroBooNE}
+The MicroBooNE~\citep{MicroBooNE} experiment 
 
 \subsubsection{LBNE}
 
