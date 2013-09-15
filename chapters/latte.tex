@@ -56,7 +56,7 @@ It is this reachability plot that gives \ac{OPTICS} the ability to simultaneousl
 \section{Feature Detection}\label{sec:latte_feature_detection}
 Feature detection refers to the procedure of locating interest points within an image or event. Latte provides two-dimensional feature detection using the method described in \citep{Morgan2010}. Three-dimensional feature detection is currently based on running the two-dimensional feature finder in multiple projections and combining the results.
 
-\subsection{Two-dimensional Feature Detection}
+\subsection{Two-dimensional Feature Detection}\label{sec:two-dim-feature-detection}
 Two-dimensional feature detection uses the \emph{structure tensor} $S$, which is a second-moment matrix defined in terms of the intensity variation of a two-dimensional image:~\citep{Morgan2010}
 \begin{equation}\label{eqn:structure_tensor}
     S(x,y) = g(\sigma_s) \ast \left[ \begin{array}{cc} I_x(x,y)^2 & I_x(x,y)I_y(x,y) \\ I_x(x,y)I_y(x,y) & I_y(x,y)^2 \end{array} \right]
