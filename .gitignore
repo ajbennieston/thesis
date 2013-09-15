@@ -16,11 +16,13 @@
 *.nav
 *.nlo
 *.out
+*.out-e
 *.pdfsync
 *.ps
 *.snm
 *.synctex.gz
 *.toc
+*.toc-e
 *.vrb
 *.maf
 *.mtc

@@ -14,9 +14,9 @@ all:
 	$(LATEX)  $(THESISFILE)
 	$(LATEX)  $(THESISFILE)
 	# Correct TOC
-	sed -i "/appendix/s/Chapter/Appendix/" $(THESISFILE).toc
+	sed -i -e "/appendix/s/Chapter/Appendix/" $(THESISFILE).toc
 	# Correct PDF bookmarks
-	sed -i "/appendix/s/Chapter/Appendix/" $(THESISFILE).out
+	sed -i -e "/appendix/s/Chapter/Appendix/" $(THESISFILE).out
 	$(LATEX)  $(THESISFILE)
 
 correct-bookmarks: all
@@ -26,12 +26,12 @@ correct-bookmarks: all
 	$(BIBTEX) $(THESISFILE)
 	$(LATEX)  $(THESISFILE)
 	# Correct TOC
-	sed -i "/appendix/s/Chapter/Appendix/" $(THESISFILE).toc
+	sed -i -e "/appendix/s/Chapter/Appendix/" $(THESISFILE).toc
 	# Correct PDF bookmarks
-	sed -i "/appendix/s/Chapter/Appendix/" $(THESISFILE).out
+	sed -i -e "/appendix/s/Chapter/Appendix/" $(THESISFILE).out
 	$(LATEX)  $(THESISFILE)
 
 clean:
-	rm -f *.bbl *.blg *.out *.lof *.log *.aux *.lot *.toc
+	rm -f *.bbl *.blg *.out *.lof *.log *.aux *.lot *.toc *.toc-e *.out-e
 	rm -f thesis.pdf
 
