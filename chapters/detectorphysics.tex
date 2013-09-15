@@ -215,10 +215,8 @@ LBNE will use the LArSoft framework and take advantage of the reconstruction pro
 \subsubsection{Detector Design}
 \subsubsection{Software Framework}
 
-\subsection{Icarus}
-The Icarus T600 detector is a $600\ton$ \acs{LAr TPC} operating at the Gran Sasso National Laboratory in the CNGS (CERN to Gran Sasso) neutrino beam. It has three readout wire planes, at $0\degree, +60\degree$ and $-60\degree$ to the vertical, all with a $3\mm$ wire pitch.
+\subsection{Icarus T600}
+The Icarus T600 detector~\citep{Icarus2013} is a $600\ton$ \acs{LAr TPC} operating at the Gran Sasso National Laboratory in the CNGS (CERN to Gran Sasso) neutrino beam. It has three readout wire planes, at $0\degree, +60\degree$ and $-60\degree$ to the vertical, all with a $3\mm$ wire pitch.
 
-The first stage of reconstruction consists of converting individual wire signals into hits by recording their spatial position and calorimetric information. These are clustered into 2D structures in each wire plane, which are categorised as tracks or showers. The DBSCAN algorithm has been proposed for this clustering.
-
-Three-dimensional reconstruction is performed by matching clusters in at least two 2D planes, there is no fully three-dimensional reconstruction at present.
+The first stage of reconstruction consists of converting individual wire signals into hits by recording their spatial position and calorimetric information. These are clustered into 2D structures in each wire plane, which are categorised as tracks or showers. The DBSCAN algorithm has been proposed for this clustering. Three-dimensional reconstruction is performed by matching clusters in at least two 2D planes, there is no fully three-dimensional reconstruction at present.
 
