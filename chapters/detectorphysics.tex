@@ -174,7 +174,7 @@ Genie allows for the selection of interaction type, e.g. \ac{CCQE} scattering, b
 A number of existing and planned experiments use a \acs{LAr TPC}. This section summarises the main experiments, including notable prototypes or future planned experiments, describing the technology used in the detector, the status of any software framework, and the issues faced by those experiments.
 
 \subsection{The Fermilab Liquid Argon Experiments}
-A number of proposed and running experiments at Fermilab use \acs{LAr TPC}s. There is a software framework called \emph{LArSoft}, which will be shared by the ArgoNeuT~\citep{ArgoNeuT}, MicroBooNE and LBNE experiments.
+A number of proposed and running experiments at Fermilab use \acs{LAr TPC}s. There is a software framework called \emph{LArSoft}, which will be shared by the ArgoNeuT~\citep{ArgoNeuT}, MicroBooNE~\citep{MicroBooNE} and LBNE~\citep{LBNE} experiments.
 
 \subsubsection{The LArSoft Framework}
 LArSoft aims to be a complete set of reconstruction, simulation and analysis tools, shared by the liquid Argon neutrino experiments based at Fermilab. It accepts data from GENIE and Geant simulations, as well as real data from the ArgoNeuT experiment. The development goals are to provide wire calibration, hit finding and clustering, endpoint finding, 3D tracking, 3D shower finding, vertex finding and calorimetry~\citep{LArSoft2011}. The sections below on each Fermilab experiment contain further details of the use of the LArSoft framework for their reconstruction tasks.
@@ -202,6 +202,13 @@ The offline software for MicroBooNE uses the LarSoft toolkit, and includes a sim
 MicroBooNE faces a number of challenges during the construction and operation, including the readout of a large number of wire channels in cryogenic environments, maintaining liquid Argon purity in a large detector without resorting to vacuum processes, ensuring that wires do not break inside the large cryostat volume, and demonstrating successful simulation and reconstruction of events in a large \acs{LAr TPC}.
 
 \subsubsection{LBNE}
+The LBNE~\citep{LBNE} collaboration aim to build a long baseline neutrino oscillation experiment using a large \acs{LAr TPC} as the far detector. With a $1300\km$ baseline and an intense neutrino beam providing neutrino energies between $0.5\GeV$ and $5.0\GeV$, the aim is to make precision measurements of $\theta_{13}$ and to determine the $\Charge\Parity$ violating phase $\delta_{CP}$ using a combination of traditional near detectors at Fermilab, and a $10\kton$ \acs{LAr TPC} far detector.
+
+The \acs{LAr TPC} will consist of two cryostats built side-by-side, with their long axes parallel to the beam, and separated by a wall which is centered on the beam centre. Each cryostat will be $13.9\times 14\times 25.3\metre^3$ and have a fiducial mass of $5\kton$ or a total mass of $6.7\kton$ (giving $13.5\kton$ for the entire far detector).
+
+The TPC itself will consist of alternating rows of anode and cathode planes with a uniform electric field of $500\volt\cm^{-1}$ in the drift spaces. The maximum drift distance (i.e. the separation of the planes) is $2.3\metre$, and the cathode will consist of three instrumented wire planes (two induction and one collection) and a fourth, uninstrumented, plane to shield the others from electrostatic discharge and improve signal-to-noise ratio on the first induction plane. The planes will be oriented vertically and at $\pm45\degree$ to the vertical, improving resolution along the beam compared to the $\pm60\degree$ configuration of ArgoNeuT and MicroBooNE, and will have a $4.5\mm$ wire pitch. With $2650$ wires in each cathode plane, there will be a total of $153600$ readout channels per cryostat. Readout electronics will be in the liquid Argon, and will include pre-amplification, pulse shaping and digitisation.
+
+LBNE will use the LArSoft framework and take advantage of the reconstruction procedures demonstrated by both ArgoNeuT and MicroBooNE.
 
 \subsection{Laguna LBNO}
 
