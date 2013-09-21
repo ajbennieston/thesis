@@ -28,7 +28,7 @@ Using this information, the algorithm was terminated when a second peak was seen
 
 While this algorithm was capable of finding straight line structures, the method described above for detecting corners was insufficient to prevent contamination of track candidates with hits from another particle, and the cellular automaton proved to be faster and more efficient, while employing some of the same techniques. The KDTree algorithm was able to reconstruct a limited number of toy tracks from the \emph{TrackGen} simulation, but was never tested against the \emph{Lamu} simulated neutrino events.
 
-\section{The Hough Transform}
+\section{The Hough Transform}\label{sec:hough_transform}
 The Hough transform is a method for finding straight lines from a set of points $p_i = (x_i, y_i)$ in the $xy$-plane~\citep{Hough1959}. Each point $(x_i, y_i)$ is transformed into a sinusoidal curve $r(\theta)$ as follows:
 \begin{equation}
     r(\theta) = x_i \cos \theta + y_i \sin \theta
