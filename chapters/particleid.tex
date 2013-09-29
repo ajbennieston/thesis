@@ -124,3 +124,40 @@ CCQE $4.5\GeV$ & 5000 & $99.7\pm0.1$ & $99.9\pm0.1$ \\
 \end{tabular}
 \caption[Summary of cuts with efficiencies and purities]{\label{table:summary_cuts}Summary of the cuts for muon selection in different event classes, including the efficiency for selecting muons, and the resulting purity.}
 \end{table}
+
+\section{Angular Distributions}
+Relativistic kinematics dictates that the angular distribution of final state particles will depend on their mass~\citep{PDG2012}. Differences in the angular distribution of muons, protons and charged pions could allow for the construction of PID variables to aid the discrimination between those particle species. In this section, a comparison is made between the angular distributions of protons and muons in \acs{CCQE} interactions at $0.77\GeV$ and $4.5\GeV$ energies, and for \acs{CCPi} interactions at the same energies, including the distribution of charged pions.
+
+In each case, the data is taken from the output of a set of Genie interactions, using the following quantities based on the final state particle momentum. Note that these correspond to components of a unit vector along the momentum vector, or, equivalently, normalised direction vectors, i.e. direction cosines $\cos\alpha_{x,y,z}$, with a range between $-1$ and $1$.
+
+\begin{equation}\label{eqn:angular_variables}
+    \hat{p}_{x,y,z} = \frac{p_{x,y,z}}{p_x^2 + p_y^2 + p_z^2}
+\end{equation}
+
+These interactions were generated with a muon neutrino beam in the $+x$ direction, so the distributions should be peaked in the forward $x$ direction, and symmetric in $y$ and $z$.
+
+\subsection{$770\MeV$ $\nu_\mu \rightarrow \ccqe$ (CCQE) Interactions}
+Figure \ref{fig:ccqe-770-angle} shows the angular distribution of muons and protons in \acs{CCQE} $\nu_\mu$ interactions at $770\MeV$, producing a $\ccqe$ final state.
+
+\begin{figure}
+    \centering
+    \subfigure[$\hat{p}_x$]{
+        \includegraphics[angle=-90,width=0.65\textwidth]{chapters/particleid_images/ccqe-px-770}
+        \label{fig:ccqe-px-770}
+    }
+    \subfigure[$\hat{p}_y$]{
+        \includegraphics[angle=-90,width=0.65\textwidth]{chapters/particleid_images/ccqe-py-770}
+        \label{fig:ccqe-py-770}
+    }
+    \subfigure[$\hat{p}_z$]{
+        \includegraphics[angle=-90,width=0.65\textwidth]{chapters/particleid_images/ccqe-pz-770}
+        \label{fig:ccqe-pz-770}
+    }
+    \caption[Angular distribution of $\mu$, $p$ at $770\MeV$]{\label{fig:ccqe-770-angle}Angular distribution of muons and protons in \acs{CCQE} interactions at $770\MeV$. See text for discussion.}
+\end{figure}
+
+\subsection{$770\MeV$ $\nu_\mu \rightarrow \ccpi$ (\acs{CCPi}) Interactions}
+
+\subsection{$4.5\GeV$ $\nu_\mu \rightarrow \ccqe$ (CCQE) Interactions}
+
+\subsection{$4.5\GeV$ $\nu_\mu \rightarrow \ccpi$ (\acs{CCPi}) Interactions}
