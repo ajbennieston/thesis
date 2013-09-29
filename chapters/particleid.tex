@@ -44,7 +44,6 @@ Table \ref{table:cut-results-ccqe-0.77} shows the number of tracks included and 
 \caption[Track length distribution for $e^{-}$ from $770\MeV$ neutrinos (CCQE)]{\label{fig:ccqe-electron-lengths-770MeV}Distribution of track lengths, represented as number of hits contained in a track, for electron tracks produced as secondary particles following charged current interactions of $\nu_\mu$ at $770\MeV$. An extremely large number of very short electron tracks can be seen, corresponding to the production of delta electrons along the length of the trajectories of the primary muon and proton. Most electron tracks have fewer than 50 hits.}
 \end{figure}
 
-
 \clearpage
 % ************ 0.77 GeV CCPi ************
 \subsection{$770\MeV$ $\nu_\mu \rightarrow \ccpi$ (\acs{CCPi}) Interactions}
@@ -106,24 +105,6 @@ Excluded & 337 & 67286 & 12854577 & 18691 & 188995 \\
 \end{table}
 
 \clearpage
-\subsection{Conclusions}
-It is clear from the track distributions presented above that for the low energy $\mu + p$ events, and for the high energy $\ccqe$ and $\ccpi$ events, a simple cut on the minimum track length is sufficient to select muon tracks from an event. The low energy $\ccpi$ events are an exception to this, and present a more complicated case for analysis, which may require further variables to be considered in order to extract muons with high purity. More traditional particle identification mechanisms, which make use of many variables and attempt to categorise events based on likelihood fits or the results of a neural network are not considered here, but may prove useful in cases such as the low energy $\ccpi$, where the interactions of the particles differ considerably, but are not well represented in the track length alone.
-
-For the remaining three event classes (high and low energy CCQE, high energy \acs{CCPi}) this range cut should retain high efficiency, though it is worth noting that the studies in this chapter consider truth information, and that the effects of a reconstruction algorithm such as the cellular automaton of chapter \ref{chapter:CellularAutomaton} will necessarily reduce the efficiency of such a technique. The cut values are summarised in table \ref{table:summary_cuts}.
-
-\begin{table}
-\centering
-\begin{tabular}{cccc}
-Class & Cut Value (Hits) & Efficiency & Purity \\
-\hline
-\hline
-CCQE $770\MeV$ & 1000 & $96.0\pm0.6$ & $94.4\pm0.8$ \\
-CCQE $4.5\GeV$ & 5000 & $99.7\pm0.1$ & $99.9\pm0.1$ \\
-\acs{CCPi} $4.5\GeV$ & 5000 & $96.6\pm0.2$ & $99.5\pm0.1$ \\
-\hline
-\end{tabular}
-\caption[Summary of cuts with efficiencies and purities]{\label{table:summary_cuts}Summary of the cuts for muon selection in different event classes, including the efficiency for selecting muons, and the resulting purity.}
-\end{table}
 
 \section{Angular Distributions}
 Relativistic kinematics dictates that the angular distribution of final state particles will depend on their mass~\citep{PDG2012}. Differences in the angular distribution of muons, protons and charged pions could allow for the construction of PID variables to aid the discrimination between those particle species. In this section, a comparison is made between the angular distributions of protons and muons in \acs{CCQE} interactions at $0.77\GeV$ and $4.5\GeV$ energies, and for \acs{CCPi} interactions at the same energies, including the distribution of charged pions.
@@ -131,7 +112,7 @@ Relativistic kinematics dictates that the angular distribution of final state pa
 In each case, the data is taken from the output of a set of Genie interactions, using the following quantities based on the final state particle momentum. Note that these correspond to components of a unit vector along the momentum vector, or, equivalently, normalised direction vectors, i.e. direction cosines $\cos\alpha_{x,y,z}$, with a range between $-1$ and $1$.
 
 \begin{equation}\label{eqn:angular_variables}
-    \hat{p}_{x,y,z} = \frac{p_{x,y,z}}{p_x^2 + p_y^2 + p_z^2}
+    \hat{p}_{x,y,z} = \frac{p_{x,y,z}}{\sqrt{p_x^2 + p_y^2 + p_z^2}}
 \end{equation}
 
 These interactions were generated with a muon neutrino beam in the $+x$ direction, so the distributions should be peaked in the forward $x$ direction, and symmetric in $y$ and $z$.
@@ -228,4 +209,26 @@ Figure \ref{fig:ccpi-4500-angle} shows the angular distribution of muons, proton
     }
     \caption[Angular distribution of $\mu$, $p$ and $\pi^+$ at $4.5\GeV$]{\label{fig:ccpi-4500-angle}Angular distribution of muons, protons and charged pions in \acs{CCPi} interactions at $4.5\GeV$. See text for discussion.}
 \end{figure}
+
+\section{Conclusions}
+It is clear from the track distributions presented above that for the low energy $\mu + p$ events, and for the high energy $\ccqe$ and $\ccpi$ events, a simple cut on the minimum track length is sufficient to select muon tracks from an event. The low energy $\ccpi$ events are an exception to this, and present a more complicated case for analysis, which may require further variables to be considered in order to extract muons with high purity. More traditional particle identification mechanisms, which make use of many variables and attempt to categorise events based on likelihood fits or the results of a neural network are not considered here, but may prove useful in cases such as the low energy $\ccpi$, where the interactions of the particles differ considerably, but are not well represented in the track length alone.
+
+For the remaining three event classes (high and low energy \acs{CCQE}, high energy \acs{CCPi}) this range cut should retain high efficiency, though it is worth noting that the studies in this chapter consider truth information, and that the effects of a reconstruction algorithm such as the cellular automaton of chapter \ref{chapter:CellularAutomaton} will necessarily reduce the efficiency of such a technique.
+
+In addition to a range cut, it is possible to select muons in high energy \acs{CCQE} events based on their $x$ direction cosine, $\displaystyle \hat{p}_x = \frac{p_x}{\sqrt{p_x^2 + p_y^2 + p_z^2}}$. The cut values are summarised in table \ref{table:summary_cuts}.
+
+\begin{table}
+\centering
+\begin{tabular}{cccc}
+    Class & Cut Value & Efficiency (\%) & Purity (\%) \\
+\hline
+\hline
+\acs{CCQE} $770\MeV$ & 1000 hits & $96.0\pm0.6$ & $94.4\pm0.8$ \\
+\acs{CCQE} $4.5\GeV$ & 5000 hits & $99.7\pm0.1$ & $99.9\pm0.1$ \\
+\acs{CCQE} $4.5\GeV$ & $\hat{p}_x > 0.90$ & $96.4\pm0.3$ & $97.8\pm0.2$ \\
+\acs{CCPi} $4.5\GeV$ & 5000 hits & $96.6\pm0.2$ & $99.5\pm0.1$ \\
+\hline 
+\end{tabular}
+\caption[Summary of cuts with efficiencies and purities]{\label{table:summary_cuts}Summary of the cuts for muon selection in different event classes, including the efficiency for selecting muons, and the resulting purity.}
+\end{table}
 
