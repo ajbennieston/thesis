@@ -14,7 +14,7 @@ In order to be able to select muons based on the track length (approximated as t
 
 % ************ 0.77 GeV CCQE ************
 \subsection{$770\MeV$ $\nu_\mu \rightarrow \ccqe$ (CCQE) Interactions}
-This study begins by looking at those distributions for the products of charged current interactions of $770\MeV$ $\nu_\mu$ which produced $\ccqe$ or $\ccpi$ final states, making use of the truth information saved by the simulation. Figure \ref{fig:ccqe-track-lengths-770MeV} shows the distribution of lengths (in terms of number of hits) for muon and proton tracks, and figure \ref{fig:ccqe-electron-lengths-770MeV} shows the distribution of lengths for electron tracks, which are plotted on a different graph because the total number of electron tracks is extremely large, though nearly all such tracks have fewer than 50 hits. These correspond to the delta electrons produced along the length of the other tracks. At neutrino energies around $770\MeV$, there is a strong case to be made for treating all tracks longer than $1000$ hits as muons, resulting in a trade-off between selection efficiency for muons and contamination by protons.
+This study begins by looking at those distributions for the products of charged current interactions of $770\MeV$ $\nu_\mu$ which produced $\ccqe$ or $\ccpi$ final states, making use of the truth information saved by the simulation. Figure \ref{fig:ccqe-track-lengths-770MeV} shows the distribution of lengths (in terms of number of hits) for muon, proton and electron tracks. At neutrino energies around $770\MeV$, there is a strong case to be made for treating all tracks longer than $1000$ hits as muons, resulting in a trade-off between selection efficiency for muons and contamination by protons.
 
 \begin{table}
 \centering
@@ -35,16 +35,9 @@ Table \ref{table:cut-results-ccqe-0.77} shows the number of tracks included and 
 \begin{figure}
 \centering
 \includegraphics[angle=-90,width=0.8\textwidth]{chapters/particleid_images/particle-lengths-ccqe-770}
-\caption[Track length distribution for $\mu$ and $p$ from $770\MeV$ neutrinos (CCQE)]{\label{fig:ccqe-track-lengths-770MeV}Distribution of track lengths, represented as number of hits contained in a track, for muon (blue) and proton (red) tracks produced in charged current interactions of $\nu_\mu$ at $770\MeV$. The distributions are naturally separated at around $1000$ hits.}
+\caption[Track length distribution for $\mu$, $p$ and $e^-$ from $770\MeV$ neutrinos (CCQE)]{\label{fig:ccqe-track-lengths-770MeV}Distribution of track lengths, represented as number of hits contained in a track, for muon (blue), proton (red) and electron (green) tracks produced in charged current interactions of $\nu_\mu$ at $770\MeV$. The muon and proton distributions are naturally separated at around $1000$ hits. An extremely large number of short electron tracks can be seen, corresponding to the production of delta electrons along the length of the trajectories of the primary muon and proton. Most electron tracks have fewer than 50 hits.}
 \end{figure}
 
-\begin{figure}
-\centering
-\includegraphics[angle=-90,width=0.8\textwidth]{chapters/particleid_images/electron-lengths-ccqe-770}
-\caption[Track length distribution for $e^{-}$ from $770\MeV$ neutrinos (CCQE)]{\label{fig:ccqe-electron-lengths-770MeV}Distribution of track lengths, represented as number of hits contained in a track, for electron tracks produced as secondary particles following charged current interactions of $\nu_\mu$ at $770\MeV$. An extremely large number of very short electron tracks can be seen, corresponding to the production of delta electrons along the length of the trajectories of the primary muon and proton. Most electron tracks have fewer than 50 hits.}
-\end{figure}
-
-\clearpage
 % ************ 0.77 GeV CCPi ************
 \subsection{$770\MeV$ $\nu_\mu \rightarrow \ccpi$ (\acs{CCPi}) Interactions}
 This data set contains 1000 events where a $770\MeV$ $\nu_\mu$ underwent a charged current interaction with an Argon nucleus, producing a $\ccpi$ final state. The distribution of track lengths (represented in terms of the number of hits) for muons, protons and charged pions is shown in figure \ref{fig:ccpi-track-lengths-770MeV}. Here, the separation of muons from other particles by track length alone is not a realistic proposal; although the muons dominate the longer tracks, a number of pion tracks are also long enough to provide significant pollution of the muon selection if track length alone is used to discriminate particle type.
