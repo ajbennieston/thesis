@@ -157,7 +157,56 @@ Figure \ref{fig:ccqe-770-angle} shows the angular distribution of muons and prot
 \end{figure}
 
 \subsection{$770\MeV$ $\nu_\mu \rightarrow \ccpi$ (\acs{CCPi}) Interactions}
+Figure \ref{fig:ccpi-770-angle} shows the angular distribution of muons, protons and charged pions in \acs{CCPi} $\nu_\mu$ interactions at $770\MeV$, producing a $\ccpi$ final state. As with the \acs{CCQE} case, the distributions are too similar to permit a simple cut value for discrimination, but the $\hat{p}_x$ variable shows the proton peaked much more strongly at $+1$ than the muon or pion, while $\hat{p}_y$ and $\hat{p}_z$ show a stronger proton peak at $0$, i.e. the proton is produced with momentum mostly in the $+x$ direction. This could be of use in a multivariate analysis for discrimination, when combined with other PID variables. It should be noted that these variables are not uncorrelated, i.e. $\left|\hat{\vec{p}}\right| = \left|(\hat{p}_x, \hat{p}_y, \hat{p}_z)\right| = 1$, so if one variable is peaked at $\pm 1$, it is expected to find the other two close to zero.
+
+\begin{figure}
+    \centering
+    \subfigure[$\hat{p}_x$]{
+        \includegraphics[angle=-90,width=0.65\textwidth]{chapters/particleid_images/ccpi-px-770}
+        \label{fig:ccpi-px-770}
+    }
+    \subfigure[$\hat{p}_y$]{
+        \includegraphics[angle=-90,width=0.65\textwidth]{chapters/particleid_images/ccpi-py-770}
+        \label{fig:ccpi-py-770}
+    }
+    \subfigure[$\hat{p}_z$]{
+        \includegraphics[angle=-90,width=0.65\textwidth]{chapters/particleid_images/ccpi-pz-770}
+        \label{fig:ccpi-pz-770}
+    }
+    \caption[Angular distribution of $\mu$, $p$ and $\pi^+$ at $770\MeV$]{\label{fig:ccpi-770-angle}Angular distribution of muons, protons and charged pions in \acs{CCPi} interactions at $770\MeV$. See text for discussion.}
+\end{figure}
 
 \subsection{$4.5\GeV$ $\nu_\mu \rightarrow \ccqe$ (CCQE) Interactions}
+Figure \ref{fig:ccqe-4500-angle} shows the angular distribution of muons and protons in \acs{CCQE} $\nu_\mu$ interactions at $4.5\GeV$, producing a $\ccqe$ final state. In this case, the muon and proton distributions in the $\hat{p}_x$ variable are sufficiently distinct that a straightforward cut would have some discriminating power. Choosing a cut at $\hat{p}_x = 0.90$, it is possible to select muons with an efficiency of $96.4\%$ and a purity of $97.8\%$. Table \ref{table:cut-results-ccqe-4500-angle} shows the detailed results of this cut.
+
+\begin{figure}
+    \centering
+    \subfigure[$\hat{p}_x$]{
+        \includegraphics[angle=-90,width=0.65\textwidth]{chapters/particleid_images/ccqe-px-4500}
+        \label{fig:ccqe-px-4500}
+    }
+    \subfigure[$\hat{p}_y$]{
+        \includegraphics[angle=-90,width=0.65\textwidth]{chapters/particleid_images/ccqe-py-4500}
+        \label{fig:ccqe-py-4500}
+    }
+    \subfigure[$\hat{p}_z$]{
+        \includegraphics[angle=-90,width=0.65\textwidth]{chapters/particleid_images/ccqe-pz-4500}
+        \label{fig:ccqe-pz-4500}
+    }
+    \caption[Angular distribution of $\mu$, $p$ at $4.5\GeV$]{\label{fig:ccqe-4500-angle}Angular distribution of muons and protons in \acs{CCQE} interactions at $4.5\GeV$. See text for discussion.}
+\end{figure}
+
+\begin{table}
+    \centering
+    \begin{tabular}{*{3}{r}}
+        & $\mu$ & $p$ \\
+        \hline
+        \hline
+        Included & 9636 & 214 \\
+        Excluded & 364 & 9786 \\
+        \hline
+    \end{tabular}
+    \caption[Composition of tracks after cut on $\hat{p}_x$ for $4.5\GeV$ \acs{CCQE} events]{\label{table:cut-results-ccqe-4500-angle}Composition of tracks after applying a cut on $\hat{p}_x > 0.90$ on $10^4$ \acs{CCQE} events from the Genie generator with a $\nu_\mu$ at $4.5\GeV$ incident on liquid Argon. The cut selects muons with an efficiency of $96.4\%$ and a purity of $97.8\%$.}
+\end{table}
 
 \subsection{$4.5\GeV$ $\nu_\mu \rightarrow \ccpi$ (\acs{CCPi}) Interactions}
