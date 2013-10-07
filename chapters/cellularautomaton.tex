@@ -210,6 +210,18 @@ The events were first charge weighted with a radius of $6.0\mm$, then scaled wit
 %% SUBSECTION: Raw CA output
 %% --------------------------------------------------
 \subsection{Raw \acl{CA} Output}
+\begin{table}[h]
+    \centering
+    \begin{tabular}{cccc}
+        $\theta$ ($\degree$) & $R_W$ ($\mm$) & $R_M$ ($\mm$) & Min. Range (hits) \\
+        \hline
+        \hline
+        10 & 6 & 5 & 20 \\
+        \hline
+    \end{tabular}
+    \caption[CA parameter set for toy track processing]{\label{table:ca_params_toy_tracks}Cellular Automaton parameters used for the reconstruction of toy tracks.}
+\end{table}
+
 The number of tracks found by the \ac{CA} as a function of angle is presented in figure \ref{fig:ca_toy_raw_trackcounts}. With 1000 events at each angle, and an input sample of events containing only two tracks, the number of interest is the efficiency for finding two tracks; that is, the number of events in which two clusters were found divided by the total number of events.% The two track efficiency is shown in figure \ref{fig:ca_toy_raw_twotrack_efficiency}.
 
 
@@ -349,6 +361,18 @@ Figure \ref{fig:ca-ccqe-reduced-eff-pur-efficiency} shows the hit efficiency and
 \end{figure}
 
 \subsubsection{Full Reconstruction}
+\begin{table}[h]
+    \centering
+    \begin{tabular}{cccc}
+        $\theta$ ($\degree$) & $R_W$ ($\mm$) & $R_M$ ($\mm$) & Min. Range (hits) \\
+        \hline
+        \hline
+        10 & 5 & 30 & 20 \\
+        \hline
+    \end{tabular}
+    \caption[CA parameter set for reconstruction of CCQE events]{\label{table:ca_params_ccqe}Cellular Automaton parameters used for the reconstruction of CCQE $\nu_\mu$ events.}
+\end{table}
+
 Having attempted to optimise the parameters on a reduced dataset where two reconstructed tracks are expected, the performance of the \ac{CA} can be assessed when run against the full simulated events. Here, a much smaller range cut of 20 hits is applied. Events containing proton tracks with fewer than 20 hits are not processed, and in the remaining events all objects with fewer than 20 hits are cut out of the data before reconstruction. A 20 hit track corresponds approximately to a $20\mm$ trajectory, or an energy deposit of $4.2\MeV$, based on a minimum-ionising particle depositing $2.1\MeV \cm^{-1}$. Such values can be considered as realistic energy thresholds in any liquid Argon TPC, and the presence of tracks in the simulated data with such short range adds noise that would simply not be seen in a real detector. Following the 20 hit range requirement on protons, 878 events of the 1000 event sample survive for reconstruction. 
 
 Because of this relaxation of the initial range cuts, and because the full event data is now included, the results are expected to be poorer than those for the case presented above. In particular, the noise introduced by delta electrons will serve to pull the \ac{CA} off course as it follows long tracks, and the decay products may themselves contribute additional tracks which can be reconstructed. We should not, therefore, expect the mean number of reconstructed tracks to be two.
@@ -395,6 +419,18 @@ The relatively large number of events reconstructed with just one track can be p
 Figure \ref{fig:ca-ccqe-full-efficiency} shows the hit efficiency (as defined above) for the full CCQE reconstruction. Here, the drop in efficiency with increasing track length is still present, though the effect is reduced; probably because the additional hits from delta electrons help to smooth out the large scattering angles sometimes present, and allow the \ac{CA} to run through them. Figure \ref{fig:ca-ccqe-full-purity} demonstrates that the \ac{CA} produces extremely pure tracks (over $90\%$ pure) even in situations where hits from delta electrons, decay products and other sources of noise are present. Since one of the main goals of clustering is to obtain collections of related hits, a high purity is very important.
 
 \subsection{Charged Current $\nu_\mu \rightarrow \ccpi$ ($\CCPI$)}
+\begin{table}[h]
+    \centering
+    \begin{tabular}{cccc}
+        $\theta$ ($\degree$) & $R_W$ ($\mm$) & $R_M$ ($\mm$) & Min. Range (hits) \\
+        \hline
+        \hline
+        10 & 5 & 30 & 20 \\
+        \hline
+    \end{tabular}
+    \caption[CA parameter set for reconstruction of \acs{CCPi} events]{\label{table:ca_params_ccpi}Cellular Automaton parameters used for the reconstruction of \acs{CCPi} $\nu_\mu$ events.}
+\end{table}
+
 A small fraction of low energy neutrino charged current interactions will produce a charged pion in the final state, mostly through the production and subsequent decay of nucleon resonances. These events were generated with Genie, taking all charged current interactions at the required energy of $0.77\GeV$ and selecting those with a $\ccpi$ (only) final state. The reconstruction algorithm parameters were identical to those applied to the \ac{CCQE} events, above, i.e. $\theta=10\degree$, $R_w=5.0\mm$ and $R_m=30.0\mm$. Once again, 1000 events were generated, and a range cut of 20 hits imposed on both the proton and pion tracks, leaving 891 events for reconstruction.
 
 In principle, the task of reconstruction is more challenging for these events due to the additional final state particle when compared to the CCQE events. In practice, the \ac{CA} handles these events with little degradation of performance. Figure \ref{fig:ca-ccpi-trackcounts} shows the distribution of number of tracks reconstructed. More tracks are found, on average, than in the CCQE events, which is to be expected since we must now consider the additional primary particle, decay products from the $\mu$ or $\pi^+$, and delta electrons or hadronic reinteraction of the proton, as before. Only 26 tracks ($3\%$) were reconstructed with fewer than three tracks. The \ac{CA} therefore successfully clusters $97\%$ of these events. Figure \ref{fig:ca-clusters-ccpi} shows an example of the CA output for a $\ccpi$ event in which both the $\mu$ and $\pi^+$ decay.
