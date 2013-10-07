@@ -239,17 +239,17 @@ where table \ref{table:bethe-bloch-symbols} describes the symbols and their unit
     \caption[Definition of symbols used in Bethe-Bloch equation]{\label{table:bethe-bloch-symbols}Definition and units for symbols used in the Bethe-Bloch equation. Adapted from~\citep{PDG2012}.}
 \end{table}
 
-The rate of energy loss is often used as a discriminating variable for particle identification. In this section, the energy deposited in the Lamu simulation is shown for primary muons, protons and charged pions resulting from muon neutrino interactions at $0.77\GeV$ and $4.5\GeV$. In each case, the $dE/dx$ is represented by $dQ/dx$, the charge (energy) deposited in sections of simulated tracks that are $50$ hits long, divided by the length of that segment as computed between the first and last hits included. In each case, the $x$ axis represents $dQ/dx$ in $\MeV \cm^{-1}$ and is truncated at $1 \MeV\cm^{-1}$. This is done because samples were taken along the entire track length, giving rise to long tails in each distribution as particles slow down and deposit larger amounts of energy per unit length. These tails are truncated in the results to emphasise the area of interest for discrimination between particle species.
+The rate of energy loss is often used as a discriminating variable for particle identification. In this section, the energy deposited in the Lamu simulation is shown for primary muons, protons and charged pions resulting from muon neutrino interactions at $0.77\GeV$ and $4.5\GeV$. In each case, the $dE/dx$ is represented by $dQ/dx$, the charge (energy) deposited in sections of simulated tracks that are $50$ hits long, divided by the length of that segment as computed between the first and last hits included. In each case, the $x$ axis represents $dQ/dx$ in $\MeV \mm^{-1}$ and is truncated at $1 \MeV\mm^{-1}$. This is done because samples were taken along the entire track length, giving rise to long tails in each distribution as particles slow down and deposit larger amounts of energy per unit length. These tails are truncated in the results to emphasise the area of interest for discrimination between particle species.
 
 \subsection{$770\MeV$ $\nu_\mu \rightarrow \ccqe$ (CCQE) Interactions}
-Figure \ref{fig:ccqe-770-dEdx} shows the $dE/dx$ distribution for muons and protons in \acs{CCQE} $\nu_\mu$ interactions at $770\MeV$, producing a $\ccqe$ final state. The two distributions are partially separated and a cut value could be selected at $dE/dx \sim 0.18 \MeV\cm^{-1}$. The $dE/dx$ information could also be fed into a multivariate analysis along with other \acs{PID} variables.
+Figure \ref{fig:ccqe-770-dEdx} shows the $dE/dx$ distribution for muons and protons in \acs{CCQE} $\nu_\mu$ interactions at $770\MeV$, producing a $\ccqe$ final state. The two distributions are partially separated and a cut value could be selected at $dE/dx \sim 0.18 \MeV\mm^{-1}$. The $dE/dx$ information could also be fed into a multivariate analysis along with other \acs{PID} variables.
 
-Applying a cut at $dE/dx < 0.18 \MeV \cm^{-1}$ to the same data, this time restricting the $dE/dx$ calculation to the first $50$ hit segment of each track, shows that it is possible to select muons with $100\%$ efficiency and $100\%$ purity. This indicates that the first segment of each track has strong discriminating power in terms of particle identification. Table \ref{table:ccqe-770-dedx-cut} shows the detailed results of this cut. Note that the difficulty will lie in determining whether a reconstructed track segment is at or near the beginning of a track. This requires a reconstruction algorithm with a high hit-level efficiency and most likely requires a vertex identification algorithm to provide assurance that the starting section of a track is selected for $dE/dx$ computation.
+Applying a cut at $dE/dx < 0.18 \MeV \mm^{-1}$ to the same data, this time restricting the $dE/dx$ calculation to the first $50$ hit segment of each track, shows that it is possible to select muons with $100\%$ efficiency and $100\%$ purity. This indicates that the first segment of each track has strong discriminating power in terms of particle identification. Table \ref{table:ccqe-770-dedx-cut} shows the detailed results of this cut. Note that the difficulty will lie in determining whether a reconstructed track segment is at or near the beginning of a track. This requires a reconstruction algorithm with a high hit-level efficiency and most likely requires a vertex identification algorithm to provide assurance that the starting section of a track is selected for $dE/dx$ computation.
 
 \begin{figure}
     \centering
     \includegraphics[angle=-90,width=0.8\textwidth]{chapters/particleid_images/ccqe-770-dQdx}
-    \caption[$dE/dx$ distribution for protons and muons from $770\MeV$ $\nu_\mu$]{\label{fig:ccqe-770-dEdx}Distribution of energy loss rates ($dE/dx$) for protons and muons in \acs{CCQE} interactions at $770\MeV$. See text for discussion.}
+    \caption[$dE/dx$ distribution for $\mu$, $p$ from $770\MeV$ $\nu_\mu$]{\label{fig:ccqe-770-dEdx}Distribution of energy loss rates ($dE/dx$) for protons and muons in \acs{CCQE} interactions at $770\MeV$. See text for discussion.}
 \end{figure}
 
 \begin{table}
@@ -262,7 +262,7 @@ Applying a cut at $dE/dx < 0.18 \MeV \cm^{-1}$ to the same data, this time restr
         Excluded & 0 & 1000 \\
         \hline
     \end{tabular}
-    \caption[Composition of tracks after cut on $dE/dx$ for $770\MeV$ \acs{CCQE} events]{\label{table:ccqe-770-dedx-cut}Composition of tracks after applying a cut on $dE/dx < 0.18 \MeV\cm^{-1}$ to $1000$ \acs{CCQE} events from the Lamu simulation, in which protons and muons were produced from $770\MeV$ $\nu_\mu$ interactions. The cut selects muons with an efficiency of $100\%$ and a purity of $100\%$.}
+    \caption[Composition of tracks after cut on $dE/dx$ for $770\MeV$ \acs{CCQE} events]{\label{table:ccqe-770-dedx-cut}Composition of tracks after applying a cut on $dE/dx < 0.18 \MeV\mm^{-1}$ to $1000$ \acs{CCQE} events from the Lamu simulation, in which protons and muons were produced from $770\MeV$ $\nu_\mu$ interactions. The cut selects muons with an efficiency of $100\%$ and a purity of $100\%$.}
 \end{table}
 
 \subsection{$770\MeV$ $\nu_\mu \rightarrow \ccpi$ (\acs{CCPi}) Interactions}
@@ -271,7 +271,7 @@ Figure \ref{fig:ccpi-770-dEdx} shows the $dE/dx$ distribution of muons, protons 
 \begin{figure}
     \centering
     \includegraphics[angle=-90,width=0.8\textwidth]{chapters/particleid_images/ccpi-770-dQdx}
-    \caption[$dE/dx$ distribution for protons, muons and charged pions from $770\MeV$ $\nu_\mu$]{\label{fig:ccpi-770-dEdx}Distribution of energy loss rates ($dE/dx$) for protons, muons and charged pions in \acs{CCPi} interactions at $770\MeV$. See text for discussion.}
+    \caption[$dE/dx$ distribution for $\mu$, $p$ and $\pi^+$ from $770\MeV$ $\nu_\mu$]{\label{fig:ccpi-770-dEdx}Distribution of energy loss rates ($dE/dx$) for protons, muons and charged pions in \acs{CCPi} interactions at $770\MeV$. See text for discussion.}
 \end{figure}
 
 \subsection{$4.5\GeV$ $\nu_\mu \rightarrow \ccqe$ (CCQE) Interactions}
@@ -280,7 +280,7 @@ Figure \ref{fig:ccqe-4500-dEdx} shows the $dE/dx$ distribution of muons and prot
 \begin{figure}
     \centering
     \includegraphics[angle=-90,width=0.8\textwidth]{chapters/particleid_images/ccqe-4500-dQdx}
-    \caption[$dE/dx$ distribution for protons and muons from $4.5\GeV$ $\nu_\mu$]{\label{fig:ccqe-4500-dEdx}Distribution of energy loss rates ($dE/dx$) for protons and muons in \acs{CCQE} interactions at $4.5\GeV$. See text for discussion.}
+    \caption[$dE/dx$ distribution for $\mu$, $p$ from $4.5\GeV$ $\nu_\mu$]{\label{fig:ccqe-4500-dEdx}Distribution of energy loss rates ($dE/dx$) for protons and muons in \acs{CCQE} interactions at $4.5\GeV$. See text for discussion.}
 \end{figure}
 
 \subsection{$4.5\GeV$ $\nu_\mu \rightarrow \ccpi$ (\acs{CCPi}) Interactions}
@@ -289,7 +289,7 @@ Figure \ref{fig:ccpi-4500-dEdx} shows the $dE/dx$ distribution of muons, protons
 \begin{figure}
     \centering
     \includegraphics[angle=-90,width=0.8\textwidth]{chapters/particleid_images/ccpi-4500-dQdx}
-    \caption[$dE/dx$ distribution for protons, muons and charged pions from $4.5\GeV$ $\nu_\mu$]{\label{fig:ccpi-4500-dEdx}Distribution of energy loss rates ($dE/dx$) for protons, muons and charged pions in \acs{CCPi} interactions at $4.5\GeV$. See text for discussion.}
+    \caption[$dE/dx$ distribution for $\mu$, $p$ and $\pi^+$ from $4.5\GeV$ $\nu_\mu$]{\label{fig:ccpi-4500-dEdx}Distribution of energy loss rates ($dE/dx$) for protons, muons and charged pions in \acs{CCPi} interactions at $4.5\GeV$. See text for discussion.}
 \end{figure}
 
 \section{Conclusions}
@@ -297,7 +297,7 @@ It is clear from the track distributions presented above that for the low energy
 
 For the remaining three event classes (high and low energy \acs{CCQE}, high energy \acs{CCPi}) this range cut should retain high efficiency, though it is worth noting that the studies in this chapter consider truth information, and that the effects of a reconstruction algorithm such as the cellular automaton of chapter \ref{chapter:CellularAutomaton} will necessarily reduce the efficiency of such a technique.
 
-In addition to a range cut, it is possible to select muons in high energy \acs{CCQE} events based on their $x$ direction cosine, $\displaystyle \hat{p}_x = \frac{p_x}{\sqrt{p_x^2 + p_y^2 + p_z^2}}$. The cut values are summarised in table \ref{table:summary_cuts}.
+In addition to a range cut, it is possible to select muons in high energy \acs{CCQE} events based on their $x$ direction cosine, $\displaystyle \hat{p}_x = \frac{p_x}{\sqrt{p_x^2 + p_y^2 + p_z^2}}$. At low energies, muons can be selected in \acs{CCQE} events by measuring the energy loss rate, $dE/dx$, in the first segment of the track. For a $50$ hit segment length, muons can be selected with $100\%$ efficiency by requiring $dE/dx < 0.18 \MeV \mm^{-1}$. The cut values are summarised in table \ref{table:summary_cuts}.
 
 \begin{table}
 \centering
@@ -306,6 +306,7 @@ In addition to a range cut, it is possible to select muons in high energy \acs{C
 \hline
 \hline
 \acs{CCQE} $770\MeV$ & 1000 hits & $96.0\pm0.6$ & $94.4\pm0.8$ \\
+\acs{CCQE} $770\MeV$ & $dE/dx < 0.18 \MeV \mm^{-1}$ & $100.0$ & $100.0$ \\
 \acs{CCQE} $4.5\GeV$ & 5000 hits & $99.7\pm0.1$ & $99.9\pm0.1$ \\
 \acs{CCQE} $4.5\GeV$ & $\hat{p}_x > 0.90$ & $96.4\pm0.3$ & $97.8\pm0.2$ \\
 \acs{CCPi} $4.5\GeV$ & 5000 hits & $96.6\pm0.2$ & $99.5\pm0.1$ \\
