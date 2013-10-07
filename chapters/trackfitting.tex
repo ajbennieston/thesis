@@ -5,8 +5,8 @@ Track fitting is the process by which track parameters are determined from a col
 
 Originally devised as a noise-reduction and signal filtering technique for communications, the Kalman filter determines optimal estimates of past, present and future states of a linear system based on a series of time-ordered measurements used in conjunction with a statistical model of the system and its measurement errors. It is used extensively for both track and vertex fitting in particle physics, most often in a magnetised detector, where it separates the curvature of a particle due to the magnetic field from the noise introduced by direction changes as a result of multiple scattering.
 
-\section{The {\sc Icarus} Kalman Filter}
-The {\sc Icarus}~\citep{Amerio2004} experiment presented a Kalman filter~\citep{Fruhwirth1987} which makes statistical use of the distribution of the multiple scattering angle $\theta$ to measure the momentum of a particle in a non-magnetised detector~\citep{Ankowski2006}. The Kalman filter is used to filter out the noise introduced by limited detector resolution. The details of the {\sc Icarus} algorithm are presented here as an overview of the mechanism of action of the Kalman filter, but also as the basis for the Latte Kalman filter, which aims to perform the same task.
+\section{The Icarus Kalman Filter}
+The Icarus~\citep{Amerio2004} experiment presented a Kalman filter~\citep{Fruhwirth1987} which makes statistical use of the distribution of the multiple scattering angle $\theta$ to measure the momentum of a particle in a non-magnetised detector~\citep{Ankowski2006}. The Kalman filter is used to filter out the noise introduced by limited detector resolution. The details of the Icarus algorithm are presented here as an overview of the mechanism of action of the Kalman filter, but also as the basis for the Latte Kalman filter, which aims to perform the same task.
 
 The Kalman filter operates on a discrete set of states, each represented by a state vector $\vec{x}_k$. These states correspond to points on the track, and can in principle be measured anywhere along it. In practice, the track is split into segments of fixed length, and the endpoints of these segments define the set of planes at which the state vector $\vec{x}_k$ is evaluated. 
 
@@ -79,10 +79,10 @@ The matrix $H_k$, which relates the measurement and state vectors, is given by:
 \end{equation}
 where $C$ is the constant multiplying $\displaystyle \frac{1}{p}$ in equation \eqref{eqn:kalman_theta_p_relationship}.
 
-Finally, the covariance matrices $Q_k$ (for the system covariance) and $V_k$ (for the measurement covariance) must be taken into account. The {\sc Icarus} experiment use system covariance matrices from \citep{Wolin1993}, where the covariances for multiple scattering are carefully derived, while the measurements are assumed to be uncorrelated, and the matrix $V$ is diagonal, with each component representing the measurement error.
+Finally, the covariance matrices $Q_k$ (for the system covariance) and $V_k$ (for the measurement covariance) must be taken into account. The Icarus experiment use system covariance matrices from \citep{Wolin1993}, where the covariances for multiple scattering are carefully derived, while the measurements are assumed to be uncorrelated, and the matrix $V$ is diagonal, with each component representing the measurement error.
 
 \section{The Latte Kalman Filter}
-The Latte Kalman filter follows closely the formulation used in the {\sc Icarus} filter. The implementation is based on that present in the SciPy~\citep{SciPy} package for scientific programming in the Python language, with a linear system corresponding to the track fitting mechanism used by {\sc Icarus}.
+The Latte Kalman filter follows closely the formulation used in the Icarus filter. The implementation is based on that present in the SciPy~\citep{SciPy} package for scientific programming in the Python language, with a linear system corresponding to the track fitting mechanism used by Icarus.
 
 The state vector $x_k$ is:
 \begin{equation}\label{eqn:kalman_latte_state_vector}
@@ -216,6 +216,6 @@ The analysis was repeated with $10^4$ muon tracks from interactions of $4.5\GeV$
 
 \clearpage
 \section{Conclusions}
-The Kalman filter is traditionally a powerful tool for track parameter estimation, but in the environment of a \ac{LAr TPC} it does not perform well, at least for the estimation of track momentum. The {\sc Icarus} experiment achieved better results, but with a smaller measurement error on their individual hits ($400\micron$)~\citep{Ankowski2006}. For data of the type presented here, the Kalman filter (as implemented) is not a good reconstruction tool for the purposes of estimating particle momentum. Attempts to constrain the estimates at each step of the procedure do not improve the end result and serve only as a simple `sanity check' to avoid unphysical reconstructed momenta.
+The Kalman filter is traditionally a powerful tool for track parameter estimation, but in the environment of a \ac{LAr TPC} it does not perform well, at least for the estimation of track momentum. The Icarus experiment achieved better results, but with a smaller measurement error on their individual hits ($400\micron$)~\citep{Ankowski2006}. For data of the type presented here, the Kalman filter (as implemented) is not a good reconstruction tool for the purposes of estimating particle momentum. Attempts to constrain the estimates at each step of the procedure do not improve the end result and serve only as a simple `sanity check' to avoid unphysical reconstructed momenta.
 
 The spatial track parameters were not considered here because muons in liquid Argon undergo frequent large scatters, resulting in tracks that can have substantial curvature or kinks. These track features make it extremely difficult to compare the state of the Kalman filter to the spatial parameters of the whole track, and would have to be considered on a smaller scale, with instantaneous state vectors.
