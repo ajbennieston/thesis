@@ -80,7 +80,7 @@ The following description of the cellular automaton reconstruction algorithm mak
         The \emph{forward} run is the process by which the cellular automaton gives each cell a weight value, updating it until a stable state is reached (i.e. no weights change from one pass to the next). This process occurs across the entire 3D space, and may even be performed in parallel.
     
     \item[Reverse, or Backward]
-        The \emph{reverse} run is the process by which the cellular automaton follows a chain of cells whose weights decrease from an arbitrary integer to $1$, descending by $1$ weight unit at a time. This process can occur in any direction in 3D space; the \emph{reverse} part relates to traversing a chain of cells from a high number to a low number.
+        The \emph{reverse} run is the process by which the cellular automaton follows a chain of cells whose weights decrease from an arbitrary integer to $1$, descending by $1$ weight unit at a time. This process can occur in any direction in 3D space; the \emph{reverse} part refers to traversing a chain of cells from a high number to a low number.
 
     \item[Left and Right]
         The term \emph{left}, or \emph{leftward}, describes the relative position of one hit or cell when compared with another hit or cell. The positions are taken relative to a single direction vector in 3D, which is usually chosen to be along one of the axes of the detector. A typical choice is for this vector to be along the beam, with \emph{left} upstream and \emph{right} downstream, but the algorithm does not require this to be the case. All that is required is a relative sense of direction, consistent across the entire detector, but applied locally when comparing nearby points or cells.
