@@ -2,6 +2,8 @@ Reconstruction Techniques for Fine-Grained Neutrino Detectors
 =============================================================
 Ph.D. Thesis, Andrew J. Bennieston
 
+PDF available at https://github.com/ajbennieston/thesis/releases/tag/final
+
 Abstract
 --------
 The use of Liquid Argon Time-Projection Chambers in neutrino physics is looking
